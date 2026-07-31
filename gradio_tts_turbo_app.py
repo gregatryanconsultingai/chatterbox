@@ -1796,6 +1796,644 @@ DECK_CSS = """
     border-color: rgba(255, 49, 88, 0.28) !important;
 }
 
+/* SYNTHESAY // DIEGETIC TERMINAL WORKSTATION */
+.mode-ember { --term-accent: #ff6518; --term-signal: #00dff5; --term-dim: rgba(255, 101, 24, 0.18); }
+.mode-polar { --term-accent: #00dff5; --term-signal: #a987ff; --term-dim: rgba(0, 223, 245, 0.18); }
+.mode-void { --term-accent: #ff3158; --term-signal: #e6e6e6; --term-dim: rgba(255, 49, 88, 0.18); }
+
+.terminal-shell-host,
+.terminal-command-host {
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.terminal-shell-bar {
+    --term-accent: #ff6518;
+    --term-signal: #00dff5;
+    --term-dim: rgba(255, 101, 24, 0.18);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 36px;
+    padding: 7px 12px;
+    border: 1px solid var(--term-dim);
+    color: #746d66;
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(3, 3, 3, 0.95);
+}
+
+.terminal-shell-bar strong {
+    color: #eee7df;
+    font-size: 9px;
+}
+
+.terminal-lamps {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.terminal-lamps i {
+    width: 5px;
+    height: 5px;
+    border: 1px solid var(--term-accent);
+    background: transparent;
+}
+
+.terminal-lamps i:first-child {
+    background: var(--term-accent);
+    box-shadow: 0 0 9px var(--term-accent);
+}
+
+.terminal-shell-session {
+    margin-left: auto;
+    color: #514c47;
+}
+
+.terminal-shell-online {
+    color: var(--term-signal);
+}
+
+.mode-deck {
+    min-height: 38px;
+    margin: 0 !important;
+    padding: 4px 10px !important;
+    border: 1px solid var(--term-dim) !important;
+    border-top: 0 !important;
+    background: rgba(3, 3, 3, 0.88) !important;
+}
+
+.hero-shell {
+    min-height: 286px;
+    margin: 0 !important;
+    padding: 36px 32px 58px;
+    border-top: 0;
+    clip-path: none;
+    box-shadow: none;
+    animation-duration: 320ms;
+}
+
+.hero-shell::before {
+    left: 56%;
+    opacity: 0.55;
+}
+
+.hero-shell::after {
+    right: 20px;
+    bottom: 14px;
+    font-size: 7px;
+}
+
+.hero-copy {
+    width: 58%;
+}
+
+.brand-mark {
+    height: 27px;
+    margin-bottom: 12px;
+    padding-inline: 9px;
+    font-size: 9px;
+}
+
+.brand-mark svg {
+    width: 15px;
+    height: 15px;
+}
+
+.hero-shell .eyebrow {
+    margin-bottom: 7px;
+    font-size: 8px;
+}
+
+.hero-shell h1 {
+    max-width: 560px;
+    font-size: clamp(50px, 6.1vw, 82px);
+    line-height: 0.82;
+}
+
+.hero-subtitle {
+    max-width: 520px;
+    margin-top: 15px;
+    font-size: 10px;
+    line-height: 1.65;
+}
+
+.hero-visual {
+    right: 4%;
+    width: min(32vw, 390px);
+}
+
+.noir-sun {
+    width: 190px;
+    height: 190px;
+    right: 15%;
+    top: 12%;
+}
+
+.visual-code {
+    font-size: 7px;
+}
+
+.hero-meta {
+    left: 32px;
+    right: 32px;
+    bottom: 10px;
+}
+
+.status-pill {
+    padding-top: 8px;
+    font-size: 7px;
+}
+
+.terminal-command-deck {
+    --term-accent: #ff6518;
+    --term-signal: #00dff5;
+    --term-dim: rgba(255, 101, 24, 0.18);
+    display: grid;
+    grid-template-columns: auto minmax(180px, 1fr) auto auto;
+    align-items: center;
+    gap: 0;
+    min-height: 42px;
+    margin: 0 0 10px;
+    border: 1px solid var(--term-dim);
+    border-top: 0;
+    color: #6e6861;
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 9px;
+    background: #030303;
+}
+
+.terminal-command-prompt {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 100%;
+    padding: 0 12px;
+    border-right: 1px solid var(--term-dim);
+    white-space: nowrap;
+}
+
+.terminal-command-prompt strong {
+    color: var(--term-accent);
+}
+
+.terminal-command-prompt span {
+    color: #817b74;
+}
+
+#terminal-command-input {
+    width: 100%;
+    height: 40px;
+    min-width: 0;
+    padding: 0 12px;
+    border: 0 !important;
+    outline: 0;
+    color: #e8e0d7;
+    caret-color: var(--term-signal);
+    font: inherit;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+#terminal-command-input::placeholder {
+    color: #46423e;
+}
+
+#terminal-command-run {
+    align-self: stretch;
+    min-width: 58px;
+    padding: 0 12px;
+    border: 0;
+    border-left: 1px solid var(--term-dim);
+    border-right: 1px solid var(--term-dim);
+    color: var(--term-accent);
+    font: 800 8px/1 "Cascadia Mono", Consolas, monospace;
+    letter-spacing: 0.13em;
+    background: rgba(255, 255, 255, 0.015);
+}
+
+#terminal-command-run:hover {
+    color: #050505;
+    background: var(--term-accent);
+}
+
+#terminal-command-feedback {
+    min-width: 220px;
+    padding: 0 12px;
+    color: #4f6364;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.settings-row,
+.tabs-shell .row:not(.tag-container):not(.action-row) {
+    gap: 0 !important;
+}
+
+.settings-row {
+    margin: 0 !important;
+}
+
+.settings-row > .column,
+.tabs-shell .row:not(.tag-container):not(.action-row) > .column {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.studio-card {
+    min-height: 100%;
+    margin: 0 !important;
+    padding: 16px !important;
+    border: 1px solid var(--term-dim) !important;
+    border-top: 0 !important;
+    border-left-width: 1px !important;
+    clip-path: none;
+    background: rgba(3, 3, 3, 0.94) !important;
+    box-shadow: none !important;
+    backdrop-filter: none;
+    transition: border-color 160ms ease !important;
+}
+
+.studio-card:hover {
+    transform: none !important;
+    border-color: var(--term-dim) !important;
+}
+
+.studio-card::after {
+    width: 28px;
+    background: var(--term-signal);
+}
+
+.studio-card > .block:first-child,
+.studio-card > div:first-child {
+    margin: -16px -16px 14px !important;
+    padding: 9px 12px !important;
+    border-bottom: 1px solid var(--term-dim) !important;
+    background: rgba(255, 255, 255, 0.018) !important;
+}
+
+/* Gradio 6 renders Group panes through .gr-group and may omit elem_classes. */
+.settings-row > .column > .gr-group,
+.tabs-shell .column > .gr-group {
+    position: relative;
+    min-height: 100%;
+    margin: 0 !important;
+    padding: 16px !important;
+    overflow: hidden;
+    border: 1px solid var(--term-dim) !important;
+    border-top: 0 !important;
+    border-radius: 0 !important;
+    background: rgba(3, 3, 3, 0.94) !important;
+    box-shadow: none !important;
+    gap: 10px !important;
+}
+
+.settings-row > .column > .gr-group::after,
+.tabs-shell .column > .gr-group::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 28px;
+    height: 1px;
+    background: var(--term-signal);
+}
+
+.settings-row > .column > .gr-group > .styler > .block,
+.tabs-shell .column > .gr-group > .styler > .block {
+    background: transparent !important;
+}
+
+.settings-row > .column > .gr-group > .styler,
+.tabs-shell .column > .gr-group > .styler {
+    background: transparent !important;
+}
+
+.settings-row > .column > .gr-group > .styler:not(:first-child) .block,
+.tabs-shell .column > .gr-group > .styler:not(:first-child) .block {
+    background: #030303 !important;
+}
+
+.settings-row > .column > .gr-group > .styler:first-child,
+.tabs-shell .column > .gr-group > .styler:first-child {
+    width: calc(100% + 32px) !important;
+    margin: -16px -16px 4px !important;
+    padding: 0 !important;
+}
+
+.settings-row > .column > .gr-group > .styler:first-child > .block,
+.tabs-shell .column > .gr-group > .styler:first-child > .block {
+    padding: 9px 12px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--term-dim) !important;
+    border-radius: 0 !important;
+    background: rgba(255, 255, 255, 0.018) !important;
+}
+
+.section-eyebrow {
+    margin-bottom: 4px !important;
+    color: var(--term-accent) !important;
+    font-family: "Cascadia Mono", Consolas, monospace !important;
+    font-size: 7px !important;
+    letter-spacing: 0.14em !important;
+}
+
+.section-title {
+    color: #e7e0d8 !important;
+    font-family: "Cascadia Mono", Consolas, monospace !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.035em !important;
+    text-transform: uppercase;
+}
+
+.section-copy {
+    margin-top: 5px !important;
+    color: #635e58 !important;
+    font-size: 8px !important;
+    line-height: 1.55 !important;
+}
+
+.tabs-shell {
+    margin-top: 10px !important;
+    border: 1px solid var(--term-dim) !important;
+    border-bottom: 0 !important;
+    background: #030303 !important;
+}
+
+.tabs-shell > .tab-nav {
+    margin: 0 !important;
+    border-bottom: 1px solid var(--term-dim) !important;
+}
+
+.tabs-shell > .tab-nav button {
+    min-width: 180px;
+    padding: 10px 14px !important;
+    color: #5f5954 !important;
+    font-size: 8px !important;
+    background: transparent !important;
+}
+
+.tabs-shell > .tab-nav button.selected,
+.mode-polar.tabs-shell > .tab-nav button.selected,
+.mode-void.tabs-shell > .tab-nav button.selected {
+    border-bottom: 1px solid var(--term-accent) !important;
+    color: var(--term-accent) !important;
+    background: var(--term-dim) !important;
+    box-shadow: none !important;
+}
+
+.script-terminal-prompt {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    min-height: 30px;
+    margin: 0 !important;
+    padding: 0 10px;
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-bottom: 0;
+    color: #8b847d;
+    font: 9px/1 "Cascadia Mono", Consolas, monospace;
+    background: #020202;
+}
+
+.script-terminal-prompt strong {
+    color: var(--term-accent);
+}
+
+.script-terminal-prompt span {
+    margin-right: 8px;
+    color: #5e787a;
+}
+
+.script-terminal-prompt i {
+    width: 6px;
+    height: 12px;
+    margin-left: 6px;
+    background: var(--term-signal);
+    animation: terminal-cursor 1s steps(1, end) infinite;
+}
+
+#main_textbox .label-wrap {
+    display: none !important;
+}
+
+#main_textbox textarea {
+    min-height: 320px !important;
+    padding: 18px 18px 18px 28px !important;
+    border: 1px solid rgba(255, 255, 255, 0.055) !important;
+    border-left: 1px solid var(--term-dim) !important;
+    caret-color: var(--term-signal);
+    font-family: "Cascadia Mono", Consolas, monospace !important;
+    font-size: 12px !important;
+    line-height: 1.8 !important;
+    background:
+        linear-gradient(90deg, var(--term-dim) 0 1px, transparent 1px),
+        repeating-linear-gradient(to bottom, transparent 0 27px, rgba(255, 255, 255, 0.022) 28px),
+        #020202 !important;
+    background-position: 18px 0, 0 0, 0 0 !important;
+}
+
+#main_textbox textarea:focus {
+    box-shadow: inset 2px 0 var(--term-accent) !important;
+}
+
+.tag-heading {
+    margin-top: 10px !important;
+    font-size: 8px !important;
+}
+
+.tag-btn {
+    height: 28px !important;
+    color: #8f5e40 !important;
+    background: transparent !important;
+}
+
+#generate-btn,
+#queue-btn,
+.mode-polar #generate-btn,
+.mode-polar #queue-btn,
+.mode-void #generate-btn,
+.mode-void #queue-btn {
+    min-height: 44px !important;
+    border: 1px solid var(--term-accent) !important;
+    color: var(--term-accent) !important;
+    font-size: 9px !important;
+    background: var(--term-dim) !important;
+    box-shadow: none !important;
+}
+
+#generate-btn:hover,
+#queue-btn:hover,
+.mode-polar #generate-btn:hover,
+.mode-polar #queue-btn:hover,
+.mode-void #generate-btn:hover,
+.mode-void #queue-btn:hover {
+    color: #050505 !important;
+    background: var(--term-accent) !important;
+    transform: none !important;
+}
+
+.model-status {
+    padding: 9px 11px !important;
+    border-left: 1px solid var(--term-signal) !important;
+    background: rgba(0, 210, 235, 0.025) !important;
+}
+
+.model-status p {
+    font-size: 8px !important;
+}
+
+.output-note {
+    padding: 9px 11px !important;
+    border: 0 !important;
+    border-left: 1px solid var(--term-signal) !important;
+    color: #687879 !important;
+    background: rgba(0, 210, 235, 0.025) !important;
+}
+
+.output-note p {
+    font-family: "Cascadia Mono", Consolas, monospace !important;
+    font-size: 8px !important;
+}
+
+.output-note code {
+    padding: 0 !important;
+    color: #7fa4a7 !important;
+    font-family: inherit !important;
+    font-size: 8px !important;
+    background: transparent !important;
+}
+
+.advanced-card {
+    margin-top: 8px !important;
+    border: 1px solid var(--term-dim) !important;
+    background: #020202 !important;
+}
+
+.advanced-card > .label-wrap {
+    padding: 10px 12px !important;
+    color: #746e68 !important;
+    font: 8px/1.2 "Cascadia Mono", Consolas, monospace !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase;
+}
+
+.voiceprint-shell {
+    height: 98px;
+    border-color: var(--term-dim);
+}
+
+#synthesis-reactor {
+    height: 210px;
+    border-color: var(--term-dim);
+    background: #020202;
+}
+
+.reactor-core {
+    left: 73%;
+    width: 78px;
+    height: 78px;
+    border-color: var(--term-accent);
+    color: var(--term-accent);
+    font-size: 18px;
+}
+
+.reactor-core::before { inset: -18px; }
+.reactor-core::after { inset: -36px; }
+
+.terminal-process-log {
+    position: absolute;
+    z-index: 2;
+    left: 12px;
+    top: 38px;
+    width: 45%;
+    color: #5a5550;
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 7px;
+    line-height: 2.2;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.terminal-process-log span {
+    display: inline-block;
+    width: 24px;
+    color: var(--term-signal);
+}
+
+#process-log-live {
+    color: #a09890;
+}
+
+.pipeline-stages {
+    gap: 0;
+    margin-bottom: 10px;
+    border: 1px solid var(--term-dim);
+}
+
+.pipeline-stage {
+    padding: 7px 6px;
+    border-top: 0;
+    border-right: 1px solid var(--term-dim);
+    font-size: 6px;
+}
+
+.pipeline-stage:last-child {
+    border-right: 0;
+}
+
+.pipeline-stage::before {
+    display: none;
+}
+
+.cover-art {
+    max-width: 230px !important;
+    clip-path: none;
+}
+
+.cartridge-summary,
+.data-cartridge,
+.array-standby {
+    border-color: var(--term-dim);
+    background: #030303;
+}
+
+.data-cartridge {
+    min-height: 54px;
+    border-left-width: 1px;
+}
+
+.cartridge-index::before {
+    content: "PID ";
+    display: block;
+    color: #4c4742;
+    font-size: 6px;
+}
+
+#command-strip {
+    bottom: 0;
+    width: min(1180px, calc(100vw - 28px));
+    min-height: 34px;
+    padding-block: 5px;
+    border-color: var(--term-dim);
+    background: rgba(2, 2, 2, 0.97);
+    box-shadow: none;
+}
+
+@keyframes terminal-cursor {
+    0%, 48% { opacity: 1; }
+    49%, 100% { opacity: 0; }
+}
+
 @keyframes boot-line-in {
     to { opacity: 1; transform: translateX(0); }
 }
@@ -1880,11 +2518,139 @@ DECK_CSS = """
     }
 }
 
+@media (max-width: 900px) {
+    .terminal-shell-session {
+        display: none;
+    }
+
+    .terminal-shell-bar {
+        gap: 8px;
+    }
+
+    .hero-shell {
+        min-height: 360px;
+        padding: 28px 22px 72px;
+        contain: layout paint;
+    }
+
+    .hero-copy {
+        width: 100%;
+    }
+
+    .hero-shell h1 {
+        font-size: clamp(44px, 14vw, 64px);
+    }
+
+    .hero-visual {
+        right: -24px;
+        top: 43%;
+        width: 220px;
+        opacity: 0.36;
+    }
+
+    .noir-sun {
+        width: 175px;
+        height: 175px;
+    }
+
+    .hero-meta {
+        left: 22px;
+        right: 22px;
+    }
+
+    .terminal-command-deck {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .terminal-command-prompt {
+        display: none;
+    }
+
+    #terminal-command-feedback {
+        grid-column: 1 / -1;
+        min-width: 0;
+        padding: 5px 10px;
+        border-top: 1px solid var(--term-dim);
+        text-align: left;
+    }
+
+    .studio-card {
+        padding: 14px !important;
+    }
+
+    .settings-row > .column > .gr-group,
+    .tabs-shell .column > .gr-group {
+        padding: 14px !important;
+    }
+
+    .studio-card > .block:first-child,
+    .studio-card > div:first-child {
+        margin: -14px -14px 12px !important;
+    }
+
+    .settings-row > .column > .gr-group > .styler:first-child,
+    .tabs-shell .column > .gr-group > .styler:first-child {
+        width: calc(100% + 28px) !important;
+        margin: -14px -14px 2px !important;
+    }
+
+    #main_textbox textarea {
+        min-height: 270px !important;
+    }
+
+    .pipeline-stages {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .pipeline-stage {
+        text-align: center;
+    }
+}
+
+@media (max-width: 520px) {
+    .terminal-shell-bar > span:nth-of-type(2) {
+        display: none;
+    }
+
+    .terminal-shell-online {
+        margin-left: auto;
+    }
+
+    #terminal-command-feedback {
+        display: none;
+    }
+
+    .terminal-command-deck {
+        min-height: 38px;
+    }
+
+    #terminal-command-input {
+        height: 37px;
+        font-size: 8px;
+    }
+
+    .hero-shell {
+        min-height: 350px;
+    }
+
+    .terminal-process-log {
+        width: 43%;
+        font-size: 6px;
+    }
+
+    .reactor-core {
+        left: 74%;
+        width: 70px;
+        height: 70px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .boot-line,
     .boot-progress::after,
     #synthesis-reactor.is-synthesizing .reactor-core,
     .data-cartridge[data-state="running"],
+    .script-terminal-prompt i,
     .glitching {
         animation: none !important;
     }
@@ -1956,7 +2722,7 @@ APP_JS = r"""
         }
 
         const matrixTargets = () => qsa(
-            ".hero-shell, .studio-card, .tabs-shell, .mode-deck, #command-strip"
+            ".hero-shell, .studio-card, .settings-row > .column > .gr-group, .tabs-shell .column > .gr-group, .tabs-shell, .mode-deck, #command-strip, .terminal-shell-bar, .terminal-command-deck"
         );
         const rootContainer = qs(".gradio-container");
         const matrixBackgrounds = {
@@ -2064,7 +2830,7 @@ APP_JS = r"""
                     context.beginPath(); context.moveTo(0, y); context.lineTo(width, y); context.stroke();
                 }
                 if (reactor) {
-                    const cx = width / 2;
+                    const cx = width * 0.73;
                     const cy = height / 2;
                     for (let ring = 0; ring < 4; ring += 1) {
                         const radius = 33 + ring * 25 + Math.sin(phase * 0.7 + ring) * 4 * energy;
@@ -2102,6 +2868,11 @@ APP_JS = r"""
         const reactorPercent = qs("#reactor-percent");
         const reactorStatus = qs("#reactor-status");
         const reactorLog = qs("#reactor-log-line");
+        const processLogLive = qs("#process-log-live");
+        const writeProcessLog = (code, message) => {
+            if (!processLogLive) return;
+            processLogLive.innerHTML = `<span>${code}</span> ${message}`;
+        };
         const clearStageTimers = () => {
             deckState.stageTimers.forEach(clearTimeout);
             deckState.stageTimers = [];
@@ -2114,6 +2885,7 @@ APP_JS = r"""
             const labels = ["PARSING TRANSMISSION", "ENCODING IDENTITY", "SYNTHESIZING SPEECH", "MASTERING ARTIFACT", "ARCHIVING OUTPUT"];
             if (reactorStatus) reactorStatus.textContent = labels[index] || "SYNTHESIS ACTIVE";
             if (reactorLog) reactorLog.textContent = `PHASE ${String(index + 1).padStart(2, "0")} // ${labels[index] || "PROCESSING"}`;
+            writeProcessLog(String(110 + index * 10), (labels[index] || "PROCESSING").toLowerCase());
         };
         const beginSynthesis = () => {
             clearStageTimers();
@@ -2129,6 +2901,7 @@ APP_JS = r"""
                 setTimeout(() => heroTitle.classList.remove("glitching"), 420);
             }
             setStage(0);
+            writeProcessLog("100", "execute request accepted");
             [650, 1800, 3800, 6100].forEach((delay, index) => {
                 deckState.stageTimers.push(setTimeout(() => setStage(index + 1), delay));
             });
@@ -2158,6 +2931,7 @@ APP_JS = r"""
             if (reactorPercent) reactorPercent.textContent = "100";
             if (reactorStatus) reactorStatus.textContent = "ARTIFACT READY";
             if (reactorLog) reactorLog.textContent = "ARCHIVE LOCKED // AUDIO + COVER WRITTEN";
+            writeProcessLog("200", "artifact archived successfully");
             const commandStatus = qs("#cmd-status");
             if (commandStatus) commandStatus.textContent = "ARTIFACT READY";
             readyChime();
@@ -2230,6 +3004,104 @@ APP_JS = r"""
                 return;
             }
             if (!button.closest("audio")) tone(155, 0.032, "square", 0.012);
+        });
+
+        const commandInput = qs("#terminal-command-input");
+        const commandRun = qs("#terminal-command-run");
+        const commandFeedback = qs("#terminal-command-feedback");
+        const setCommandFeedback = (message, error = false) => {
+            if (!commandFeedback) return;
+            commandFeedback.textContent = message;
+            commandFeedback.style.color = error ? "#ff3158" : "";
+        };
+        const setTextareaValue = (textarea, value) => {
+            const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value").set;
+            setter.call(textarea, value);
+            textarea.dispatchEvent(new Event("input", {bubbles: true}));
+            textarea.dispatchEvent(new Event("change", {bubbles: true}));
+        };
+        const clickGenerate = () => {
+            const button = qs("#generate-btn button") || qs("#generate-btn");
+            if (!button) return false;
+            button.click();
+            return true;
+        };
+        const executeTerminalCommand = () => {
+            if (!commandInput) return;
+            const raw = commandInput.value.trim();
+            const command = raw.replace(/^\//, "");
+            if (!command || command === "help") {
+                setCommandFeedback("COMMANDS // render · pause 1s · theme polar · tab batch · clear · status");
+                return;
+            }
+            if (command === "render" || command === "synthesize") {
+                if (clickGenerate()) {
+                    setCommandFeedback("EXEC 100 // SYNTHESIS REQUESTED");
+                    commandInput.value = "";
+                }
+                return;
+            }
+            if (command === "clear") {
+                const textarea = qs("#main_textbox textarea");
+                if (textarea) setTextareaValue(textarea, "");
+                setCommandFeedback("BUFFER CLEARED // SCRIPT://BUFFER EMPTY");
+                commandInput.value = "";
+                return;
+            }
+            if (command === "status") {
+                setCommandFeedback(`STATUS // ${deckState.synthesizing ? "SYNTHESIS ACTIVE" : "CORE READY"} · ${deckState.mode.toUpperCase()} · ${readComponentValue("model-choice")}`);
+                return;
+            }
+            const pauseMatch = command.match(/^pause(?:\s+([0-9]*\.?[0-9]+(?:ms|s)))?$/i);
+            if (pauseMatch) {
+                const textarea = qs("#main_textbox textarea");
+                if (!textarea) return;
+                const marker = pauseMatch[1] ? `[pause ${pauseMatch[1]}]` : "[pause]";
+                const start = textarea.selectionStart ?? textarea.value.length;
+                const end = textarea.selectionEnd ?? start;
+                const spacerBefore = start && !/\s/.test(textarea.value[start - 1]) ? " " : "";
+                const spacerAfter = end < textarea.value.length && !/\s/.test(textarea.value[end]) ? " " : "";
+                const nextValue = textarea.value.slice(0, start) + spacerBefore + marker + spacerAfter + textarea.value.slice(end);
+                setTextareaValue(textarea, nextValue);
+                const cursor = start + spacerBefore.length + marker.length + spacerAfter.length;
+                textarea.setSelectionRange(cursor, cursor);
+                setCommandFeedback(`BUFFER UPDATED // INSERTED ${marker.toUpperCase()}`);
+                commandInput.value = "";
+                return;
+            }
+            const themeMatch = command.match(/^theme\s+(ember|polar|void)$/i);
+            if (themeMatch) {
+                const mode = themeMatch[1].toLowerCase();
+                const input = qsa("#visual-mode input[type='radio']").find((item) => String(item.value).toLowerCase() === mode);
+                if (input) input.click();
+                setCommandFeedback(`MATRIX SWITCHED // ${mode.toUpperCase()}`);
+                commandInput.value = "";
+                return;
+            }
+            const tabMatch = command.match(/^tab\s+(synth|synthesize|batch)$/i);
+            if (tabMatch) {
+                const wantsBatch = tabMatch[1].toLowerCase() === "batch";
+                const tab = qsa("[role='tab']").find((item) => item.textContent.includes(wantsBatch ? "BATCH" : "SYNTHESIZE"));
+                if (tab) tab.click();
+                setCommandFeedback(`VIEW SWITCHED // ${wantsBatch ? "BATCH ARRAY" : "SYNTHESIZE"}`);
+                commandInput.value = "";
+                return;
+            }
+            setCommandFeedback(`ERR 127 // UNKNOWN COMMAND: ${raw}`, true);
+        };
+        if (commandRun) commandRun.addEventListener("click", executeTerminalCommand);
+        if (commandInput) {
+            commandInput.addEventListener("input", () => setCommandFeedback("COMMAND BUFFER ACTIVE // ENTER TO EXECUTE"));
+            commandInput.addEventListener("keydown", (event) => {
+                if (event.key !== "Enter" || event.ctrlKey || event.metaKey) return;
+                event.preventDefault();
+                executeTerminalCommand();
+            });
+        }
+        document.addEventListener("keydown", (event) => {
+            if (!(event.ctrlKey || event.metaKey) || event.key !== "Enter") return;
+            event.preventDefault();
+            if (clickGenerate()) setCommandFeedback("HOTKEY CTRL+ENTER // SYNTHESIS REQUESTED");
         });
 
         new MutationObserver(() => {
@@ -2876,6 +3748,19 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
         """
     )
 
+    gr.HTML(
+        """
+        <div class="terminal-shell-bar" aria-label="SyntheSay terminal session">
+            <span class="terminal-lamps" aria-hidden="true"><i></i><i></i><i></i></span>
+            <strong>SYNTHESAY</strong>
+            <span>TTY://CBX-49</span>
+            <span class="terminal-shell-session">SESSION 01&nbsp;&nbsp; LOCALHOST&nbsp;&nbsp; SECURE CHANNEL</span>
+            <span class="terminal-shell-online">● ONLINE</span>
+        </div>
+        """,
+        elem_classes=["terminal-shell-host"],
+    )
+
     with gr.Row(elem_classes=["mode-deck"]):
         gr.HTML(
             '<div class="matrix-label">Visual matrix</div>',
@@ -2937,13 +3822,34 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
         """
     )
 
+    gr.HTML(
+        """
+        <div class="terminal-command-deck" aria-label="Terminal command palette">
+            <label for="terminal-command-input" class="terminal-command-prompt">
+                <strong>operator@cbx49</strong><span>:~/synthe.say$</span>
+            </label>
+            <input
+                id="terminal-command-input"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="type /help or press Ctrl+Enter to synthesize"
+                aria-label="Terminal command"
+            >
+            <button id="terminal-command-run" type="button">EXEC</button>
+            <span id="terminal-command-feedback" role="status">READY // OPTIONAL COMMAND INPUT</span>
+        </div>
+        """,
+        elem_classes=["terminal-command-host"],
+    )
+
     with gr.Row(elem_classes=["settings-row"]):
         with gr.Column(scale=7, min_width=360):
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">SYS.01 / SYNTH CORE</p>
-                    <h2 class="section-title">Calibrate the engine</h2>
+                    <p class="section-eyebrow">TTY.01 / CONFIG://SYNTH_CORE</p>
+                    <h2 class="section-title">Configure synthesis runtime</h2>
                     <p class="section-copy">Select the neural array, language matrix, and artifact format.</p>
                     """
                 )
@@ -2982,8 +3888,8 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">SYS.02 / IDENTITY CAPTURE</p>
-                    <h2 class="section-title">Encode a voice</h2>
+                    <p class="section-eyebrow">TTY.02 / SOURCE://VOICEPRINT</p>
+                    <h2 class="section-title">Mount voice reference</h2>
                     <p class="section-copy">Feed the array a clean reference signal to map speaker identity.</p>
                     """
                 )
@@ -3019,9 +3925,17 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">SYS.03 / TRANSMISSION</p>
-                            <h2 class="section-title">Write the signal</h2>
+                            <p class="section-eyebrow">TTY.03 / SCRIPT://BUFFER</p>
+                            <h2 class="section-title">Compose transmission</h2>
                             <p class="section-copy">Compose the transmission, fracture time, then initiate synthesis.</p>
+                            """
+                        )
+                        gr.HTML(
+                            """
+                            <div class="script-terminal-prompt">
+                                <strong>operator@cbx49</strong><span>:~/script$</span>
+                                compose --interactive <i aria-hidden="true"></i>
+                            </div>
                             """
                         )
                         text = gr.Textbox(
@@ -3069,7 +3983,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
 
                         with gr.Row(elem_classes=["action-row"]):
                             run_btn = gr.Button(
-                                "Initiate synthesis  //",
+                                "Execute synthesis  //  Ctrl+Enter",
                                 variant="primary",
                                 elem_id="generate-btn",
                             )
@@ -3078,8 +3992,8 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card", "output-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">SYS.04 / AUDIO ARTIFACT</p>
-                            <h2 class="section-title">Hear the signal</h2>
+                            <p class="section-eyebrow">TTY.04 / OUTPUT://MONITOR</p>
+                            <h2 class="section-title">Tail synthesis process</h2>
                             <p class="section-copy">Audit the generated artifact. Every render is archived locally.</p>
                             """
                         )
@@ -3088,6 +4002,11 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                             <div id="synthesis-reactor">
                                 <canvas id="reactor-canvas" aria-label="Synthesis reactor telemetry"></canvas>
                                 <div class="reactor-state" id="reactor-status">CORE STANDBY</div>
+                                <div class="terminal-process-log" aria-live="polite">
+                                    <div><span>000</span> session/core mounted</div>
+                                    <div><span>001</span> voiceprint channel ready</div>
+                                    <div id="process-log-live"><span>010</span> script buffer mounted</div>
+                                </div>
                                 <div class="reactor-core"><span id="reactor-percent">000</span></div>
                                 <div class="reactor-log">
                                     <span id="reactor-log-line">AWAITING TRANSMISSION</span>
@@ -3188,9 +4107,9 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <div class="queue-icon" aria-hidden="true">//</div>
-                            <p class="section-eyebrow">SYS.05 / BATCH ARRAY</p>
-                            <h2 class="section-title">Queue the transmissions</h2>
+                            <div class="queue-icon" aria-hidden="true">&gt;_</div>
+                            <p class="section-eyebrow">TTY.05 / PROC://BATCH_QUEUE</p>
+                            <h2 class="section-title">Spawn queued artifacts</h2>
                             <p class="section-copy">Load multiple text artifacts. The array will synthesize them in sequence.</p>
                             """
                         )
@@ -3207,7 +4126,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                         )
                         with gr.Row(elem_classes=["action-row"]):
                             queue_btn = gr.Button(
-                                "Execute batch array  //",
+                                "Execute batch process  //",
                                 variant="primary",
                                 elem_id="queue-btn",
                             )
@@ -3216,8 +4135,8 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">SYS.06 / ARRAY TELEMETRY</p>
-                            <h2 class="section-title">Monitor the artifacts</h2>
+                            <p class="section-eyebrow">TTY.06 / PROC://ARTIFACT_TABLE</p>
+                            <h2 class="section-title">Watch artifact processes</h2>
                             <p class="section-copy">Completed transmissions remain secured on this local system.</p>
                             """
                         )
