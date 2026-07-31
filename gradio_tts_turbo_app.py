@@ -3,6 +3,7 @@ import re
 import shutil
 import subprocess
 import textwrap
+from html import escape
 from datetime import datetime
 from pathlib import Path
 from uuid import uuid4
@@ -11,6 +12,7 @@ import numpy as np
 import soundfile as sf
 import torch
 import gradio as gr
+from PIL import Image, ImageDraw, ImageFont
 from chatterbox.mtl_tts import ChatterboxMultilingualTTS, SUPPORTED_LANGUAGES
 from chatterbox.tts_turbo import ChatterboxTurboTTS
 
@@ -24,8 +26,11 @@ MODEL_TURBO = "Turbo — fastest + sound/style tags"
 FORMAT_MP3 = "MP3 — 160 kbps (maximum quality at 24 kHz)"
 FORMAT_WAV = "WAV — lossless"
 APP_DIR = Path(__file__).resolve().parent
+ASSET_DIR = APP_DIR / "assets"
 OUTPUT_DIR = APP_DIR / "generated_audio"
+ASSET_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+FAVICON_PATH = ASSET_DIR / "cbx-49.png"
 FFMPEG_EXE = shutil.which("ffmpeg")
 
 TURBO_EVENT_TAGS = [
@@ -43,6 +48,30 @@ PAUSE_TAG_PATTERN = re.compile(
     re.IGNORECASE,
 )
 MODEL_CACHE = {}
+
+
+def ensure_favicon():
+    if FAVICON_PATH.exists():
+        return
+    icon = Image.new("RGBA", (128, 128), "#050505")
+    draw = ImageDraw.Draw(icon)
+    draw.polygon(
+        [(4, 4), (101, 4), (124, 27), (124, 124), (4, 124)],
+        outline="#ff6518",
+        width=4,
+    )
+    draw.ellipse((30, 18, 98, 86), fill="#ff6518")
+    for stripe_y in range(31, 82, 11):
+        draw.rectangle((25, stripe_y, 103, stripe_y + 4), fill="#541203")
+    draw.line(
+        [(19, 102), (48, 102), (56, 94), (66, 110), (78, 87), (88, 102), (110, 102)],
+        fill="#00dff5",
+        width=3,
+    )
+    icon.save(FAVICON_PATH, "PNG", optimize=True)
+
+
+ensure_favicon()
 
 CUSTOM_CSS = """
 :root,
@@ -1096,6 +1125,681 @@ GLOBAL_HEAD_STYLE = """
 </style>
 """
 
+DECK_CSS = """
+#boot-sequence {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    color: #ff7a27;
+    background:
+        repeating-linear-gradient(to bottom, transparent 0 3px, rgba(255, 94, 19, 0.06) 4px),
+        radial-gradient(circle at 50% 45%, rgba(255, 74, 9, 0.16), transparent 28%),
+        #020202;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 480ms ease, visibility 480ms ease;
+}
+
+#boot-sequence.boot-complete {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.boot-frame {
+    width: min(680px, calc(100vw - 36px));
+    padding: 38px;
+    border: 1px solid rgba(255, 103, 26, 0.42);
+    clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%);
+    background: rgba(5, 5, 5, 0.94);
+    box-shadow: 0 0 90px rgba(255, 61, 5, 0.12);
+}
+
+.boot-emblem {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    margin-bottom: 30px;
+    color: #f5eee6;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.boot-emblem svg {
+    width: 58px;
+    height: 58px;
+}
+
+.boot-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 111, 34, 0.10);
+    color: #706a63;
+    font-family: Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    opacity: 0;
+    transform: translateX(-8px);
+    animation: boot-line-in 260ms ease forwards;
+}
+
+.boot-line strong {
+    color: #00dff5;
+    font-weight: 700;
+}
+
+.boot-line:nth-child(2) { animation-delay: 150ms; }
+.boot-line:nth-child(3) { animation-delay: 360ms; }
+.boot-line:nth-child(4) { animation-delay: 590ms; }
+.boot-line:nth-child(5) { animation-delay: 820ms; }
+.boot-line:nth-child(6) { animation-delay: 1050ms; }
+
+.boot-progress {
+    position: relative;
+    height: 3px;
+    margin-top: 28px;
+    overflow: hidden;
+    background: #17100c;
+}
+
+.boot-progress::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform-origin: left;
+    background: linear-gradient(90deg, #ff4308, #ff9b43, #00dff5);
+    animation: boot-progress 1.55s cubic-bezier(.2, .7, .1, 1) forwards;
+}
+
+.brand-mark {
+    cursor: pointer;
+    user-select: none;
+}
+
+.brand-mark svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.mode-deck {
+    align-items: stretch !important;
+    gap: 10px !important;
+    margin: 0 0 16px !important;
+    padding: 10px !important;
+    border: 1px solid rgba(255, 101, 27, 0.18) !important;
+    background: rgba(5, 5, 5, 0.84) !important;
+}
+
+.mode-deck > .block,
+.mode-deck > div {
+    min-height: 0 !important;
+    background: transparent !important;
+}
+
+#visual-mode .wrap {
+    gap: 5px !important;
+}
+
+#visual-mode label {
+    flex: 1;
+    min-width: 100px;
+    padding: 9px 13px !important;
+    border: 1px solid rgba(255, 104, 29, 0.19) !important;
+    color: #746c64 !important;
+    background: #070707 !important;
+}
+
+#visual-mode label:has(input:checked) {
+    border-color: #ff6a1a !important;
+    color: #f3e9df !important;
+    background: rgba(255, 82, 11, 0.13) !important;
+    box-shadow: inset 2px 0 #ff6a1a, 0 0 18px rgba(255, 75, 7, 0.08) !important;
+}
+
+#interface-audio-toggle {
+    align-self: center;
+    padding: 8px 12px !important;
+    border-left: 1px solid rgba(0, 220, 245, 0.20) !important;
+}
+
+.deck-readout {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    color: #5f7777;
+    font-family: Consolas, monospace;
+    font-size: 9px;
+    line-height: 1.7;
+    letter-spacing: 0.11em;
+    text-align: right;
+}
+
+.voiceprint-shell {
+    position: relative;
+    height: 116px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 220, 244, 0.19);
+    background:
+        linear-gradient(90deg, rgba(0, 219, 243, 0.04), transparent),
+        #030606;
+}
+
+#voiceprint-canvas,
+#reactor-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.voiceprint-label {
+    position: absolute;
+    left: 10px;
+    top: 9px;
+    color: #00dff5;
+    font-family: Consolas, monospace;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+}
+
+.voiceprint-readout {
+    position: absolute;
+    right: 10px;
+    bottom: 8px;
+    color: #668689;
+    font-family: Consolas, monospace;
+    font-size: 8px;
+    letter-spacing: 0.10em;
+}
+
+#synthesis-reactor {
+    position: relative;
+    height: 250px;
+    margin-bottom: 13px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 98, 24, 0.21);
+    background:
+        radial-gradient(circle at 50% 50%, rgba(255, 74, 9, 0.13), transparent 29%),
+        #030303;
+}
+
+.reactor-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 98px;
+    height: 98px;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 111, 32, 0.48);
+    border-radius: 50%;
+    color: #ff8a3d;
+    font-family: Consolas, monospace;
+    font-size: 23px;
+    letter-spacing: -0.06em;
+    background: rgba(9, 4, 2, 0.72);
+    box-shadow: 0 0 35px rgba(255, 72, 7, 0.13), inset 0 0 22px rgba(255, 72, 7, 0.09);
+}
+
+.reactor-core::before,
+.reactor-core::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(255, 103, 25, 0.18);
+    border-radius: 50%;
+}
+
+.reactor-core::before { inset: -24px; }
+.reactor-core::after { inset: -48px; border-style: dashed; }
+
+.reactor-state {
+    position: absolute;
+    left: 12px;
+    top: 10px;
+    color: #6f6861;
+    font-family: Consolas, monospace;
+    font-size: 8px;
+    letter-spacing: 0.13em;
+}
+
+.reactor-log {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    color: #577678;
+    font-family: Consolas, monospace;
+    font-size: 8px;
+    letter-spacing: 0.10em;
+}
+
+#synthesis-reactor.is-synthesizing .reactor-core {
+    animation: reactor-pulse 900ms ease-in-out infinite;
+}
+
+#synthesis-reactor.is-ready .reactor-core {
+    border-color: #00dff5;
+    color: #00dff5;
+    box-shadow: 0 0 38px rgba(0, 223, 245, 0.20);
+}
+
+.pipeline-stages {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+    margin: 0 0 13px;
+}
+
+.pipeline-stage {
+    position: relative;
+    min-width: 0;
+    padding: 9px 6px 8px;
+    border-top: 1px solid rgba(255, 100, 25, 0.14);
+    color: #4d4843;
+    font-family: Consolas, monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+.pipeline-stage::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #3b312b;
+}
+
+.pipeline-stage.active {
+    color: #ff8b43;
+    border-top-color: #ff5b15;
+}
+
+.pipeline-stage.active::before {
+    background: #ff5b15;
+    box-shadow: 0 0 10px #ff5b15;
+}
+
+.pipeline-stage.complete {
+    color: #65c6d0;
+    border-top-color: #00dff5;
+}
+
+.pipeline-stage.complete::before {
+    background: #00dff5;
+    box-shadow: 0 0 9px #00dff5;
+}
+
+.cover-art {
+    max-width: 280px !important;
+    margin: 12px auto 0 !important;
+    border: 1px solid rgba(255, 100, 25, 0.20) !important;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+}
+
+.cartridge-array {
+    margin: 12px 0;
+}
+
+.cartridge-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(0, 220, 245, 0.14);
+    color: #628588;
+    font-family: Consolas, monospace;
+    font-size: 8px;
+    letter-spacing: 0.09em;
+    background: rgba(0, 210, 235, 0.035);
+}
+
+.cartridge-summary strong {
+    color: #00dff5;
+}
+
+.cartridge-grid {
+    display: grid;
+    gap: 6px;
+    margin-top: 7px;
+}
+
+.data-cartridge {
+    position: relative;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    min-height: 64px;
+    padding: 10px 24px 10px 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 101, 25, 0.17);
+    border-left: 2px solid #ff5b16;
+    color: #d5cec5;
+    background: linear-gradient(90deg, rgba(255, 78, 9, 0.07), transparent 34%), #050505;
+}
+
+.cartridge-index {
+    color: #ff6b20;
+    font-family: Consolas, monospace;
+    font-size: 18px;
+    text-align: center;
+}
+
+.cartridge-name {
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cartridge-meta,
+.cartridge-state {
+    color: #6e6760;
+    font-family: Consolas, monospace;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+}
+
+.cartridge-state {
+    color: #a35e36;
+    text-align: right;
+}
+
+.cartridge-signal {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #4c1b0b;
+}
+
+.data-cartridge[data-state="running"] {
+    border-color: rgba(255, 106, 26, 0.48);
+    animation: cartridge-working 1.2s ease-in-out infinite;
+}
+
+.data-cartridge[data-state="running"] .cartridge-signal {
+    background: #ff5b15;
+    box-shadow: 0 0 15px #ff5b15;
+}
+
+.data-cartridge[data-state="complete"] {
+    border-left-color: #00dff5;
+}
+
+.data-cartridge[data-state="complete"] .cartridge-state {
+    color: #00dff5;
+}
+
+.data-cartridge[data-state="complete"] .cartridge-signal {
+    background: #00dff5;
+    box-shadow: 0 0 12px #00dff5;
+}
+
+.data-cartridge[data-state="failed"] {
+    border-left-color: #ff254e;
+}
+
+.data-cartridge[data-state="failed"] .cartridge-state,
+.data-cartridge[data-state="failed"] .cartridge-signal {
+    color: #ff254e;
+    background: #ff254e;
+}
+
+.array-standby {
+    padding: 18px;
+    border: 1px dashed rgba(255, 102, 25, 0.22);
+    color: #665f58;
+    font-family: Consolas, monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-align: center;
+}
+
+#command-strip {
+    position: fixed;
+    z-index: 800;
+    left: 50%;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: min(1180px, calc(100vw - 28px));
+    min-height: 38px;
+    padding: 7px 12px;
+    transform: translateX(-50%);
+    border: 1px solid rgba(255, 101, 25, 0.27);
+    color: #77716a;
+    font-family: Consolas, monospace;
+    font-size: 8px;
+    letter-spacing: 0.09em;
+    background: rgba(3, 3, 3, 0.92);
+    box-shadow: 0 14px 45px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(16px);
+}
+
+.command-brand {
+    color: #ff6a1a;
+    font-weight: 800;
+}
+
+.command-status {
+    color: #00dff5;
+}
+
+.command-strip-divider {
+    width: 1px;
+    align-self: stretch;
+    background: rgba(255, 104, 29, 0.16);
+}
+
+.glitching {
+    animation: signal-glitch 380ms steps(2, end);
+}
+
+.mode-polar.hero-shell {
+    border-color: rgba(0, 223, 245, 0.42);
+    background: linear-gradient(90deg, #020306 0%, #070710 50%, rgba(31, 4, 55, 0.78) 100%);
+}
+
+.mode-polar .noir-sun {
+    background: repeating-linear-gradient(to bottom, #00dff5 0 11px, #31236e 11px 15px, transparent 15px 20px), linear-gradient(#93f7ff, #6c35d9);
+    box-shadow: 0 0 85px rgba(0, 223, 245, 0.34), 0 0 180px rgba(110, 53, 217, 0.18);
+}
+
+.mode-polar.hero-shell h1 span {
+    background: linear-gradient(92deg, #00dff5, #86f5ff 62%, #b38aff);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.mode-polar.studio-card {
+    border-color: rgba(0, 220, 245, 0.22) !important;
+    border-left-color: #00dff5 !important;
+    background: linear-gradient(125deg, rgba(0, 220, 245, 0.05), transparent 36%), rgba(5, 6, 10, 0.95) !important;
+}
+
+.mode-polar.studio-card > .block:first-child,
+.mode-polar.studio-card > div:first-child {
+    background: linear-gradient(100deg, rgba(0, 151, 180, 0.34), rgba(66, 34, 122, 0.42)) !important;
+}
+
+.mode-polar.studio-card .section-eyebrow,
+.mode-polar.mode-deck .section-eyebrow {
+    color: #00dff5;
+}
+
+.mode-polar #generate-btn,
+.mode-polar #queue-btn {
+    border-color: #a9f8ff !important;
+    color: #02070a !important;
+    background: linear-gradient(95deg, #00cce6, #80efff 62%, #b38aff) !important;
+    box-shadow: 0 0 32px rgba(0, 219, 245, 0.22) !important;
+}
+
+.mode-polar.tabs-shell > .tab-nav button.selected,
+.mode-polar #visual-mode label:has(input:checked) {
+    border-color: #00dff5 !important;
+    color: #02090b !important;
+    background: linear-gradient(90deg, #00bfd8, #83f1ff) !important;
+    box-shadow: 0 0 22px rgba(0, 223, 245, 0.18) !important;
+}
+
+.mode-polar#command-strip,
+.mode-polar.mode-deck {
+    border-color: rgba(0, 223, 245, 0.25) !important;
+}
+
+.mode-void.hero-shell {
+    filter: saturate(0.12);
+    border-color: rgba(255, 255, 255, 0.28);
+    background: linear-gradient(90deg, #020202, #0b0b0b 62%, #160206);
+}
+
+.mode-void .noir-sun {
+    background: repeating-linear-gradient(to bottom, #e8e8e8 0 11px, #3b3b3b 11px 15px, transparent 15px 20px), linear-gradient(#fff, #b5b5b5);
+    box-shadow: 0 0 70px rgba(255, 255, 255, 0.18);
+}
+
+.mode-void.hero-shell h1 span {
+    background: linear-gradient(92deg, #ffffff, #c3c3c3 64%, #ff3158);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.mode-void.studio-card {
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    border-left-color: #ff214f !important;
+    background: linear-gradient(125deg, rgba(255, 32, 73, 0.035), transparent 36%), rgba(5, 5, 5, 0.96) !important;
+}
+
+.mode-void.studio-card > .block:first-child,
+.mode-void.studio-card > div:first-child {
+    background: linear-gradient(100deg, rgba(255, 255, 255, 0.10), rgba(122, 5, 31, 0.28)) !important;
+}
+
+.mode-void.studio-card .section-eyebrow {
+    color: #ff3158;
+}
+
+.mode-void #generate-btn,
+.mode-void #queue-btn {
+    border-color: #ff6b82 !important;
+    color: #fff !important;
+    background: linear-gradient(95deg, #8e0724, #ff214f) !important;
+    box-shadow: 0 0 30px rgba(255, 33, 79, 0.20) !important;
+}
+
+.mode-void.tabs-shell > .tab-nav button.selected,
+.mode-void #visual-mode label:has(input:checked) {
+    border-color: #ff3158 !important;
+    color: #ffffff !important;
+    background: linear-gradient(90deg, #8e0724, #ff3158) !important;
+    box-shadow: 0 0 22px rgba(255, 49, 88, 0.18) !important;
+}
+
+.mode-void#command-strip,
+.mode-void.mode-deck {
+    border-color: rgba(255, 49, 88, 0.28) !important;
+}
+
+@keyframes boot-line-in {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes boot-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+@keyframes reactor-pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(0.94); box-shadow: 0 0 25px rgba(255, 72, 7, 0.13); }
+    50% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 55px rgba(255, 72, 7, 0.27); }
+}
+
+@keyframes cartridge-working {
+    0%, 100% { background-color: #050505; }
+    50% { background-color: #120804; }
+}
+
+@keyframes signal-glitch {
+    0%, 100% { transform: translate(0); filter: none; }
+    25% { transform: translate(-3px, 1px); filter: hue-rotate(34deg); }
+    50% { transform: translate(3px, -1px); opacity: 0.72; }
+    75% { transform: translate(-1px, 0); filter: contrast(1.8); }
+}
+
+@media (max-width: 900px) {
+    .mode-deck {
+        flex-direction: column !important;
+    }
+
+    .deck-readout {
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    #synthesis-reactor {
+        height: 220px;
+    }
+
+    .pipeline-stages {
+        grid-template-columns: 1fr;
+    }
+
+    .pipeline-stage {
+        text-align: left;
+    }
+
+    .data-cartridge {
+        grid-template-columns: 36px minmax(0, 1fr);
+    }
+
+    .cartridge-state {
+        grid-column: 2;
+        text-align: left;
+    }
+
+    #command-strip {
+        gap: 8px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    #command-strip .command-hide-mobile,
+    #command-strip .command-strip-divider {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .boot-line,
+    .boot-progress::after,
+    #synthesis-reactor.is-synthesizing .reactor-core,
+    .data-cartridge[data-state="running"],
+    .glitching {
+        animation: none !important;
+    }
+}
+"""
+
 INSERT_TAG_JS = """
 (tag_val, current_text) => {
     const textarea = document.querySelector('#main_textbox textarea');
@@ -1114,6 +1818,336 @@ INSERT_TAG_JS = """
 
     return current_text.slice(0, start) + prefix + tag_val + suffix + current_text.slice(end);
 }
+"""
+
+APP_JS = r"""
+(() => {
+    const startDeck = () => {
+        if (window.__cbxDeckStarted || !document.querySelector(".hero-shell")) {
+            if (!window.__cbxDeckStarted) setTimeout(startDeck, 120);
+            return;
+        }
+        window.__cbxDeckStarted = true;
+
+        const qs = (selector, root = document) => root.querySelector(selector);
+        const qsa = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+        const deckState = {
+            mode: "ember",
+            synthesizing: false,
+            percent: 0,
+            audioContext: null,
+            stageTimers: [],
+        };
+
+        const boot = qs("#boot-sequence");
+        const replayBoot = () => {
+            if (!boot) return;
+            boot.setAttribute("aria-hidden", "false");
+            boot.classList.remove("boot-complete");
+            void boot.offsetWidth;
+            const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 120 : 1900;
+            window.setTimeout(() => {
+                boot.classList.add("boot-complete");
+                boot.setAttribute("aria-hidden", "true");
+            }, delay);
+        };
+        replayBoot();
+
+        const brand = qs(".brand-mark");
+        if (brand) {
+            brand.setAttribute("role", "button");
+            brand.setAttribute("tabindex", "0");
+            brand.setAttribute("title", "Replay system boot");
+            brand.addEventListener("click", replayBoot);
+            brand.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") replayBoot();
+            });
+        }
+
+        const matrixTargets = () => qsa(
+            ".hero-shell, .studio-card, .tabs-shell, .mode-deck, #command-strip"
+        );
+        const rootContainer = qs(".gradio-container");
+        const matrixBackgrounds = {
+            ember: "linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),radial-gradient(circle at 82% 2%,rgba(255,78,14,.20),transparent 27%),radial-gradient(circle at 4% 48%,rgba(0,213,255,.07),transparent 25%),linear-gradient(135deg,#030303,#080706 52%,#050505)",
+            polar: "linear-gradient(rgba(0,223,245,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,223,245,.025) 1px,transparent 1px),radial-gradient(circle at 82% 2%,rgba(98,54,210,.22),transparent 29%),radial-gradient(circle at 3% 48%,rgba(0,223,245,.12),transparent 27%),linear-gradient(135deg,#020306,#060712 55%,#05030a)",
+            void: "linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),radial-gradient(circle at 86% 3%,rgba(255,31,76,.12),transparent 24%),linear-gradient(135deg,#020202,#080808 62%,#070203)",
+        };
+        const applyMode = (mode) => {
+            deckState.mode = mode;
+            matrixTargets().forEach((element) => {
+                element.classList.remove("mode-ember", "mode-polar", "mode-void");
+                element.classList.add(`mode-${mode}`);
+            });
+            if (rootContainer) {
+                rootContainer.style.setProperty(
+                    "background",
+                    matrixBackgrounds[mode],
+                    "important"
+                );
+                rootContainer.style.setProperty("background-size", "44px 44px,44px 44px,auto,auto,auto", "important");
+            }
+            const matrixReadout = qs("#matrix-readout");
+            if (matrixReadout) matrixReadout.textContent = mode.toUpperCase();
+        };
+        applyMode("ember");
+
+        const readComponentValue = (id) => {
+            const component = qs(`#${id}`);
+            if (!component) return "--";
+            const input = qs("input", component) || qs("textarea", component);
+            return (input && input.value) || "--";
+        };
+        const compactModel = (value) => value.includes("V3") ? "V3" : value.includes("Turbo") ? "TURBO" : value;
+        const compactFormat = (value) => value.startsWith("MP3") ? "MP3 / 160K" : value.startsWith("WAV") ? "WAV / PCM" : value;
+        const updateCommandStrip = () => {
+            const model = qs("#cmd-model");
+            const language = qs("#cmd-language");
+            const format = qs("#cmd-format");
+            const modelValue = compactModel(readComponentValue("model-choice"));
+            const languageValue = readComponentValue("language-choice").toUpperCase();
+            const formatValue = compactFormat(readComponentValue("format-choice"));
+            if (model && model.textContent !== modelValue) model.textContent = modelValue;
+            if (language && language.textContent !== languageValue) language.textContent = languageValue;
+            if (format && format.textContent !== formatValue) format.textContent = formatValue;
+        };
+        updateCommandStrip();
+
+        const tone = (frequency, duration = 0.045, type = "square", volume = 0.018) => {
+            const toggle = qs("#interface-audio-toggle input[type='checkbox']");
+            if (!toggle || !toggle.checked) return;
+            try {
+                deckState.audioContext = deckState.audioContext || new (window.AudioContext || window.webkitAudioContext)();
+                const context = deckState.audioContext;
+                const oscillator = context.createOscillator();
+                const gain = context.createGain();
+                oscillator.type = type;
+                oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+                gain.gain.setValueAtTime(volume, context.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + duration);
+                oscillator.connect(gain).connect(context.destination);
+                oscillator.start();
+                oscillator.stop(context.currentTime + duration);
+            } catch (_) {}
+        };
+        const readyChime = () => {
+            tone(330, 0.08, "sine", 0.025);
+            setTimeout(() => tone(660, 0.12, "sine", 0.021), 90);
+        };
+
+        const palette = () => {
+            if (deckState.mode === "polar") return {signal: "#00e7ff", accent: "#9d75ff", dim: "rgba(0,223,245,.12)"};
+            if (deckState.mode === "void") return {signal: "#ff3158", accent: "#eeeeee", dim: "rgba(255,49,88,.12)"};
+            return {signal: "#00dff5", accent: "#ff6518", dim: "rgba(255,101,24,.12)"};
+        };
+
+        const animateCanvas = (canvasId, reactor = false) => {
+            const canvas = qs(`#${canvasId}`);
+            if (!canvas) return;
+            const context = canvas.getContext("2d");
+            let phase = Math.random() * 20;
+            let last = 0;
+            const resize = () => {
+                const ratio = Math.min(window.devicePixelRatio || 1, 2);
+                canvas.width = Math.max(1, Math.floor(canvas.clientWidth * ratio));
+                canvas.height = Math.max(1, Math.floor(canvas.clientHeight * ratio));
+                context.setTransform(ratio, 0, 0, ratio, 0, 0);
+            };
+            resize();
+            new ResizeObserver(resize).observe(canvas);
+            const draw = (time) => {
+                requestAnimationFrame(draw);
+                if (time - last < 42) return;
+                last = time;
+                const width = canvas.clientWidth;
+                const height = canvas.clientHeight;
+                const colors = palette();
+                const energy = deckState.synthesizing ? 1 : 0.34;
+                context.clearRect(0, 0, width, height);
+                context.strokeStyle = colors.dim;
+                context.lineWidth = 1;
+                for (let x = 0; x < width; x += 26) {
+                    context.beginPath(); context.moveTo(x, 0); context.lineTo(x, height); context.stroke();
+                }
+                for (let y = 0; y < height; y += 24) {
+                    context.beginPath(); context.moveTo(0, y); context.lineTo(width, y); context.stroke();
+                }
+                if (reactor) {
+                    const cx = width / 2;
+                    const cy = height / 2;
+                    for (let ring = 0; ring < 4; ring += 1) {
+                        const radius = 33 + ring * 25 + Math.sin(phase * 0.7 + ring) * 4 * energy;
+                        context.beginPath();
+                        context.arc(cx, cy, radius, 0, Math.PI * 2);
+                        context.strokeStyle = ring % 2 ? colors.signal : colors.accent;
+                        context.globalAlpha = 0.15 + energy * 0.16;
+                        context.stroke();
+                    }
+                    context.globalAlpha = 1;
+                } else {
+                    const bars = Math.max(26, Math.floor(width / 8));
+                    for (let index = 0; index < bars; index += 1) {
+                        const x = (index + 0.5) * width / bars;
+                        const wave = Math.sin(index * 0.71 + phase) * 0.42 + Math.sin(index * 0.21 - phase * 1.3) * 0.28;
+                        const amplitude = (0.22 + Math.abs(wave) * 0.72) * height * energy;
+                        context.beginPath();
+                        context.moveTo(x, height / 2 - amplitude / 2);
+                        context.lineTo(x, height / 2 + amplitude / 2);
+                        context.strokeStyle = index % 7 === 0 ? colors.accent : colors.signal;
+                        context.globalAlpha = 0.45 + energy * 0.45;
+                        context.stroke();
+                    }
+                    context.globalAlpha = 1;
+                }
+                phase += 0.055 + energy * 0.09;
+            };
+            requestAnimationFrame(draw);
+        };
+        animateCanvas("voiceprint-canvas", false);
+        animateCanvas("reactor-canvas", true);
+
+        const stages = qsa(".pipeline-stage");
+        const reactor = qs("#synthesis-reactor");
+        const reactorPercent = qs("#reactor-percent");
+        const reactorStatus = qs("#reactor-status");
+        const reactorLog = qs("#reactor-log-line");
+        const clearStageTimers = () => {
+            deckState.stageTimers.forEach(clearTimeout);
+            deckState.stageTimers = [];
+        };
+        const setStage = (index) => {
+            stages.forEach((stage, stageIndex) => {
+                stage.classList.toggle("complete", stageIndex < index);
+                stage.classList.toggle("active", stageIndex === index);
+            });
+            const labels = ["PARSING TRANSMISSION", "ENCODING IDENTITY", "SYNTHESIZING SPEECH", "MASTERING ARTIFACT", "ARCHIVING OUTPUT"];
+            if (reactorStatus) reactorStatus.textContent = labels[index] || "SYNTHESIS ACTIVE";
+            if (reactorLog) reactorLog.textContent = `PHASE ${String(index + 1).padStart(2, "0")} // ${labels[index] || "PROCESSING"}`;
+        };
+        const beginSynthesis = () => {
+            clearStageTimers();
+            deckState.synthesizing = true;
+            deckState.percent = 1;
+            if (reactor) {
+                reactor.classList.remove("is-ready");
+                reactor.classList.add("is-synthesizing");
+            }
+            const heroTitle = qs(".hero-shell h1");
+            if (heroTitle) {
+                heroTitle.classList.add("glitching");
+                setTimeout(() => heroTitle.classList.remove("glitching"), 420);
+            }
+            setStage(0);
+            [650, 1800, 3800, 6100].forEach((delay, index) => {
+                deckState.stageTimers.push(setTimeout(() => setStage(index + 1), delay));
+            });
+            const percentTimer = setInterval(() => {
+                if (!deckState.synthesizing) return clearInterval(percentTimer);
+                deckState.percent = Math.min(93, deckState.percent + Math.max(1, Math.floor((96 - deckState.percent) / 15)));
+                if (reactorPercent) reactorPercent.textContent = String(deckState.percent).padStart(3, "0");
+            }, 430);
+            tone(92, 0.09, "sawtooth", 0.025);
+            setTimeout(() => tone(138, 0.10, "square", 0.018), 95);
+            const commandStatus = qs("#cmd-status");
+            if (commandStatus) commandStatus.textContent = "SYNTHESIS ACTIVE";
+        };
+        const finishSynthesis = () => {
+            if (!deckState.synthesizing) return;
+            clearStageTimers();
+            deckState.synthesizing = false;
+            deckState.percent = 100;
+            stages.forEach((stage) => {
+                stage.classList.remove("active");
+                stage.classList.add("complete");
+            });
+            if (reactor) {
+                reactor.classList.remove("is-synthesizing");
+                reactor.classList.add("is-ready");
+            }
+            if (reactorPercent) reactorPercent.textContent = "100";
+            if (reactorStatus) reactorStatus.textContent = "ARTIFACT READY";
+            if (reactorLog) reactorLog.textContent = "ARCHIVE LOCKED // AUDIO + COVER WRITTEN";
+            const commandStatus = qs("#cmd-status");
+            if (commandStatus) commandStatus.textContent = "ARTIFACT READY";
+            readyChime();
+        };
+
+        const outputComponent = qs("#audio-output");
+        if (outputComponent) {
+            new MutationObserver(() => {
+                const audio = qs("audio", outputComponent);
+                const artifactLink = qs("a", outputComponent);
+                if ((audio && (audio.currentSrc || audio.src)) || artifactLink) finishSynthesis();
+            }).observe(outputComponent, {subtree: true, childList: true, attributes: true, attributeFilter: ["src"]});
+        }
+
+        const referenceComponent = qs("#reference-audio");
+        const updateVoiceprint = () => {
+            const readout = qs("#voiceprint-status");
+            if (!readout || !referenceComponent) return;
+            const audio = qs("audio", referenceComponent);
+            const downloadLink = qs("a", referenceComponent);
+            const hasSignal = (audio && (audio.currentSrc || audio.src)) || downloadLink;
+            readout.textContent = hasSignal ? "VOICEPRINT LOCKED // IDENTITY SIGNAL ONLINE" : "AWAITING IDENTITY SIGNAL";
+        };
+        if (referenceComponent) {
+            new MutationObserver(updateVoiceprint).observe(referenceComponent, {subtree: true, childList: true, attributes: true});
+            updateVoiceprint();
+        }
+
+        document.addEventListener("change", (event) => {
+            const target = event.target;
+            if (target.closest && target.closest("#visual-mode") && target.value) {
+                applyMode(String(target.value).toLowerCase());
+                tone(180, 0.05, "square", 0.018);
+            }
+            if (target.closest && ["model-choice", "language-choice", "format-choice"].some((id) => target.closest(`#${id}`))) {
+                updateCommandStrip();
+                const heroTitle = qs(".hero-shell h1");
+                if (heroTitle) {
+                    heroTitle.classList.add("glitching");
+                    setTimeout(() => heroTitle.classList.remove("glitching"), 420);
+                }
+            }
+        });
+
+        document.addEventListener("click", (event) => {
+            const button = event.target.closest && event.target.closest("button");
+            if (!button) return;
+            if (button.closest("#generate-btn")) {
+                beginSynthesis();
+                return;
+            }
+            if (button.closest("#queue-btn")) {
+                const cartridges = qsa(".data-cartridge");
+                cartridges.forEach((cartridge) => {
+                    cartridge.dataset.state = "queued";
+                    const state = qs(".cartridge-state", cartridge);
+                    if (state) state.textContent = "QUEUED";
+                });
+                cartridges.forEach((cartridge, index) => {
+                    setTimeout(() => {
+                        cartridges.forEach((item) => {
+                            if (item.dataset.state === "running") item.dataset.state = "queued";
+                        });
+                        cartridge.dataset.state = "running";
+                        const state = qs(".cartridge-state", cartridge);
+                        if (state) state.textContent = "SYNTHESIZING";
+                    }, index * 1400);
+                });
+                tone(110, 0.08, "sawtooth", 0.022);
+                return;
+            }
+            if (!button.closest("audio")) tone(155, 0.032, "square", 0.012);
+        });
+
+        new MutationObserver(() => {
+            updateCommandStrip();
+            if (deckState.synthesizing && qs("#audio-output a")) finishSynthesis();
+        }).observe(document.body, {subtree: true, childList: true});
+    };
+    startDeck();
+})()
 """
 
 
@@ -1245,13 +2279,48 @@ def normalize_file_paths(file_paths) -> list[Path]:
     return [Path(file_path) for file_path in file_paths]
 
 
+def render_queue_cartridges(records, summary: str) -> str:
+    cards = []
+    for index, record in enumerate(records, start=1):
+        state = record.get("state", "queued")
+        filename = escape(str(record["name"]))
+        detail = escape(str(record.get("detail", "AWAITING SYNTHESIS")))
+        sections = int(record.get("sections", 0))
+        characters = int(record.get("characters", 0))
+        cards.append(
+            f"""
+            <article class="data-cartridge" data-state="{state}">
+                <div class="cartridge-index">{index:02d}</div>
+                <div class="cartridge-body">
+                    <div class="cartridge-name">{filename}</div>
+                    <div class="cartridge-meta">
+                        {characters:,} CHR &nbsp;/&nbsp; {sections:,} SEG
+                    </div>
+                </div>
+                <div class="cartridge-state">{detail}</div>
+                <div class="cartridge-signal" aria-hidden="true"></div>
+            </article>
+            """
+        )
+
+    return (
+        '<section class="cartridge-array">'
+        f'<header class="cartridge-summary"><span>{escape(summary)}</span>'
+        f'<strong>{len(records):02d} DATACARTRIDGES</strong></header>'
+        f'<div class="cartridge-grid">{"".join(cards)}</div>'
+        '</section>'
+    )
+
+
 def load_text_files(file_paths):
     paths = normalize_file_paths(file_paths)
     if not paths:
-        return gr.update(), "Add one or more `.txt` files to the queue."
+        return gr.update(), (
+            '<div class="array-standby">ARRAY EMPTY // LOAD .TXT ARTIFACTS</div>'
+        )
 
     documents = []
-    queue_lines = []
+    records = []
     total_characters = 0
     total_sections = 0
     total_pauses = 0
@@ -1265,21 +2334,21 @@ def load_text_files(file_paths):
         total_characters += len(document)
         total_sections += section_count
         total_pauses += pause_count
-        queue_lines.append(
-            f"- `{path.name}` — {len(document):,} characters, "
-            f"{section_count:,} sections"
+        records.append(
+            {
+                "name": path.name,
+                "characters": len(document),
+                "sections": section_count,
+                "state": "queued",
+                "detail": "QUEUED",
+            }
         )
 
-    status = (
-        f"**{len(paths):,} file{'s' if len(paths) != 1 else ''} queued** — "
-        f"{total_characters:,} characters, {total_sections:,} reading sections"
-        + (f", {total_pauses:,} explicit pauses." if total_pauses else ".")
-        + "\n\n"
-        + "\n".join(queue_lines[:20])
+    summary = (
+        f"{total_characters:,} CHR // {total_sections:,} SEG"
+        + (f" // {total_pauses:,} PAUSE" if total_pauses else "")
     )
-    if len(queue_lines) > 20:
-        status += f"\n- …and {len(queue_lines) - 20:,} more"
-    return documents[0], status
+    return documents[0], render_queue_cartridges(records, summary)
 
 
 def make_output_path(
@@ -1300,6 +2369,89 @@ def make_output_path(
     return OUTPUT_DIR / (
         f"{safe_stem}-{model_slug}-{timestamp}-{unique_id}{extension}"
     )
+
+
+def _cover_font(size: int, bold: bool = False):
+    candidates = [
+        Path("C:/Windows/Fonts/bahnschrift.ttf"),
+        Path("C:/Windows/Fonts/arialbd.ttf" if bold else "C:/Windows/Fonts/arial.ttf"),
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            try:
+                return ImageFont.truetype(str(candidate), size=size)
+            except OSError:
+                continue
+    return ImageFont.load_default()
+
+
+def create_cover_art(
+        output_path: Path,
+        model_choice: str,
+        output_stem: str | None,
+) -> Path | None:
+    """Create original cover art for every audio artifact."""
+    cover_path = output_path.with_suffix(".png")
+    try:
+        size = 1200
+        image = Image.new("RGB", (size, size), "#050505")
+        draw = ImageDraw.Draw(image)
+
+        for y in range(size):
+            ember = max(0.0, 1.0 - abs(y - 250) / 620)
+            draw.line(
+                (0, y, size, y),
+                fill=(
+                    int(5 + 30 * ember),
+                    int(5 + 7 * ember),
+                    int(5 + 2 * ember),
+                ),
+            )
+
+        for position in range(0, size + 1, 72):
+            draw.line((position, 0, position, size), fill="#17100c", width=2)
+            draw.line((0, position, size, position), fill="#17100c", width=2)
+
+        sun_box = (650, 110, 1100, 560)
+        draw.ellipse(sun_box, fill="#ff6516")
+        for stripe_y in range(135, 555, 28):
+            draw.rectangle((630, stripe_y, 1120, stripe_y + 9), fill="#541203")
+
+        draw.line((75, 660, 1125, 660), fill="#ff641a", width=3)
+        draw.line((75, 672, 570, 672), fill="#00dff5", width=3)
+        draw.polygon(
+            [(56, 46), (1065, 46), (1144, 125), (1144, 1148), (56, 1148)],
+            outline="#7c2a0d",
+            width=3,
+        )
+
+        title_font = _cover_font(168, bold=True)
+        machine_font = _cover_font(145, bold=True)
+        mono_font = _cover_font(30)
+        small_font = _cover_font(24)
+
+        draw.text((76, 710), "VOICE", font=title_font, fill="#f4ede4")
+        draw.text((76, 855), "MACHINE", font=machine_font, fill="#f05b1b")
+
+        artifact_name = re.sub(r"\s+", " ", output_stem or "UNTITLED").strip()
+        artifact_name = artifact_name[:42].upper() or "UNTITLED"
+        model_label = "MULTILINGUAL V3" if model_choice == MODEL_V3 else "TURBO"
+        artifact_id = output_path.stem[-17:].upper()
+        draw.text((80, 85), "CBX // SYNTHETIC VOICE DIVISION", font=mono_font, fill="#ff8a42")
+        draw.text((80, 1080), artifact_name, font=mono_font, fill="#ded8cf")
+        draw.text(
+            (80, 1121),
+            f"MODEL // {model_label}    ARTIFACT // {artifact_id}",
+            font=small_font,
+            fill="#69cfda",
+        )
+
+        image.save(cover_path, "PNG", optimize=True)
+        return cover_path
+    except Exception as exc:
+        print(f"Cover art generation skipped: {exc}")
+        cover_path.unlink(missing_ok=True)
+        return None
 
 
 def generate(
@@ -1367,6 +2519,7 @@ def generate(
         for kind, _ in processed_segments
     )
     speech_index = 0
+    cover_path = None
 
     try:
         with sf.SoundFile(
@@ -1426,27 +2579,79 @@ def generate(
                 ):
                     combined_audio.write(chunk_pause)
 
+        progress(0.985, desc="Rendering artifact cover")
+        cover_title = output_stem
+        if not cover_title:
+            title_text = PAUSE_TAG_PATTERN.sub(" ", text)
+            for tag in TURBO_TAGS:
+                title_text = title_text.replace(tag, " ")
+            cover_title = " ".join(title_text.split()[:7]) or "UNTITLED"
+        cover_path = create_cover_art(
+            output_path,
+            model_choice,
+            cover_title,
+        )
+
         if output_format == FORMAT_MP3:
             if not FFMPEG_EXE:
                 raise RuntimeError(
                     "MP3 encoding requires FFmpeg, but it was not found."
                 )
             progress(0.99, desc="Encoding maximum-quality MP3")
-            subprocess.run(
+            ffmpeg_command = [
+                FFMPEG_EXE,
+                "-y",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-i",
+                str(working_path),
+            ]
+            if cover_path:
+                ffmpeg_command.extend(
+                    [
+                        "-i",
+                        str(cover_path),
+                        "-map",
+                        "0:a",
+                        "-map",
+                        "1:v",
+                    ]
+                )
+            ffmpeg_command.extend(
                 [
-                    FFMPEG_EXE,
-                    "-y",
-                    "-hide_banner",
-                    "-loglevel",
-                    "error",
-                    "-i",
-                    str(working_path),
                     "-codec:a",
                     "libmp3lame",
                     "-b:a",
                     "160k",
+                ]
+            )
+            if cover_path:
+                ffmpeg_command.extend(
+                    [
+                        "-codec:v",
+                        "png",
+                        "-disposition:v",
+                        "attached_pic",
+                        "-id3v2_version",
+                        "3",
+                        "-metadata:s:v",
+                        "title=CBX ARTIFACT COVER",
+                        "-metadata:s:v",
+                        "comment=Cover (front)",
+                    ]
+                )
+            ffmpeg_command.extend(
+                [
+                    "-metadata",
+                    f"title={cover_title}",
+                    "-metadata",
+                    "artist=CBX Voice Machine",
                     str(output_path),
-                ],
+                ]
+            )
+            subprocess.run(
+                ffmpeg_command,
                 check=True,
                 capture_output=True,
                 text=True,
@@ -1456,10 +2661,18 @@ def generate(
     except Exception:
         working_path.unlink(missing_ok=True)
         output_path.unlink(missing_ok=True)
+        if cover_path:
+            cover_path.unlink(missing_ok=True)
         raise
 
     progress(1, desc="Finished")
-    return str(output_path)
+    return (
+        str(output_path),
+        gr.update(
+            value=str(cover_path) if cover_path else None,
+            visible=bool(cover_path),
+        ),
+    )
 
 
 def process_file_queue(
@@ -1485,10 +2698,23 @@ def process_file_queue(
 
     completed = []
     failures = []
+    records = []
 
     for file_index, path in enumerate(paths):
+        record = {
+            "name": path.name,
+            "characters": 0,
+            "sections": 0,
+            "state": "running",
+            "detail": "SYNTHESIZING",
+        }
         try:
             document = read_text_file(path)
+            segments = parse_document(document)
+            record["characters"] = len(document)
+            record["sections"] = sum(
+                kind == "speech" for kind, _ in segments
+            )
 
             def file_progress(value, desc=None):
                 overall = (file_index + float(value)) / len(paths)
@@ -1516,37 +2742,61 @@ def process_file_queue(
                 progress=file_progress,
             )
             completed.append(path.name)
+            record["state"] = "complete"
+            record["detail"] = "ARTIFACT READY"
         except Exception as exc:
-            failures.append(f"`{path.name}`: {exc}")
+            failures.append(f"{path.name}: {exc}")
+            record["state"] = "failed"
+            record["detail"] = "SYNTHESIS FAILED"
+        records.append(record)
 
     progress(1, desc="Queue finished")
-    status = (
-        f"**Completed {len(completed):,} of {len(paths):,} files.**\n\n"
-        f"Saved permanently to `{OUTPUT_DIR}`."
-    )
-    if completed:
-        status += "\n\n**Completed sources:**\n" + "\n".join(
-            f"- `{filename}`"
-            for filename in completed[:20]
-        )
-        if len(completed) > 20:
-            status += f"\n- …and {len(completed) - 20:,} more"
-    if failures:
-        status += "\n\n**Failed:**\n" + "\n".join(
-            f"- {failure}"
-            for failure in failures
-        )
     if not completed:
         raise gr.Error("No queued files could be generated.")
-    return status
+    summary = (
+        f"{len(completed):02d} COMPLETE // {len(failures):02d} FAILED // "
+        f"ARCHIVE {OUTPUT_DIR.name.upper()}"
+    )
+    return render_queue_cartridges(records, summary)
 
 
 with gr.Blocks(title="Chatterbox Studio") as demo:
     gr.HTML(
+        """
+        <div id="boot-sequence" aria-label="CBX system startup">
+            <div class="boot-frame">
+                <div class="boot-emblem">
+                    <svg viewBox="0 0 64 64" aria-hidden="true">
+                        <path d="M5 4h44l10 10v46H5z" fill="#050505" stroke="#ff671f"/>
+                        <circle cx="32" cy="27" r="14" fill="#ff5d14"/>
+                        <path d="M17 22h30M17 27h30M17 32h30" stroke="#541203" stroke-width="2"/>
+                        <path d="M11 48h14l4-4 5 7 6-10 5 7h8" fill="none" stroke="#00dff5"/>
+                    </svg>
+                    CBX // VOICE MACHINE
+                </div>
+                <div class="boot-line"><span>LOCAL SYNTHESIS CORE</span><strong>ONLINE</strong></div>
+                <div class="boot-line"><span>CUDA COMPUTE LINK</span><strong>STABLE</strong></div>
+                <div class="boot-line"><span>IDENTITY ENCODER</span><strong>ARMED</strong></div>
+                <div class="boot-line"><span>ARTIFACT ARCHIVE</span><strong>MOUNTED</strong></div>
+                <div class="boot-line"><span>NETWORK EXPOSURE</span><strong>LOCAL ONLY</strong></div>
+                <div class="boot-progress" aria-hidden="true"></div>
+            </div>
+        </div>
+        """
+    )
+    gr.HTML(
         f"""
         <section class="hero-shell">
             <div class="hero-copy">
-                <div class="brand-mark" aria-hidden="true">CBX // 49</div>
+                <div class="brand-mark">
+                    <svg viewBox="0 0 64 64" aria-hidden="true">
+                        <path d="M5 4h44l10 10v46H5z" fill="#050505" stroke="currentColor"/>
+                        <circle cx="32" cy="27" r="14" fill="currentColor" opacity=".78"/>
+                        <path d="M17 22h30M17 27h30M17 32h30" stroke="#401006" stroke-width="2"/>
+                        <path d="M11 48h14l4-4 5 7 6-10 5 7h8" fill="none" stroke="#00dff5"/>
+                    </svg>
+                    CBX // 49
+                </div>
                 <p class="eyebrow">Synthetic voice division · offline array</p>
                 <h1>Voice<br><span>Machine</span></h1>
                 <p class="hero-subtitle">
@@ -1573,6 +2823,32 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
         """
     )
 
+    with gr.Row(elem_classes=["mode-deck"]):
+        visual_mode = gr.Radio(
+            choices=["EMBER", "POLAR", "VOID"],
+            value="EMBER",
+            label="Visual matrix",
+            elem_id="visual-mode",
+            interactive=True,
+            scale=5,
+        )
+        interface_audio = gr.Checkbox(
+            value=False,
+            label="Interface audio / optional",
+            elem_id="interface-audio-toggle",
+            scale=2,
+        )
+        gr.HTML(
+            """
+            <div class="deck-readout">
+                MATRIX <span id="matrix-readout">EMBER</span><br>
+                BOOT REPLAY // TAP CBX EMBLEM<br>
+                ACOUSTIC FEEDBACK // USER CONTROLLED
+            </div>
+            """,
+            scale=3,
+        )
+
     with gr.Row(elem_classes=["settings-row"]):
         with gr.Column(scale=7, min_width=360):
             with gr.Group(elem_classes=["studio-card"]):
@@ -1588,6 +2864,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         choices=[MODEL_V3, MODEL_TURBO],
                         value=MODEL_V3,
                         label="Voice model",
+                        elem_id="model-choice",
                     )
                     language_id = gr.Dropdown(
                         choices=[
@@ -1599,11 +2876,13 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         ],
                         value="en",
                         label="Language",
+                        elem_id="language-choice",
                     )
                     output_format = gr.Dropdown(
                         choices=[FORMAT_MP3, FORMAT_WAV],
                         value=FORMAT_MP3,
                         label="Output format",
+                        elem_id="format-choice",
                     )
                 model_status = gr.Markdown(
                     "**V3 selected:** best naturalness, voice similarity, and stability. "
@@ -1620,11 +2899,21 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                     <p class="section-copy">Feed the machine a clean reference signal to map speaker identity.</p>
                     """
                 )
+                gr.HTML(
+                    """
+                    <div class="voiceprint-shell">
+                        <canvas id="voiceprint-canvas" aria-label="Animated voiceprint signal"></canvas>
+                        <div class="voiceprint-label">BIOMETRIC VOICEPRINT // LIVE</div>
+                        <div class="voiceprint-readout" id="voiceprint-status">AWAITING IDENTITY SIGNAL</div>
+                    </div>
+                    """
+                )
                 ref_wav = gr.Audio(
                     sources=["upload", "microphone"],
                     type="filepath",
                     label="Voice reference",
                     value="https://storage.googleapis.com/chatterbox-demo-samples/prompts/female_random_podcast.wav",
+                    elem_id="reference-audio",
                 )
                 gr.HTML(
                     """
@@ -1706,7 +2995,36 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                             <p class="section-copy">Audit the generated artifact. Every render is archived locally.</p>
                             """
                         )
-                        audio_output = gr.Audio(label="Generated audio")
+                        gr.HTML(
+                            """
+                            <div id="synthesis-reactor">
+                                <canvas id="reactor-canvas" aria-label="Synthesis reactor telemetry"></canvas>
+                                <div class="reactor-state" id="reactor-status">CORE STANDBY</div>
+                                <div class="reactor-core"><span id="reactor-percent">000</span></div>
+                                <div class="reactor-log">
+                                    <span id="reactor-log-line">AWAITING TRANSMISSION</span>
+                                    <span>CBX/49</span>
+                                </div>
+                            </div>
+                            <div class="pipeline-stages" aria-label="Synthesis pipeline">
+                                <div class="pipeline-stage">TEXT PARSED</div>
+                                <div class="pipeline-stage">VOICE ENCODED</div>
+                                <div class="pipeline-stage">SYNTHESIS</div>
+                                <div class="pipeline-stage">MASTERING</div>
+                                <div class="pipeline-stage">ARCHIVE</div>
+                            </div>
+                            """
+                        )
+                        audio_output = gr.Audio(
+                            label="Generated audio",
+                            elem_id="audio-output",
+                        )
+                        cover_output = gr.Image(
+                            label="Generated artifact cover",
+                            visible=False,
+                            interactive=False,
+                            elem_classes=["cover-art"],
+                        )
                         gr.Markdown(
                             f"**Saved automatically**  \n`{OUTPUT_DIR}`",
                             elem_classes=["output-note"],
@@ -1792,11 +3110,10 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                             file_types=[".txt"],
                             file_count="multiple",
                             type="filepath",
+                            elem_id="batch-file-input",
                         )
-                        text_status = gr.Markdown(
-                            "Add one or more `.txt` files. The first file also opens "
-                            "in the Script Studio. Use `[pause]` for one second or a "
-                            "timed marker such as `[pause 1.5s]`.",
+                        text_status = gr.HTML(
+                            '<div class="array-standby">ARRAY EMPTY // LOAD .TXT ARTIFACTS</div>',
                             elem_classes=["queue-copy"],
                         )
                         with gr.Row(elem_classes=["action-row"]):
@@ -1815,8 +3132,8 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                             <p class="section-copy">Completed transmissions remain secured on this machine.</p>
                             """
                         )
-                        queue_status = gr.Markdown(
-                            f"Ready when you are. Outputs will be saved to  \n`{OUTPUT_DIR}`.",
+                        queue_status = gr.HTML(
+                            '<div class="array-standby">TELEMETRY STANDBY // NO ACTIVE BATCH</div>',
                             elem_classes=["output-note"],
                         )
 
@@ -1825,6 +3142,22 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                 inputs=txt_files,
                 outputs=[text, text_status],
             )
+
+    gr.HTML(
+        f"""
+        <div id="command-strip" aria-label="Persistent synthesis command status">
+            <span class="command-brand">CBX/49</span>
+            <span>CORE <strong class="command-status" id="cmd-status">STANDBY</strong></span>
+            <span class="command-strip-divider"></span>
+            <span>MODEL <strong id="cmd-model">V3</strong></span>
+            <span>LANG <strong id="cmd-language">EN</strong></span>
+            <span>FORMAT <strong id="cmd-format">MP3 / 160K</strong></span>
+            <span class="command-strip-divider"></span>
+            <span class="command-hide-mobile">COMPUTE <strong>{DEVICE.upper()}</strong></span>
+            <span class="command-hide-mobile">ARCHIVE <strong>{OUTPUT_DIR.name.upper()}</strong></span>
+        </div>
+        """
+    )
 
     model_choice.change(
         fn=model_ui_state,
@@ -1851,7 +3184,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
             cfg_weight,
             output_format,
         ],
-        outputs=audio_output,
+        outputs=[audio_output, cover_output],
     )
 
     queue_btn.click(
@@ -1881,6 +3214,8 @@ if __name__ == "__main__":
         default_concurrency_limit=1,
     ).launch(
         share=False,
-        css=CUSTOM_CSS + NEON_NOIR_CSS,
+        css=CUSTOM_CSS + NEON_NOIR_CSS + DECK_CSS,
+        js=APP_JS,
         head=GLOBAL_HEAD_STYLE,
+        favicon_path=FAVICON_PATH,
     )

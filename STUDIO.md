@@ -15,7 +15,12 @@ machine while making long-form and batch work feel approachable.
 - Precise `[pause]`, `[pause 1.5s]`, and `[pause 500ms]` timing markers
 - Turbo sound and style tag shortcuts
 - Permanent, collision-safe output files in `generated_audio/`
-- A responsive dark interface designed for desktop and smaller screens
+- A responsive cinematic control deck designed for desktop and smaller screens
+- Ember, Polar, and Void visual matrices
+- Animated boot diagnostics, voiceprint, synthesis reactor, and pipeline telemetry
+- Optional locally generated interface tones
+- Original per-render cover art, embedded directly into MP3 artifacts
+- Cartridge-style batch status with queued, processing, complete, and failed states
 
 ## Run it locally
 
@@ -48,6 +53,15 @@ winget install --id Gyan.FFmpeg -e
 4. Select MP3 for convenient sharing or WAV for a lossless master.
 5. Generate and listen. Every finished file is also saved in
    `generated_audio/`.
+
+Every render also receives an original square cover image. MP3 exports contain
+that image as embedded front-cover artwork, while the companion PNG remains in
+`generated_audio/` for players, podcast tools, or publishing workflows.
+
+The **Visual matrix** control switches between Ember, Polar, and Void without
+changing synthesis settings. Interface audio is optional and disabled by
+default; when enabled, its restrained tones are produced locally by the browser
+and do not require external media files.
 
 For books, chapters, or a folder of scripts, open **Batch queue**, upload
 multiple `.txt` files, and process them in order. The first queued file also

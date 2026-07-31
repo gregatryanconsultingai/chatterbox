@@ -17,7 +17,8 @@
 This fork includes a modern local production interface for high-quality V3 and
 Turbo generation. It adds MP3 export, full text-document processing, a
 multi-file queue, explicit pause markers, persistent outputs, voice-reference
-recording, and a responsive dark studio UI.
+recording, embedded MP3 cover art, live synthesis telemetry, three switchable
+visual matrices, and a responsive cinematic control-deck UI.
 
 ```powershell
 python gradio_tts_turbo_app.py
