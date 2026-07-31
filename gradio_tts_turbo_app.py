@@ -1080,6 +1080,104 @@ select,
     }
 }
 
+/* Final light-mode overrides must follow the terminal deck rules above. */
+.gradio-container {
+    --term-accent: #5162c8;
+    --term-signal: #3d7cce;
+    --term-dim: rgba(81, 98, 200, 0.18);
+    color: #202939 !important;
+    background: #f5f7fa !important;
+}
+
+.settings-row > .column > .gr-group,
+.tabs-shell,
+.tabs-shell .column > .gr-group,
+.terminal-command-deck,
+.terminal-shell-bar,
+#command-strip {
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+}
+
+.settings-row > .column > .gr-group > .styler,
+.tabs-shell .column > .gr-group > .styler,
+.settings-row > .column > .gr-group > .styler > .block,
+.tabs-shell .column > .gr-group > .styler > .block,
+.settings-row > .column > .gr-group > .styler:not(:first-child) .block,
+.tabs-shell .column > .gr-group > .styler:not(:first-child) .block {
+    background: transparent !important;
+}
+
+.settings-row > .column > .gr-group > .styler:first-child > .block,
+.tabs-shell .column > .gr-group > .styler:first-child > .block {
+    border-color: #e4e8f0 !important;
+    background: #f8f9fc !important;
+}
+
+.voiceprint-shell,
+#synthesis-reactor,
+.script-terminal-prompt,
+.advanced-card,
+.array-standby,
+.data-cartridge,
+.cartridge-summary {
+    border-color: #d9dfeb !important;
+    background: #f8f9fc !important;
+}
+
+#main_textbox textarea {
+    border-color: #d9dfeb !important;
+    color: #202939 !important;
+    background:
+        linear-gradient(90deg, rgba(81, 98, 200, 0.2) 0 1px, transparent 1px),
+        repeating-linear-gradient(to bottom, transparent 0 27px, rgba(81, 98, 200, 0.045) 28px),
+        #ffffff !important;
+}
+
+.section-title,
+.hero-shell h1,
+.terminal-shell-bar strong,
+.terminal-shell-session {
+    color: #202939 !important;
+    text-shadow: none !important;
+}
+
+.section-copy,
+.hero-subtitle,
+.output-note,
+.advanced-card > .label-wrap,
+.reactor-state,
+.reactor-log,
+.voiceprint-label,
+.voiceprint-readout {
+    color: #647084 !important;
+}
+
+.tabs-shell > .tab-nav,
+.tabs-shell > .tab-nav button,
+.tabs-shell > .tab-nav button.selected {
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+}
+
+.tabs-shell > .tab-nav button { color: #647084 !important; }
+.tabs-shell > .tab-nav button.selected { color: #5162c8 !important; background: #eef1ff !important; }
+
+#generate-btn,
+#queue-btn,
+.mode-polar #generate-btn,
+.mode-polar #queue-btn,
+.mode-void #generate-btn,
+.mode-void #queue-btn {
+    border-color: #5162c8 !important;
+    color: #ffffff !important;
+    background: #5162c8 !important;
+}
+
+.tag-btn { color: #5162c8 !important; border-color: #d9dfeb !important; }
+
+.output-note { border-left-color: #5162c8 !important; background: #f1f4fb !important; }
+
 /* CLARITY PASS: preserve the terminal mood, prioritize the creative workflow. */
 .terminal-shell-bar {
     min-height: 30px;
@@ -1291,6 +1389,214 @@ select,
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+}
+
+/* SINGLE LIGHT WORKSPACE */
+.gradio-container {
+    --term-accent: #5162c8;
+    --term-signal: #3d7cce;
+    --term-dim: rgba(81, 98, 200, 0.18);
+    color: #202939 !important;
+    background: #f5f7fa !important;
+}
+
+.terminal-shell-bar,
+.terminal-command-deck,
+.settings-row > .column > .gr-group,
+.tabs-shell,
+.tabs-shell .column > .gr-group,
+#command-strip {
+    --term-accent: #5162c8;
+    --term-signal: #3d7cce;
+    --term-dim: rgba(81, 98, 200, 0.18);
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+}
+
+.terminal-shell-bar {
+    color: #647084;
+}
+
+.terminal-shell-bar strong,
+.terminal-shell-session {
+    color: #202939;
+}
+
+.terminal-shell-online,
+.section-eyebrow,
+.status-pill,
+.script-terminal-prompt strong {
+    color: #5162c8 !important;
+}
+
+.terminal-lamps i:first-child {
+    background: #5162c8;
+    box-shadow: none;
+}
+
+.hero-shell {
+    border-color: #d9dfeb !important;
+    background:
+        linear-gradient(rgba(81, 98, 200, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(81, 98, 200, 0.045) 1px, transparent 1px),
+        linear-gradient(135deg, #ffffff, #f1f4fa) !important;
+    box-shadow: none !important;
+}
+
+.hero-shell::before {
+    border-color: rgba(81, 98, 200, 0.16);
+}
+
+.hero-shell::after,
+.visual-code {
+    color: #778399 !important;
+}
+
+.hero-shell h1,
+.section-title {
+    color: #202939 !important;
+    text-shadow: none !important;
+}
+
+.hero-shell h1 span {
+    color: #5162c8 !important;
+    -webkit-text-fill-color: #5162c8 !important;
+    filter: none !important;
+}
+
+.hero-subtitle,
+.section-copy {
+    color: #647084 !important;
+}
+
+.noir-sun {
+    opacity: 0.28;
+    filter: grayscale(1) hue-rotate(165deg);
+}
+
+.status-pill {
+    border-color: #d9dfeb !important;
+}
+
+.terminal-command-deck summary,
+.terminal-command-deck summary span {
+    color: #5162c8;
+}
+
+.terminal-command-deck summary span {
+    color: #647084;
+}
+
+.terminal-command-content,
+.terminal-command-prompt,
+#terminal-command-run {
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+}
+
+#terminal-command-input {
+    color: #202939 !important;
+    background: #ffffff !important;
+}
+
+.settings-row > .column > .gr-group > .styler > .block,
+.tabs-shell .column > .gr-group > .styler > .block,
+.settings-row > .column > .gr-group > .styler:not(:first-child) .block,
+.tabs-shell .column > .gr-group > .styler:not(:first-child) .block,
+.settings-row > .column > .gr-group > .styler,
+.tabs-shell .column > .gr-group > .styler {
+    background: transparent !important;
+}
+
+.settings-row > .column > .gr-group > .styler:first-child > .block,
+.tabs-shell .column > .gr-group > .styler:first-child > .block {
+    border-color: #e4e8f0 !important;
+    background: #f8f9fc !important;
+}
+
+.voiceprint-shell,
+#synthesis-reactor,
+.script-terminal-prompt,
+.advanced-card,
+.array-standby,
+.data-cartridge,
+.cartridge-summary {
+    border-color: #d9dfeb !important;
+    background: #f8f9fc !important;
+}
+
+#main_textbox textarea {
+    border-color: #d9dfeb !important;
+    color: #202939 !important;
+    background:
+        linear-gradient(90deg, rgba(81, 98, 200, 0.2) 0 1px, transparent 1px),
+        repeating-linear-gradient(to bottom, transparent 0 27px, rgba(81, 98, 200, 0.045) 28px),
+        #ffffff !important;
+}
+
+.tag-btn {
+    color: #5162c8 !important;
+    border-color: #d9dfeb !important;
+}
+
+#generate-btn,
+#queue-btn,
+.mode-polar #generate-btn,
+.mode-polar #queue-btn,
+.mode-void #generate-btn,
+.mode-void #queue-btn {
+    border-color: #5162c8 !important;
+    color: #ffffff !important;
+    background: #5162c8 !important;
+}
+
+#generate-btn:hover,
+#queue-btn:hover,
+.mode-polar #generate-btn:hover,
+.mode-polar #queue-btn:hover,
+.mode-void #generate-btn:hover,
+.mode-void #queue-btn:hover {
+    color: #ffffff !important;
+    background: #3f4fad !important;
+}
+
+.tabs-shell > .tab-nav,
+.tabs-shell > .tab-nav button,
+.tabs-shell > .tab-nav button.selected {
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+}
+
+.tabs-shell > .tab-nav button {
+    color: #647084 !important;
+}
+
+.tabs-shell > .tab-nav button.selected {
+    color: #5162c8 !important;
+    background: #eef1ff !important;
+}
+
+.reactor-state,
+.reactor-log,
+.voiceprint-label,
+.voiceprint-readout,
+.output-note,
+.advanced-card > .label-wrap {
+    color: #647084 !important;
+}
+
+.output-note {
+    border-left-color: #5162c8 !important;
+    background: #f1f4fb !important;
+}
+
+#command-strip {
+    color: #647084 !important;
+}
+
+#command-strip strong,
+#command-strip .command-brand {
+    color: #5162c8 !important;
 }
 """
 
@@ -2868,6 +3174,132 @@ DECK_CSS = """
         animation: none !important;
     }
 }
+/* Light workspace final paint layer. */
+.settings-row > .column > .gr-group,
+.tabs-shell,
+.tabs-shell .column > .gr-group,
+.terminal-command-deck,
+.terminal-shell-bar,
+#command-strip {
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+}
+
+.settings-row > .column > .gr-group > .styler,
+.tabs-shell .column > .gr-group > .styler,
+.settings-row > .column > .gr-group > .styler > .block,
+.tabs-shell .column > .gr-group > .styler > .block,
+.settings-row > .column > .gr-group > .styler:not(:first-child) .block,
+.tabs-shell .column > .gr-group > .styler:not(:first-child) .block {
+    background: transparent !important;
+}
+
+.settings-row > .column > .gr-group > .styler:first-child > .block,
+.tabs-shell .column > .gr-group > .styler:first-child > .block,
+.voiceprint-shell,
+#synthesis-reactor,
+.script-terminal-prompt,
+.advanced-card,
+.array-standby,
+.data-cartridge,
+.cartridge-summary {
+    border-color: #d9dfeb !important;
+    background: #f8f9fc !important;
+}
+
+#main_textbox textarea {
+    border-color: #d9dfeb !important;
+    color: #202939 !important;
+    background:
+        linear-gradient(90deg, rgba(81, 98, 200, 0.2) 0 1px, transparent 1px),
+        repeating-linear-gradient(to bottom, transparent 0 27px, rgba(81, 98, 200, 0.045) 28px),
+        #ffffff !important;
+}
+
+.section-title,
+.hero-shell h1,
+.terminal-shell-bar strong,
+.terminal-shell-session {
+    color: #202939 !important;
+    text-shadow: none !important;
+}
+
+.section-copy,
+.hero-subtitle,
+.output-note,
+.advanced-card > .label-wrap,
+.reactor-state,
+.reactor-log,
+.voiceprint-label,
+.voiceprint-readout { color: #647084 !important; }
+
+.tabs-shell > .tab-nav,
+.tabs-shell > .tab-nav button,
+.tabs-shell > .tab-nav button.selected {
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+}
+
+.tabs-shell > .tab-nav button { color: #647084 !important; }
+.tabs-shell > .tab-nav button.selected { color: #5162c8 !important; background: #eef1ff !important; }
+
+#generate-btn,
+#queue-btn,
+.mode-polar #generate-btn,
+.mode-polar #queue-btn,
+.mode-void #generate-btn,
+.mode-void #queue-btn {
+    border-color: #5162c8 !important;
+    color: #ffffff !important;
+    background: #5162c8 !important;
+}
+
+.tag-btn { color: #5162c8 !important; border-color: #d9dfeb !important; }
+.output-note { border-left-color: #5162c8 !important; background: #f1f4fb !important; }
+
+#model-choice,
+#language-choice,
+#format-choice,
+#model-choice input,
+#language-choice input,
+#format-choice input {
+    border-color: #d9dfeb !important;
+    color: #202939 !important;
+    background: #ffffff !important;
+}
+
+#model-choice button,
+#language-choice button,
+#format-choice button,
+#model-choice svg,
+#language-choice svg,
+#format-choice svg {
+    color: #647084 !important;
+}
+
+#main_textbox .label-wrap,
+#audio-output .label-wrap {
+    border-color: #d9dfeb !important;
+    color: #5162c8 !important;
+    background: #f8f9fc !important;
+}
+
+#main_textbox .label-wrap span,
+#audio-output .label-wrap span {
+    color: #5162c8 !important;
+}
+
+#main_textbox,
+#audio-output {
+    border-color: #d9dfeb !important;
+    color: #5162c8 !important;
+    background: #f8f9fc !important;
+}
+
+#main_textbox [data-testid="block-info"],
+#audio-output [data-testid="block-info"] {
+    color: #5162c8 !important;
+}
 """
 
 INSERT_TAG_JS = """
@@ -2935,32 +3367,19 @@ APP_JS = r"""
         }
 
         const matrixTargets = () => qsa(
-            ".hero-shell, .studio-card, .settings-row > .column > .gr-group, .tabs-shell .column > .gr-group, .tabs-shell, .mode-deck, #command-strip, .terminal-shell-bar, .terminal-command-deck"
+            ".hero-shell, .studio-card, .settings-row > .column > .gr-group, .tabs-shell .column > .gr-group, .tabs-shell, #command-strip, .terminal-shell-bar, .terminal-command-deck"
         );
         const rootContainer = qs(".gradio-container");
-        const matrixBackgrounds = {
-            ember: "linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),radial-gradient(circle at 82% 2%,rgba(255,78,14,.20),transparent 27%),radial-gradient(circle at 4% 48%,rgba(0,213,255,.07),transparent 25%),linear-gradient(135deg,#030303,#080706 52%,#050505)",
-            polar: "linear-gradient(rgba(0,223,245,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,223,245,.025) 1px,transparent 1px),radial-gradient(circle at 82% 2%,rgba(98,54,210,.22),transparent 29%),radial-gradient(circle at 3% 48%,rgba(0,223,245,.12),transparent 27%),linear-gradient(135deg,#020306,#060712 55%,#05030a)",
-            void: "linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),radial-gradient(circle at 86% 3%,rgba(255,31,76,.12),transparent 24%),linear-gradient(135deg,#020202,#080808 62%,#070203)",
-        };
-        const applyMode = (mode) => {
-            deckState.mode = mode;
+        const applyMode = () => {
+            deckState.mode = "light";
             matrixTargets().forEach((element) => {
                 element.classList.remove("mode-ember", "mode-polar", "mode-void");
-                element.classList.add(`mode-${mode}`);
             });
             if (rootContainer) {
-                rootContainer.style.setProperty(
-                    "background",
-                    matrixBackgrounds[mode],
-                    "important"
-                );
-                rootContainer.style.setProperty("background-size", "44px 44px,44px 44px,auto,auto,auto", "important");
+                rootContainer.style.setProperty("background", "#f5f7fa", "important");
             }
-            const matrixReadout = qs("#matrix-readout");
-            if (matrixReadout) matrixReadout.textContent = mode.toUpperCase();
         };
-        applyMode("ember");
+        applyMode();
 
         const readComponentValue = (id) => {
             const component = qs(`#${id}`);
@@ -3005,11 +3424,7 @@ APP_JS = r"""
             setTimeout(() => tone(660, 0.12, "sine", 0.021), 90);
         };
 
-        const palette = () => {
-            if (deckState.mode === "polar") return {signal: "#00e7ff", accent: "#9d75ff", dim: "rgba(0,223,245,.12)"};
-            if (deckState.mode === "void") return {signal: "#ff3158", accent: "#eeeeee", dim: "rgba(255,49,88,.12)"};
-            return {signal: "#00dff5", accent: "#ff6518", dim: "rgba(255,101,24,.12)"};
-        };
+        const palette = () => ({signal: "#3d7cce", accent: "#5162c8", dim: "rgba(81,98,200,.11)"});
 
         const animateCanvas = (canvasId, reactor = false) => {
             const canvas = qs(`#${canvasId}`);
@@ -3175,10 +3590,6 @@ APP_JS = r"""
 
         document.addEventListener("change", (event) => {
             const target = event.target;
-            if (target.closest && target.closest("#visual-mode") && target.value) {
-                applyMode(String(target.value).toLowerCase());
-                tone(180, 0.05, "square", 0.018);
-            }
             if (target.closest && ["model-choice", "language-choice", "format-choice"].some((id) => target.closest(`#${id}`))) {
                 updateCommandStrip();
                 const heroTitle = qs(".hero-shell h1");
@@ -3244,7 +3655,7 @@ APP_JS = r"""
             const raw = commandInput.value.trim();
             const command = raw.replace(/^\//, "");
             if (!command || command === "help") {
-                setCommandFeedback("COMMANDS // render · pause 1s · theme polar · tab batch · clear · status");
+                setCommandFeedback("COMMANDS // render · pause 1s · tab batch · clear · status");
                 return;
             }
             if (command === "render" || command === "synthesize") {
@@ -3282,12 +3693,8 @@ APP_JS = r"""
                 commandInput.value = "";
                 return;
             }
-            const themeMatch = command.match(/^theme\s+(ember|polar|void)$/i);
-            if (themeMatch) {
-                const mode = themeMatch[1].toLowerCase();
-                const input = qsa("#visual-mode input[type='radio']").find((item) => String(item.value).toLowerCase() === mode);
-                if (input) input.click();
-                setCommandFeedback(`MATRIX SWITCHED // ${mode.toUpperCase()}`);
+            if (command.startsWith("theme")) {
+                setCommandFeedback("ONE LIGHT WORKSPACE IS ACTIVE");
                 commandInput.value = "";
                 return;
             }
@@ -3972,28 +4379,6 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
         """,
         elem_classes=["terminal-shell-host"],
     )
-
-    with gr.Row(elem_classes=["mode-deck"]):
-        gr.HTML(
-            '<div class="matrix-label">Theme</div>',
-            elem_classes=["matrix-label-block"],
-        )
-        visual_mode = gr.Radio(
-            choices=["EMBER", "POLAR", "VOID"],
-            value="EMBER",
-            label="Visual matrix",
-            show_label=False,
-            container=False,
-            elem_id="visual-mode",
-            interactive=True,
-        )
-        interface_audio = gr.Checkbox(
-            value=False,
-            label="UI tones",
-            show_label=False,
-            container=False,
-            elem_id="interface-audio-toggle",
-        )
 
     gr.HTML(
         f"""
