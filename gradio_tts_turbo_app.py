@@ -3602,6 +3602,11 @@ body,
 
 .gradio-container {
     max-width: 1240px !important;
+    width: min(1240px, calc(100vw - 56px)) !important;
+    min-width: min(1240px, calc(100vw - 32px)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
     padding: 24px 28px 72px !important;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
