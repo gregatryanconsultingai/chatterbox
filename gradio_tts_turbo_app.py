@@ -30,7 +30,7 @@ ASSET_DIR = APP_DIR / "assets"
 OUTPUT_DIR = APP_DIR / "generated_audio"
 ASSET_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-FAVICON_PATH = ASSET_DIR / "cbx-49.png"
+FAVICON_PATH = ASSET_DIR / "speakwell.png"
 FFMPEG_EXE = shutil.which("ffmpeg")
 
 TURBO_EVENT_TAGS = [
@@ -53,19 +53,15 @@ MODEL_CACHE = {}
 def ensure_favicon():
     if FAVICON_PATH.exists():
         return
-    icon = Image.new("RGBA", (128, 128), "#050505")
+    icon = Image.new("RGBA", (128, 128), "#f7f8fa")
     draw = ImageDraw.Draw(icon)
-    draw.polygon(
-        [(4, 4), (101, 4), (124, 27), (124, 124), (4, 124)],
-        outline="#ff6518",
-        width=4,
-    )
-    draw.ellipse((30, 18, 98, 86), fill="#ff6518")
-    for stripe_y in range(31, 82, 11):
-        draw.rectangle((25, stripe_y, 103, stripe_y + 4), fill="#541203")
+    draw.rounded_rectangle((6, 6, 122, 122), radius=26, outline="#d9dfeb", width=4)
+    draw.ellipse((31, 18, 97, 84), fill="#5162c8")
+    for stripe_y in range(30, 80, 10):
+        draw.rectangle((26, stripe_y, 102, stripe_y + 3), fill="#eef1ff")
     draw.line(
         [(19, 102), (48, 102), (56, 94), (66, 110), (78, 87), (88, 102), (110, 102)],
-        fill="#00dff5",
+        fill="#3d7cce",
         width=3,
     )
     icon.save(FAVICON_PATH, "PNG", optimize=True)
@@ -572,7 +568,7 @@ body {
 }
 
 .hero-shell::after {
-    content: "SYNTHESAY  /  LOCAL SPEECH ARRAY  /  2049";
+    content: "SPEAKWELL  /  LOCAL VOICE STUDIO";
     position: absolute;
     right: 28px;
     bottom: 22px;
@@ -2315,7 +2311,7 @@ DECK_CSS = """
     border-color: rgba(255, 49, 88, 0.28) !important;
 }
 
-/* SYNTHESAY // DIEGETIC TERMINAL WORKSTATION */
+/* SPEAKWELL // FOCUSED LOCAL VOICE STUDIO */
 .mode-ember { --term-accent: #ff6518; --term-signal: #00dff5; --term-dim: rgba(255, 101, 24, 0.18); }
 .mode-polar { --term-accent: #00dff5; --term-signal: #a987ff; --term-dim: rgba(0, 223, 245, 0.18); }
 .mode-void { --term-accent: #ff3158; --term-signal: #e6e6e6; --term-dim: rgba(255, 49, 88, 0.18); }
@@ -3383,6 +3379,177 @@ DECK_CSS = """
         margin: 6px 0 0 !important;
     }
 }
+/* SPEAKWELL UX: a calm, content-first audio workspace. */
+.terminal-shell-bar {
+    min-height: 46px !important;
+    padding: 0 18px !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 10px !important;
+    letter-spacing: 0.04em !important;
+}
+
+.terminal-shell-bar strong {
+    font-size: 15px !important;
+    letter-spacing: -0.03em !important;
+}
+
+.terminal-lamps,
+.hero-meta,
+.hero-shell::after {
+    display: none !important;
+}
+
+.hero-shell {
+    min-height: 82px !important;
+    padding: 16px 18px !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.hero-shell::before {
+    display: none !important;
+}
+
+.hero-shell .eyebrow {
+    display: none;
+}
+
+.hero-shell h1 {
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: clamp(30px, 3vw, 40px) !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.055em !important;
+}
+
+.hero-subtitle {
+    color: #647084 !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 13px !important;
+}
+
+.settings-row {
+    margin-top: 2px !important;
+}
+
+.settings-row > .column > .gr-group {
+    padding: 14px 16px !important;
+}
+
+.section-title {
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 17px !important;
+    letter-spacing: -0.025em !important;
+    text-transform: none !important;
+}
+
+.section-eyebrow {
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.07em !important;
+}
+
+.section-copy {
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+}
+
+.tabs-shell {
+    margin-top: 12px !important;
+}
+
+.tabs-shell > .tab-nav button {
+    min-width: 128px !important;
+    padding: 12px 14px !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 650 !important;
+}
+
+.script-terminal-prompt {
+    display: none !important;
+}
+
+#main_textbox textarea {
+    min-height: 350px !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    background: #ffffff !important;
+}
+
+.tag-heading {
+    color: #647084 !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 12px !important;
+}
+
+#generate-btn,
+#queue-btn {
+    min-height: 50px !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+}
+
+#synthesis-reactor {
+    height: 126px !important;
+    border-radius: 10px !important;
+}
+
+.reactor-log,
+.reactor-state {
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 11px !important;
+}
+
+#command-strip {
+    display: none !important;
+}
+
+.voice-reference-panel {
+    max-width: 720px;
+    margin-top: 14px !important;
+    border: 1px solid #d9dfeb !important;
+    border-radius: 10px !important;
+    background: #ffffff !important;
+}
+
+.voice-reference-panel > .label-wrap {
+    padding: 14px 16px !important;
+    color: #202939 !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 650 !important;
+    background: #ffffff !important;
+}
+
+.voice-reference-panel .voiceprint-shell {
+    height: 72px !important;
+}
+
+@media (max-width: 900px) {
+    .terminal-shell-bar { min-height: 42px !important; }
+    .terminal-shell-session { display: none !important; }
+    .hero-shell { min-height: 78px !important; padding: 14px 16px !important; }
+    .hero-subtitle { font-size: 12px !important; }
+    #main_textbox textarea { min-height: 280px !important; }
+}
+
+#model-choice .wrap,
+#language-choice .wrap,
+#format-choice .wrap,
+#model-choice .secondary-wrap,
+#language-choice .secondary-wrap,
+#format-choice .secondary-wrap,
+#model-choice .wrap-inner,
+#language-choice .wrap-inner,
+#format-choice .wrap-inner {
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+}
 """
 
 INSERT_TAG_JS = """
@@ -4025,9 +4192,9 @@ def make_output_path(
     safe_stem = re.sub(
         r"[^A-Za-z0-9._-]+",
         "-",
-        output_stem or "synthesay",
+        output_stem or "speakwell",
     ).strip("._-")
-    safe_stem = (safe_stem or "synthesay")[:80]
+    safe_stem = (safe_stem or "speakwell")[:80]
     model_slug = "v3" if model_choice == MODEL_V3 else "turbo"
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     unique_id = uuid4().hex[:8]
@@ -4096,14 +4263,14 @@ def create_cover_art(
         mono_font = _cover_font(30)
         small_font = _cover_font(24)
 
-        draw.text((76, 710), "SYNTHE", font=title_font, fill="#f4ede4")
-        draw.text((76, 855), "SAY", font=say_font, fill="#f05b1b")
+        draw.text((76, 710), "SPEAK", font=title_font, fill="#f4ede4")
+        draw.text((76, 855), "WELL", font=say_font, fill="#5162c8")
 
         artifact_name = re.sub(r"\s+", " ", output_stem or "UNTITLED").strip()
         artifact_name = artifact_name[:42].upper() or "UNTITLED"
         model_label = "MULTILINGUAL V3" if model_choice == MODEL_V3 else "TURBO"
         artifact_id = output_path.stem[-17:].upper()
-        draw.text((80, 85), "SYNTHESAY // LOCAL SPEECH ARRAY", font=mono_font, fill="#ff8a42")
+        draw.text((80, 85), "SPEAKWELL // LOCAL VOICE STUDIO", font=mono_font, fill="#5162c8")
         draw.text((80, 1080), artifact_name, font=mono_font, fill="#ded8cf")
         draw.text(
             (80, 1121),
@@ -4302,7 +4469,7 @@ def generate(
                         "-id3v2_version",
                         "3",
                         "-metadata:s:v",
-                        "title=SYNTHESAY ARTIFACT COVER",
+                        "title=SPEAKWELL ARTIFACT COVER",
                         "-metadata:s:v",
                         "comment=Cover (front)",
                     ]
@@ -4312,7 +4479,7 @@ def generate(
                     "-metadata",
                     f"title={cover_title}",
                     "-metadata",
-                    "artist=SYNTHESAY // CBX-49",
+                    "artist=SPEAKWELL",
                     str(output_path),
                 ]
             )
@@ -4426,38 +4593,15 @@ def process_file_queue(
     return render_queue_cartridges(records, summary)
 
 
-with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
-    gr.HTML(
-        """
-        <div id="boot-sequence" aria-label="CBX system startup">
-            <div class="boot-frame">
-                <div class="boot-emblem">
-                    <svg viewBox="0 0 64 64" aria-hidden="true">
-                        <path d="M5 4h44l10 10v46H5z" fill="#050505" stroke="#ff671f"/>
-                        <circle cx="32" cy="27" r="14" fill="#ff5d14"/>
-                        <path d="M17 22h30M17 27h30M17 32h30" stroke="#541203" stroke-width="2"/>
-                        <path d="M11 48h14l4-4 5 7 6-10 5 7h8" fill="none" stroke="#00dff5"/>
-                    </svg>
-                    SYNTHESAY // CBX-49
-                </div>
-                <div class="boot-line"><span>LOCAL SYNTHESIS CORE</span><strong>ONLINE</strong></div>
-                <div class="boot-line"><span>CUDA COMPUTE LINK</span><strong>STABLE</strong></div>
-                <div class="boot-line"><span>IDENTITY ENCODER</span><strong>ARMED</strong></div>
-                <div class="boot-line"><span>ARTIFACT ARCHIVE</span><strong>MOUNTED</strong></div>
-                <div class="boot-line"><span>NETWORK EXPOSURE</span><strong>LOCAL ONLY</strong></div>
-                <div class="boot-progress" aria-hidden="true"></div>
-            </div>
-        </div>
-        """
-    )
+with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
 
     gr.HTML(
         """
-        <div class="terminal-shell-bar" aria-label="SyntheSay terminal session">
+        <div class="terminal-shell-bar" aria-label="Speakwell app header">
             <span class="terminal-lamps" aria-hidden="true"><i></i><i></i><i></i></span>
-            <strong>SYNTHESAY // LOCAL SPEECH</strong>
-            <span class="terminal-shell-session">YOUR PRIVATE VOICE STUDIO</span>
-            <span class="terminal-shell-online">● ONLINE</span>
+            <strong>SPEAKWELL</strong>
+            <span class="terminal-shell-session">LOCAL VOICE STUDIO</span>
+            <span class="terminal-shell-online">SAVED LOCALLY</span>
         </div>
         """,
         elem_classes=["terminal-shell-host"],
@@ -4467,30 +4611,21 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
         f"""
         <section class="hero-shell">
             <div class="hero-copy">
-                <div class="brand-mark">
-                    <svg viewBox="0 0 64 64" aria-hidden="true">
-                        <path d="M5 4h44l10 10v46H5z" fill="#050505" stroke="currentColor"/>
-                        <circle cx="32" cy="27" r="14" fill="currentColor" opacity=".78"/>
-                        <path d="M17 22h30M17 27h30M17 32h30" stroke="#401006" stroke-width="2"/>
-                        <path d="M11 48h14l4-4 5 7 6-10 5 7h8" fill="none" stroke="#00dff5"/>
-                    </svg>
-                    CBX // 49
-                </div>
-                <p class="eyebrow">Local text-to-speech · voice cloning</p>
-                <h1 aria-label="SyntheSay">Synthe<span>Say</span></h1>
+                <p class="eyebrow">Local text-to-speech</p>
+                <h1 aria-label="Speakwell">Speakwell</h1>
                 <p class="hero-subtitle">
-                    Turn words into a voice—right here on your machine.
+                    Write it. Generate it. Listen to it.
                 </p>
             </div>
             <div class="hero-visual" aria-hidden="true">
                 <div class="noir-sun"></div>
                 <div class="horizon-line"></div>
                 <div class="visual-code">
-                    TEXT → VOICE<br>
+                    TEXT → AUDIO<br>
                     PRIVATE · LOCAL
                 </div>
             </div>
-            <div class="hero-meta" aria-label="SyntheSay status">
+            <div class="hero-meta" aria-label="Speakwell status">
                 <span class="status-pill"><span class="status-dot"></span>READY</span>
                 <span class="status-pill">PRIVATE · LOCAL</span>
             </div>
@@ -4498,38 +4633,14 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
         """
     )
 
-    gr.HTML(
-        """
-        <details class="terminal-command-deck" aria-label="Optional terminal commands">
-            <summary>QUICK TIP <span>Write your script below, then press Ctrl+Enter to generate.</span></summary>
-            <div class="terminal-command-content">
-                <label for="terminal-command-input" class="terminal-command-prompt">
-                    <strong>operator@cbx49</strong><span>:~/synthe.say$</span>
-                </label>
-                <input
-                    id="terminal-command-input"
-                    type="text"
-                    autocomplete="off"
-                    spellcheck="false"
-                    placeholder="Optional: type /help for terminal commands"
-                    aria-label="Terminal command"
-                >
-                <button id="terminal-command-run" type="button">RUN</button>
-                <span id="terminal-command-feedback" role="status">COMMANDS ARE OPTIONAL</span>
-            </div>
-        </details>
-        """,
-        elem_classes=["terminal-command-host"],
-    )
-
     with gr.Row(elem_classes=["settings-row"]):
         with gr.Column(min_width=360):
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">01 / SETUP</p>
-                    <h2 class="section-title">Choose your settings</h2>
-                    <p class="section-copy">Pick the voice model, language, and file format.</p>
+                    <p class="section-eyebrow">AUDIO SETTINGS</p>
+                    <h2 class="section-title">Choose how to create your audio</h2>
+                    <p class="section-copy">V3 and MP3 are selected for the highest-quality default.</p>
                     """
                 )
                 with gr.Row():
@@ -4570,9 +4681,9 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">03 / SCRIPT</p>
-                            <h2 class="section-title">Write what you want to hear</h2>
-                            <p class="section-copy">Paste or type your text. Use pause markers only when you need them.</p>
+                            <p class="section-eyebrow">YOUR TEXT</p>
+                            <h2 class="section-title">What should Speakwell say?</h2>
+                            <p class="section-copy">Paste or type your text, then generate audio.</p>
                             """
                         )
                         gr.HTML(
@@ -4585,7 +4696,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                         )
                         text = gr.Textbox(
                             value=(
-                                "Welcome to SyntheSay. [pause 1s] "
+                                "Welcome to Speakwell. [pause 1s] "
                                 "Text in. Voice out."
                             ),
                             label="Script",
@@ -4628,7 +4739,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
 
                         with gr.Row(elem_classes=["action-row"]):
                             run_btn = gr.Button(
-                                "Generate audio  //  Ctrl+Enter",
+                                "Generate audio",
                                 variant="primary",
                                 elem_id="generate-btn",
                             )
@@ -4637,9 +4748,9 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card", "output-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">04 / RESULT</p>
-                            <h2 class="section-title">Your audio will appear here</h2>
-                            <p class="section-copy">Generate it, listen to it, then download it.</p>
+                            <p class="section-eyebrow">YOUR AUDIO</p>
+                            <h2 class="section-title">Listen and download</h2>
+                            <p class="section-copy">Your finished file will appear here.</p>
                             """
                         )
                         gr.HTML(
@@ -4655,7 +4766,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                                 <div class="reactor-core"><span id="reactor-percent">000</span></div>
                                 <div class="reactor-log">
                                     <span id="reactor-log-line">AWAITING TRANSMISSION</span>
-                                    <span>CBX/49</span>
+                                    <span>SPEAKWELL</span>
                                 </div>
                             </div>
                             <div class="pipeline-stages" aria-label="Synthesis pipeline">
@@ -4802,7 +4913,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                 gr.HTML(
                     """
                     <p class="section-eyebrow">VOICE SAMPLE / OPTIONAL</p>
-                    <h2 class="section-title">Change the voice when you need to</h2>
+                    <h2 class="section-title">Use a different voice</h2>
                     <p class="section-copy">Your current voice sample stays in place until you replace it.</p>
                     """
                 )
@@ -4834,7 +4945,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
     gr.HTML(
         f"""
         <div id="command-strip" aria-label="Persistent synthesis command status">
-            <span class="command-brand">CBX/49</span>
+            <span class="command-brand">SPEAKWELL</span>
             <span>CORE <strong class="command-status" id="cmd-status">STANDBY</strong></span>
             <span class="command-strip-divider"></span>
             <span>MODEL <strong id="cmd-model">V3</strong></span>

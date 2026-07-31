@@ -12,21 +12,20 @@
 
 **Chatterbox** is a family of state-of-the-art, open-source text-to-speech models by Resemble AI.
 
-## SYNTHESAY (included in this fork)
+## Speakwell (included in this fork)
 
-**SYNTHESAY** is a modern local text-to-speech and voice-cloning interface built
+**Speakwell** is a focused local text-to-speech and voice-cloning interface built
 on Resemble AI's Chatterbox models. It supports high-quality V3 and Turbo
 generation, MP3 export, full text-document processing, a
 multi-file queue, explicit pause markers, persistent outputs, voice-reference
-recording, embedded MP3 cover art, live synthesis telemetry, three switchable
-visual matrices, and a responsive cinematic control-deck UI.
+recording, and embedded MP3 cover art in a calm, content-first workspace.
 
 ```powershell
 python gradio_tts_turbo_app.py
 ```
 
 Open `http://127.0.0.1:7860` and see the complete
-[SYNTHESAY setup and usage guide](STUDIO.md).
+[Speakwell setup and usage guide](STUDIO.md).
 
 ## Latest Release: Chatterbox Multilingual V3
 

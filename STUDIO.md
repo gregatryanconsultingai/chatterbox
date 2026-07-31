@@ -1,6 +1,6 @@
-# SYNTHESAY
+# Speakwell
 
-SYNTHESAY is a polished local text-to-speech and voice-cloning interface for
+Speakwell is a polished local text-to-speech and voice-cloning interface for
 Resemble AI's open-source Chatterbox models. It keeps voice generation private
 on your own machine while making long-form and batch work feel approachable.
 
@@ -15,10 +15,9 @@ on your own machine while making long-form and batch work feel approachable.
 - Precise `[pause]`, `[pause 1.5s]`, and `[pause 500ms]` timing markers
 - Turbo sound and style tag shortcuts
 - Permanent, collision-safe output files in `generated_audio/`
-- A responsive cinematic control deck designed for desktop and smaller screens
-- Ember, Polar, and Void visual matrices
-- Animated boot diagnostics, voiceprint, synthesis reactor, and pipeline telemetry
-- Optional locally generated interface tones
+- A focused, light workspace built around writing text, generating audio, and downloading it
+- Compact audio settings with V3 and MP3 selected by default
+- An optional voice-sample section below the main creation workspace
 - Original per-render cover art, embedded directly into MP3 artifacts
 - Cartridge-style batch status with queued, processing, complete, and failed states
 
