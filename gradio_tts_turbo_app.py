@@ -1228,57 +1228,113 @@ DECK_CSS = """
 }
 
 .mode-deck {
-    align-items: stretch !important;
-    gap: 10px !important;
-    margin: 0 0 16px !important;
-    padding: 10px !important;
-    border: 1px solid rgba(255, 101, 27, 0.18) !important;
-    background: rgba(5, 5, 5, 0.84) !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    min-height: 42px;
+    margin: 0 0 10px !important;
+    padding: 6px 10px !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(255, 101, 27, 0.14) !important;
+    border-bottom: 1px solid rgba(255, 101, 27, 0.22) !important;
+    background: linear-gradient(90deg, rgba(255, 78, 10, 0.045), transparent 45%) !important;
 }
 
 .mode-deck > .block,
 .mode-deck > div {
     min-height: 0 !important;
+    padding: 0 !important;
     background: transparent !important;
 }
 
+.matrix-label-block {
+    flex: 0 0 auto !important;
+    width: auto !important;
+}
+
+.matrix-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #80766d;
+    font-family: Consolas, monospace;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.19em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.matrix-label::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ff661a;
+    box-shadow: 0 0 10px rgba(255, 102, 26, 0.72);
+}
+
+#visual-mode {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+}
+
 #visual-mode .wrap {
-    gap: 5px !important;
+    flex-wrap: nowrap !important;
+    gap: 2px !important;
+}
+
+#visual-mode input[type="radio"] {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
 }
 
 #visual-mode label {
-    flex: 1;
-    min-width: 100px;
-    padding: 9px 13px !important;
-    border: 1px solid rgba(255, 104, 29, 0.19) !important;
-    color: #746c64 !important;
-    background: #070707 !important;
+    flex: 0 0 auto;
+    min-width: 0;
+    padding: 6px 11px !important;
+    border: 0 !important;
+    border-bottom: 1px solid transparent !important;
+    color: #69625c !important;
+    background: transparent !important;
+    transition: color 160ms ease, border-color 160ms ease, background 160ms ease !important;
 }
 
 #visual-mode label:has(input:checked) {
-    border-color: #ff6a1a !important;
-    color: #f3e9df !important;
-    background: rgba(255, 82, 11, 0.13) !important;
-    box-shadow: inset 2px 0 #ff6a1a, 0 0 18px rgba(255, 75, 7, 0.08) !important;
+    border-bottom-color: #ff6a1a !important;
+    color: #f0e8e0 !important;
+    background: rgba(255, 82, 11, 0.055) !important;
+    box-shadow: none !important;
+}
+
+#visual-mode label:has(input:focus-visible) {
+    outline: 1px solid rgba(0, 220, 245, 0.65) !important;
+    outline-offset: 2px;
 }
 
 #interface-audio-toggle {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
     align-self: center;
-    padding: 8px 12px !important;
+    padding: 3px 0 3px 13px !important;
     border-left: 1px solid rgba(0, 220, 245, 0.20) !important;
 }
 
-.deck-readout {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 100%;
-    color: #5f7777;
-    font-family: Consolas, monospace;
-    font-size: 9px;
-    line-height: 1.7;
-    letter-spacing: 0.11em;
-    text-align: right;
+#interface-audio-toggle label {
+    color: #647576 !important;
+    font-size: 8px !important;
+    letter-spacing: 0.12em !important;
+    white-space: nowrap;
 }
 
 .voiceprint-shell {
@@ -1654,12 +1710,23 @@ DECK_CSS = """
     box-shadow: 0 0 32px rgba(0, 219, 245, 0.22) !important;
 }
 
-.mode-polar.tabs-shell > .tab-nav button.selected,
-.mode-polar #visual-mode label:has(input:checked) {
+.mode-polar.tabs-shell > .tab-nav button.selected {
     border-color: #00dff5 !important;
     color: #02090b !important;
     background: linear-gradient(90deg, #00bfd8, #83f1ff) !important;
     box-shadow: 0 0 22px rgba(0, 223, 245, 0.18) !important;
+}
+
+.mode-polar #visual-mode label:has(input:checked) {
+    border-bottom-color: #00dff5 !important;
+    color: #bdfaff !important;
+    background: rgba(0, 223, 245, 0.055) !important;
+    box-shadow: none !important;
+}
+
+.mode-polar .matrix-label::before {
+    background: #00dff5;
+    box-shadow: 0 0 10px rgba(0, 223, 245, 0.75);
 }
 
 .mode-polar#command-strip,
@@ -1707,12 +1774,23 @@ DECK_CSS = """
     box-shadow: 0 0 30px rgba(255, 33, 79, 0.20) !important;
 }
 
-.mode-void.tabs-shell > .tab-nav button.selected,
-.mode-void #visual-mode label:has(input:checked) {
+.mode-void.tabs-shell > .tab-nav button.selected {
     border-color: #ff3158 !important;
     color: #ffffff !important;
     background: linear-gradient(90deg, #8e0724, #ff3158) !important;
     box-shadow: 0 0 22px rgba(255, 49, 88, 0.18) !important;
+}
+
+.mode-void #visual-mode label:has(input:checked) {
+    border-bottom-color: #ff3158 !important;
+    color: #ffffff !important;
+    background: rgba(255, 49, 88, 0.055) !important;
+    box-shadow: none !important;
+}
+
+.mode-void .matrix-label::before {
+    background: #ff3158;
+    box-shadow: 0 0 10px rgba(255, 49, 88, 0.75);
 }
 
 .mode-void#command-strip,
@@ -1748,12 +1826,13 @@ DECK_CSS = """
 
 @media (max-width: 900px) {
     .mode-deck {
-        flex-direction: column !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 5px 8px !important;
     }
 
-    .deck-readout {
-        justify-content: flex-start;
-        text-align: left;
+    #interface-audio-toggle {
+        margin-left: auto !important;
     }
 
     #synthesis-reactor {
@@ -1786,6 +1865,20 @@ DECK_CSS = """
     #command-strip .command-hide-mobile,
     #command-strip .command-strip-divider {
         display: none;
+    }
+}
+
+@media (max-width: 520px) {
+    .matrix-label-block {
+        display: none !important;
+    }
+
+    #visual-mode label {
+        padding-inline: 8px !important;
+    }
+
+    #interface-audio-toggle {
+        padding-left: 8px !important;
     }
 }
 
@@ -2784,6 +2877,29 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
         </div>
         """
     )
+
+    with gr.Row(elem_classes=["mode-deck"]):
+        gr.HTML(
+            '<div class="matrix-label">Visual matrix</div>',
+            elem_classes=["matrix-label-block"],
+        )
+        visual_mode = gr.Radio(
+            choices=["EMBER", "POLAR", "VOID"],
+            value="EMBER",
+            label="Visual matrix",
+            show_label=False,
+            container=False,
+            elem_id="visual-mode",
+            interactive=True,
+        )
+        interface_audio = gr.Checkbox(
+            value=False,
+            label="UI tones",
+            show_label=False,
+            container=False,
+            elem_id="interface-audio-toggle",
+        )
+
     gr.HTML(
         f"""
         <section class="hero-shell">
@@ -2822,32 +2938,6 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
         </section>
         """
     )
-
-    with gr.Row(elem_classes=["mode-deck"]):
-        visual_mode = gr.Radio(
-            choices=["EMBER", "POLAR", "VOID"],
-            value="EMBER",
-            label="Visual matrix",
-            elem_id="visual-mode",
-            interactive=True,
-            scale=5,
-        )
-        interface_audio = gr.Checkbox(
-            value=False,
-            label="Interface audio / optional",
-            elem_id="interface-audio-toggle",
-            scale=2,
-        )
-        gr.HTML(
-            """
-            <div class="deck-readout">
-                MATRIX <span id="matrix-readout">EMBER</span><br>
-                BOOT REPLAY // TAP CBX EMBLEM<br>
-                ACOUSTIC FEEDBACK // USER CONTROLLED
-            </div>
-            """,
-            scale=3,
-        )
 
     with gr.Row(elem_classes=["settings-row"]):
         with gr.Column(scale=7, min_width=360):
