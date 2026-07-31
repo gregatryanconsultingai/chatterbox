@@ -12,6 +12,20 @@
 
 **Chatterbox** is a family of state-of-the-art, open-source text-to-speech models by Resemble AI.
 
+## Chatterbox Studio (included in this fork)
+
+This fork includes a modern local production interface for high-quality V3 and
+Turbo generation. It adds MP3 export, full text-document processing, a
+multi-file queue, explicit pause markers, persistent outputs, voice-reference
+recording, and a responsive dark studio UI.
+
+```powershell
+python gradio_tts_turbo_app.py
+```
+
+Open `http://127.0.0.1:7860` and see the complete
+[Chatterbox Studio setup and usage guide](STUDIO.md).
+
 ## Latest Release: Chatterbox Multilingual V3
 
 **Chatterbox Multilingual V3** is the latest general-purpose multilingual TTS model in the Chatterbox family. It keeps the same 0.5B model size while improving speaker similarity, reducing hallucinations, and producing more natural, conversational speech across languages.

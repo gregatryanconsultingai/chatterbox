@@ -26,6 +26,7 @@ sdist/
 var/
 wheels/
 *.egg-info/
+generated_audio/
 .installed.cfg
 *.egg
 MANIFEST
@@ -43,6 +44,11 @@ pip-delete-this-directory.txt
 syn_out/
 checkpoints/
 .gradio
+.venv/
+*.log
+sample_voices/
+sample-document.txt
+verify_gpu_*.py
 
 # Ignore generated sample .wav files
 **/*.wav
