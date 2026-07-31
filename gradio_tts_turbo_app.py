@@ -3553,15 +3553,29 @@ DECK_CSS = """
 
 /* Keep the batch uploader in the same light visual system as the workspace. */
 #batch-file-input {
+    --block-background-fill: #ffffff !important;
+    --table-odd-background-fill: #ffffff !important;
+    --body-text-color: #202939 !important;
+    --link-text-color: #315d98 !important;
     border-color: #d9dfeb !important;
     background: #ffffff !important;
     color: #202939 !important;
 }
 
-#batch-file-input :is(div, button, label, ul, li, span) {
+#batch-file-input * {
     background: #ffffff !important;
     color: #202939 !important;
     border-color: #e4e8f0 !important;
+    box-shadow: none !important;
+}
+
+#batch-file-input .file-preview,
+#batch-file-input .file-preview-holder,
+#batch-file-input .file-preview tbody,
+#batch-file-input .file-preview tbody tr,
+#batch-file-input .file-preview tbody tr:nth-child(odd),
+#batch-file-input .file-preview tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
 }
 
 #batch-file-input button:hover,
