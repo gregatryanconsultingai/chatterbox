@@ -3018,6 +3018,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         audio_output = gr.Audio(
                             label="Generated audio",
                             elem_id="audio-output",
+                            buttons=["download"],
                         )
                         cover_output = gr.Image(
                             label="Generated artifact cover",
