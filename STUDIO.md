@@ -1,8 +1,8 @@
-# Chatterbox Studio
+# SYNTHESAY
 
-Chatterbox Studio is a polished local production interface for Resemble AI's
-open-source Chatterbox models. It keeps voice generation private on your own
-machine while making long-form and batch work feel approachable.
+SYNTHESAY is a polished local text-to-speech and voice-cloning interface for
+Resemble AI's open-source Chatterbox models. It keeps voice generation private
+on your own machine while making long-form and batch work feel approachable.
 
 ## What it adds
 

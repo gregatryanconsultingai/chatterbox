@@ -12,10 +12,11 @@
 
 **Chatterbox** is a family of state-of-the-art, open-source text-to-speech models by Resemble AI.
 
-## Chatterbox Studio (included in this fork)
+## SYNTHESAY (included in this fork)
 
-This fork includes a modern local production interface for high-quality V3 and
-Turbo generation. It adds MP3 export, full text-document processing, a
+**SYNTHESAY** is a modern local text-to-speech and voice-cloning interface built
+on Resemble AI's Chatterbox models. It supports high-quality V3 and Turbo
+generation, MP3 export, full text-document processing, a
 multi-file queue, explicit pause markers, persistent outputs, voice-reference
 recording, embedded MP3 cover art, live synthesis telemetry, three switchable
 visual matrices, and a responsive cinematic control-deck UI.
@@ -25,7 +26,7 @@ python gradio_tts_turbo_app.py
 ```
 
 Open `http://127.0.0.1:7860` and see the complete
-[Chatterbox Studio setup and usage guide](STUDIO.md).
+[SYNTHESAY setup and usage guide](STUDIO.md).
 
 ## Latest Release: Chatterbox Multilingual V3
 

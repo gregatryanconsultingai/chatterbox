@@ -572,7 +572,7 @@ body {
 }
 
 .hero-shell::after {
-    content: "CHTRBX  /  LOCAL SYNTHESIS ARRAY  /  2049";
+    content: "SYNTHESAY  /  LOCAL SPEECH ARRAY  /  2049";
     position: absolute;
     right: 28px;
     bottom: 22px;
@@ -2452,9 +2452,9 @@ def make_output_path(
     safe_stem = re.sub(
         r"[^A-Za-z0-9._-]+",
         "-",
-        output_stem or "chatterbox",
+        output_stem or "synthesay",
     ).strip("._-")
-    safe_stem = (safe_stem or "chatterbox")[:80]
+    safe_stem = (safe_stem or "synthesay")[:80]
     model_slug = "v3" if model_choice == MODEL_V3 else "turbo"
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     unique_id = uuid4().hex[:8]
@@ -2519,18 +2519,18 @@ def create_cover_art(
         )
 
         title_font = _cover_font(168, bold=True)
-        machine_font = _cover_font(145, bold=True)
+        say_font = _cover_font(168, bold=True)
         mono_font = _cover_font(30)
         small_font = _cover_font(24)
 
-        draw.text((76, 710), "VOICE", font=title_font, fill="#f4ede4")
-        draw.text((76, 855), "MACHINE", font=machine_font, fill="#f05b1b")
+        draw.text((76, 710), "SYNTHE", font=title_font, fill="#f4ede4")
+        draw.text((76, 855), "SAY", font=say_font, fill="#f05b1b")
 
         artifact_name = re.sub(r"\s+", " ", output_stem or "UNTITLED").strip()
         artifact_name = artifact_name[:42].upper() or "UNTITLED"
         model_label = "MULTILINGUAL V3" if model_choice == MODEL_V3 else "TURBO"
         artifact_id = output_path.stem[-17:].upper()
-        draw.text((80, 85), "CBX // SYNTHETIC VOICE DIVISION", font=mono_font, fill="#ff8a42")
+        draw.text((80, 85), "SYNTHESAY // LOCAL SPEECH ARRAY", font=mono_font, fill="#ff8a42")
         draw.text((80, 1080), artifact_name, font=mono_font, fill="#ded8cf")
         draw.text(
             (80, 1121),
@@ -2729,7 +2729,7 @@ def generate(
                         "-id3v2_version",
                         "3",
                         "-metadata:s:v",
-                        "title=CBX ARTIFACT COVER",
+                        "title=SYNTHESAY ARTIFACT COVER",
                         "-metadata:s:v",
                         "comment=Cover (front)",
                     ]
@@ -2739,7 +2739,7 @@ def generate(
                     "-metadata",
                     f"title={cover_title}",
                     "-metadata",
-                    "artist=CBX Voice Machine",
+                    "artist=SYNTHESAY // CBX-49",
                     str(output_path),
                 ]
             )
@@ -2853,7 +2853,7 @@ def process_file_queue(
     return render_queue_cartridges(records, summary)
 
 
-with gr.Blocks(title="Chatterbox Studio") as demo:
+with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
     gr.HTML(
         """
         <div id="boot-sequence" aria-label="CBX system startup">
@@ -2865,7 +2865,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         <path d="M17 22h30M17 27h30M17 32h30" stroke="#541203" stroke-width="2"/>
                         <path d="M11 48h14l4-4 5 7 6-10 5 7h8" fill="none" stroke="#00dff5"/>
                     </svg>
-                    CBX // VOICE MACHINE
+                    SYNTHESAY // CBX-49
                 </div>
                 <div class="boot-line"><span>LOCAL SYNTHESIS CORE</span><strong>ONLINE</strong></div>
                 <div class="boot-line"><span>CUDA COMPUTE LINK</span><strong>STABLE</strong></div>
@@ -2913,23 +2913,23 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                     </svg>
                     CBX // 49
                 </div>
-                <p class="eyebrow">Synthetic voice division · offline array</p>
-                <h1>Voice<br><span>Machine</span></h1>
+                <p class="eyebrow">Local text-to-speech · voice cloning array</p>
+                <h1 aria-label="SyntheSay">Synthe<br><span>Say</span></h1>
                 <p class="hero-subtitle">
-                    Make the machine remember a voice. Encode identity, shape time,
-                    and render human-grade speech from the local synthesis core.
+                    Give it words. Give it a voice. Shape time and render
+                    human-grade speech from the local synthesis core.
                 </p>
             </div>
             <div class="hero-visual" aria-hidden="true">
                 <div class="noir-sun"></div>
                 <div class="horizon-line"></div>
                 <div class="visual-code">
-                    VOCODER // ACTIVE<br>
-                    LATENT CHANNEL // STABLE<br>
-                    SIGNAL CLASS // HUMAN
+                    TEXT CHANNEL // ARMED<br>
+                    VOICEPRINT // LOCKED<br>
+                    OUTPUT CLASS // HUMAN
                 </div>
             </div>
-            <div class="hero-meta" aria-label="Studio status">
+            <div class="hero-meta" aria-label="SyntheSay status">
                 <span class="status-pill"><span class="status-dot"></span>CORE ONLINE</span>
                 <span class="status-pill">COMPUTE // {DEVICE.upper()}</span>
                 <span class="status-pill">MODEL // V3</span>
@@ -2986,7 +2986,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                     """
                     <p class="section-eyebrow">SYS.02 / IDENTITY CAPTURE</p>
                     <h2 class="section-title">Encode a voice</h2>
-                    <p class="section-copy">Feed the machine a clean reference signal to map speaker identity.</p>
+                    <p class="section-copy">Feed the array a clean reference signal to map speaker identity.</p>
                     """
                 )
                 gr.HTML(
@@ -3028,8 +3028,8 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         )
                         text = gr.Textbox(
                             value=(
-                                "Welcome to Chatterbox Studio. [pause 1s] "
-                                "Create something remarkable."
+                                "Welcome to SyntheSay. [pause 1s] "
+                                "Text in. Voice out."
                             ),
                             label="Script",
                             placeholder="Type or paste your script…",
@@ -3081,7 +3081,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         gr.HTML(
                             """
                             <p class="section-eyebrow">SYS.04 / AUDIO ARTIFACT</p>
-                            <h2 class="section-title">Hear the machine</h2>
+                            <h2 class="section-title">Hear the signal</h2>
                             <p class="section-copy">Audit the generated artifact. Every render is archived locally.</p>
                             """
                         )
@@ -3220,7 +3220,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                             """
                             <p class="section-eyebrow">SYS.06 / ARRAY TELEMETRY</p>
                             <h2 class="section-title">Monitor the artifacts</h2>
-                            <p class="section-copy">Completed transmissions remain secured on this machine.</p>
+                            <p class="section-copy">Completed transmissions remain secured on this local system.</p>
                             """
                         )
                         queue_status = gr.HTML(
