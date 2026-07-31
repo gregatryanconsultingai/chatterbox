@@ -3929,6 +3929,74 @@ body,
     background: #fbfcfe !important;
 }
 
+#audio-output .label-wrap,
+#audio-output .label-wrap * {
+    color: #4c5696 !important;
+    background: #f0f2ff !important;
+    opacity: 1 !important;
+}
+
+#audio-output .label-wrap {
+    display: inline-flex !important;
+    width: fit-content !important;
+    padding: 5px 8px !important;
+    border-radius: 6px !important;
+}
+
+#audio-output button[aria-label*="Download"],
+#audio-output button[title*="Download"] {
+    border: 1px solid #d6ddf8 !important;
+    border-radius: 8px !important;
+    background: #f0f2ff !important;
+    color: #4c5696 !important;
+    box-shadow: none !important;
+}
+
+#audio-output button[aria-label*="Download"] *,
+#audio-output button[title*="Download"] * {
+    color: #4c5696 !important;
+    stroke: currentColor !important;
+}
+
+/* Gradio's player toolbar ships with a dark utility treatment; keep both
+   playback surfaces in the same quiet, light control system. */
+#audio-output button,
+#reference-audio button {
+    background: #ffffff !important;
+    color: #687386 !important;
+    border-color: #dce2ed !important;
+    box-shadow: none !important;
+}
+
+#audio-output button *,
+#reference-audio button * {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
+
+#reference-audio .label-wrap,
+#reference-audio .label-wrap * {
+    background: #f0f2ff !important;
+    color: #4c5696 !important;
+    opacity: 1 !important;
+}
+
+#reference-audio .label-wrap {
+    display: inline-flex !important;
+    width: fit-content !important;
+    padding: 5px 8px !important;
+    border-radius: 6px !important;
+}
+
+#reference-audio button[aria-label*="Download"],
+#reference-audio button[aria-label*="Share"],
+#reference-audio button[aria-label*="Clear"] {
+    border: 1px solid #d6ddf8 !important;
+    border-radius: 8px !important;
+    background: #f0f2ff !important;
+    color: #4c5696 !important;
+}
+
 .output-note {
     margin-top: auto !important;
     padding: 13px 0 0 !important;
@@ -4807,8 +4875,6 @@ def generate(
         for kind, _ in processed_segments
     )
     speech_index = 0
-    cover_path = None
-
     try:
         with sf.SoundFile(
             str(working_path),
@@ -4867,18 +4933,12 @@ def generate(
                 ):
                     combined_audio.write(chunk_pause)
 
-        progress(0.985, desc="Rendering artifact cover")
         cover_title = output_stem
         if not cover_title:
             title_text = PAUSE_TAG_PATTERN.sub(" ", text)
             for tag in TURBO_TAGS:
                 title_text = title_text.replace(tag, " ")
             cover_title = " ".join(title_text.split()[:7]) or "UNTITLED"
-        cover_path = create_cover_art(
-            output_path,
-            model_choice,
-            cover_title,
-        )
 
         if output_format == FORMAT_MP3:
             if not FFMPEG_EXE:
@@ -4895,17 +4955,6 @@ def generate(
                 "-i",
                 str(working_path),
             ]
-            if cover_path:
-                ffmpeg_command.extend(
-                    [
-                        "-i",
-                        str(cover_path),
-                        "-map",
-                        "0:a",
-                        "-map",
-                        "1:v",
-                    ]
-                )
             ffmpeg_command.extend(
                 [
                     "-codec:a",
@@ -4914,21 +4963,6 @@ def generate(
                     "160k",
                 ]
             )
-            if cover_path:
-                ffmpeg_command.extend(
-                    [
-                        "-codec:v",
-                        "png",
-                        "-disposition:v",
-                        "attached_pic",
-                        "-id3v2_version",
-                        "3",
-                        "-metadata:s:v",
-                        "title=SPEAKWELL ARTIFACT COVER",
-                        "-metadata:s:v",
-                        "comment=Cover (front)",
-                    ]
-                )
             ffmpeg_command.extend(
                 [
                     "-metadata",
@@ -4949,18 +4983,10 @@ def generate(
     except Exception:
         working_path.unlink(missing_ok=True)
         output_path.unlink(missing_ok=True)
-        if cover_path:
-            cover_path.unlink(missing_ok=True)
         raise
 
     progress(1, desc="Finished")
-    return (
-        str(output_path),
-        gr.update(
-            value=str(cover_path) if cover_path else None,
-            visible=bool(cover_path),
-        ),
-    )
+    return str(output_path)
 
 
 def process_file_queue(
@@ -5238,12 +5264,6 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
                             elem_id="audio-output",
                             buttons=["download"],
                         )
-                        cover_output = gr.Image(
-                            label="Generated artifact cover",
-                            visible=False,
-                            interactive=False,
-                            elem_classes=["cover-art"],
-                        )
                         gr.Markdown(
                             f"**Saved automatically**  \n`{OUTPUT_DIR}`",
                             elem_classes=["output-note"],
@@ -5438,7 +5458,7 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
             cfg_weight,
             output_format,
         ],
-        outputs=[audio_output, cover_output],
+        outputs=audio_output,
     )
 
     queue_btn.click(
