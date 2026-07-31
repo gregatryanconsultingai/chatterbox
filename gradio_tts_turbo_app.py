@@ -1079,6 +1079,219 @@ select,
         animation: none !important;
     }
 }
+
+/* CLARITY PASS: preserve the terminal mood, prioritize the creative workflow. */
+.terminal-shell-bar {
+    min-height: 30px;
+    padding: 5px 10px;
+}
+
+.terminal-shell-session {
+    letter-spacing: 0.08em;
+}
+
+.mode-deck {
+    min-height: 34px;
+    padding: 2px 10px !important;
+}
+
+.hero-shell {
+    min-height: 218px;
+    padding: 26px 30px 42px;
+}
+
+.brand-mark {
+    display: none;
+}
+
+.hero-copy {
+    width: 62%;
+}
+
+.hero-shell .eyebrow {
+    margin-bottom: 5px;
+}
+
+.hero-shell h1 {
+    font-size: clamp(44px, 5.2vw, 70px);
+    line-height: 0.86;
+}
+
+.hero-subtitle {
+    max-width: 390px;
+    margin-top: 10px;
+    font-size: 9px;
+}
+
+.hero-visual {
+    width: min(28vw, 320px);
+}
+
+.noir-sun {
+    width: 150px;
+    height: 150px;
+}
+
+.visual-code {
+    opacity: 0.58;
+}
+
+.hero-meta {
+    left: 30px;
+    right: 30px;
+    bottom: 8px;
+}
+
+.status-pill:nth-of-type(n + 3) {
+    display: none;
+}
+
+.terminal-command-deck {
+    display: block;
+    min-height: 0;
+    margin: 0 0 10px;
+}
+
+.terminal-command-deck summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 32px;
+    padding: 0 12px;
+    color: var(--term-accent);
+    cursor: pointer;
+    font: 800 8px/1 "Cascadia Mono", Consolas, monospace;
+    letter-spacing: 0.13em;
+    list-style: none;
+}
+
+.terminal-command-deck summary::-webkit-details-marker {
+    display: none;
+}
+
+.terminal-command-deck summary::before {
+    content: "+";
+    color: var(--term-signal);
+    font-size: 12px;
+}
+
+.terminal-command-deck[open] summary::before {
+    content: "−";
+}
+
+.terminal-command-deck summary span {
+    color: #6d6863;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+}
+
+.terminal-command-content {
+    display: grid;
+    grid-template-columns: auto minmax(180px, 1fr) auto auto;
+    border-top: 1px solid var(--term-dim);
+}
+
+.terminal-command-prompt {
+    min-height: 40px;
+}
+
+.settings-row > .column > .gr-group,
+.tabs-shell .column > .gr-group {
+    padding: 14px !important;
+    gap: 8px !important;
+}
+
+.settings-row > .column > .gr-group > .styler:first-child,
+.tabs-shell .column > .gr-group > .styler:first-child {
+    width: calc(100% + 28px) !important;
+    margin: -14px -14px 2px !important;
+}
+
+.section-copy {
+    font-size: 9px !important;
+}
+
+.script-terminal-prompt {
+    min-height: 26px;
+    color: #706963;
+}
+
+#main_textbox textarea {
+    min-height: 245px !important;
+    padding: 14px 16px 14px 26px !important;
+    line-height: 1.65 !important;
+}
+
+.tag-heading {
+    margin-top: 8px !important;
+}
+
+#synthesis-reactor {
+    height: 142px;
+}
+
+.terminal-process-log,
+.pipeline-stages {
+    display: none !important;
+}
+
+.reactor-core {
+    left: 50% !important;
+    width: 70px;
+    height: 70px;
+    font-size: 16px;
+}
+
+.reactor-core::before { inset: -14px; }
+.reactor-core::after { inset: -28px; }
+
+.output-note {
+    margin-top: 2px !important;
+}
+
+#command-strip {
+    min-height: 28px;
+    padding-block: 3px;
+}
+
+#command-strip > span:nth-of-type(3),
+#command-strip > span:nth-of-type(5),
+#command-strip > span:nth-of-type(7),
+#command-strip > span:nth-of-type(8),
+#command-strip > span:nth-of-type(9) {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .hero-shell {
+        min-height: 270px;
+        padding: 24px 20px 48px;
+    }
+
+    .terminal-command-content {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .terminal-command-content .terminal-command-prompt {
+        display: none;
+    }
+
+    #terminal-command-feedback {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 520px) {
+    .hero-shell {
+        min-height: 255px;
+    }
+
+    .terminal-command-deck summary span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
 """
 
 # Gradio scopes launch CSS to the content canvas. This small global rule keeps
@@ -2830,7 +3043,7 @@ APP_JS = r"""
                     context.beginPath(); context.moveTo(0, y); context.lineTo(width, y); context.stroke();
                 }
                 if (reactor) {
-                    const cx = width * 0.73;
+                    const cx = width * 0.5;
                     const cy = height / 2;
                     for (let ring = 0; ring < 4; ring += 1) {
                         const radius = 33 + ring * 25 + Math.sin(phase * 0.7 + ring) * 4 * energy;
@@ -3081,9 +3294,9 @@ APP_JS = r"""
             const tabMatch = command.match(/^tab\s+(synth|synthesize|batch)$/i);
             if (tabMatch) {
                 const wantsBatch = tabMatch[1].toLowerCase() === "batch";
-                const tab = qsa("[role='tab']").find((item) => item.textContent.includes(wantsBatch ? "BATCH" : "SYNTHESIZE"));
+                const tab = qsa("[role='tab']").find((item) => item.textContent.includes(wantsBatch ? "BATCH" : "CREATE"));
                 if (tab) tab.click();
-                setCommandFeedback(`VIEW SWITCHED // ${wantsBatch ? "BATCH ARRAY" : "SYNTHESIZE"}`);
+                setCommandFeedback(`VIEW SWITCHED // ${wantsBatch ? "BATCH FILES" : "CREATE AUDIO"}`);
                 commandInput.value = "";
                 return;
             }
@@ -3752,9 +3965,8 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
         """
         <div class="terminal-shell-bar" aria-label="SyntheSay terminal session">
             <span class="terminal-lamps" aria-hidden="true"><i></i><i></i><i></i></span>
-            <strong>SYNTHESAY</strong>
-            <span>TTY://CBX-49</span>
-            <span class="terminal-shell-session">SESSION 01&nbsp;&nbsp; LOCALHOST&nbsp;&nbsp; SECURE CHANNEL</span>
+            <strong>SYNTHESAY // LOCAL SPEECH</strong>
+            <span class="terminal-shell-session">YOUR PRIVATE VOICE STUDIO</span>
             <span class="terminal-shell-online">● ONLINE</span>
         </div>
         """,
@@ -3763,7 +3975,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
 
     with gr.Row(elem_classes=["mode-deck"]):
         gr.HTML(
-            '<div class="matrix-label">Visual matrix</div>',
+            '<div class="matrix-label">Theme</div>',
             elem_classes=["matrix-label-block"],
         )
         visual_mode = gr.Radio(
@@ -3796,27 +4008,23 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     </svg>
                     CBX // 49
                 </div>
-                <p class="eyebrow">Local text-to-speech · voice cloning array</p>
+                <p class="eyebrow">Local text-to-speech · voice cloning</p>
                 <h1 aria-label="SyntheSay">Synthe<br><span>Say</span></h1>
                 <p class="hero-subtitle">
-                    Give it words. Give it a voice. Shape time and render
-                    human-grade speech from the local synthesis core.
+                    Turn words into a voice—right here on your machine.
                 </p>
             </div>
             <div class="hero-visual" aria-hidden="true">
                 <div class="noir-sun"></div>
                 <div class="horizon-line"></div>
                 <div class="visual-code">
-                    TEXT CHANNEL // ARMED<br>
-                    VOICEPRINT // LOCKED<br>
-                    OUTPUT CLASS // HUMAN
+                    TEXT → VOICE<br>
+                    PRIVATE · LOCAL
                 </div>
             </div>
             <div class="hero-meta" aria-label="SyntheSay status">
-                <span class="status-pill"><span class="status-dot"></span>CORE ONLINE</span>
-                <span class="status-pill">COMPUTE // {DEVICE.upper()}</span>
-                <span class="status-pill">MODEL // V3</span>
-                <span class="status-pill">NETWORK // LOCAL</span>
+                <span class="status-pill"><span class="status-dot"></span>READY</span>
+                <span class="status-pill">PRIVATE · LOCAL</span>
             </div>
         </section>
         """
@@ -3824,21 +4032,24 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
 
     gr.HTML(
         """
-        <div class="terminal-command-deck" aria-label="Terminal command palette">
-            <label for="terminal-command-input" class="terminal-command-prompt">
-                <strong>operator@cbx49</strong><span>:~/synthe.say$</span>
-            </label>
-            <input
-                id="terminal-command-input"
-                type="text"
-                autocomplete="off"
-                spellcheck="false"
-                placeholder="type /help or press Ctrl+Enter to synthesize"
-                aria-label="Terminal command"
-            >
-            <button id="terminal-command-run" type="button">EXEC</button>
-            <span id="terminal-command-feedback" role="status">READY // OPTIONAL COMMAND INPUT</span>
-        </div>
+        <details class="terminal-command-deck" aria-label="Optional terminal commands">
+            <summary>QUICK TIP <span>Write your script below, then press Ctrl+Enter to generate.</span></summary>
+            <div class="terminal-command-content">
+                <label for="terminal-command-input" class="terminal-command-prompt">
+                    <strong>operator@cbx49</strong><span>:~/synthe.say$</span>
+                </label>
+                <input
+                    id="terminal-command-input"
+                    type="text"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="Optional: type /help for terminal commands"
+                    aria-label="Terminal command"
+                >
+                <button id="terminal-command-run" type="button">RUN</button>
+                <span id="terminal-command-feedback" role="status">COMMANDS ARE OPTIONAL</span>
+            </div>
+        </details>
         """,
         elem_classes=["terminal-command-host"],
     )
@@ -3848,9 +4059,9 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">TTY.01 / CONFIG://SYNTH_CORE</p>
-                    <h2 class="section-title">Configure synthesis runtime</h2>
-                    <p class="section-copy">Select the neural array, language matrix, and artifact format.</p>
+                    <p class="section-eyebrow">01 / SETUP</p>
+                    <h2 class="section-title">Choose your settings</h2>
+                    <p class="section-copy">Pick the voice model, language, and file format.</p>
                     """
                 )
                 with gr.Row():
@@ -3888,9 +4099,9 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">TTY.02 / SOURCE://VOICEPRINT</p>
-                    <h2 class="section-title">Mount voice reference</h2>
-                    <p class="section-copy">Feed the array a clean reference signal to map speaker identity.</p>
+                    <p class="section-eyebrow">02 / VOICE</p>
+                    <h2 class="section-title">Add a voice sample</h2>
+                    <p class="section-copy">Upload or record a clear 8–20 second sample.</p>
                     """
                 )
                 gr.HTML(
@@ -3919,22 +4130,22 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                 )
 
     with gr.Tabs(elem_classes=["tabs-shell"]):
-        with gr.Tab("01 / SYNTHESIZE"):
+        with gr.Tab("CREATE AUDIO"):
             with gr.Row():
                 with gr.Column(scale=7, min_width=380):
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">TTY.03 / SCRIPT://BUFFER</p>
-                            <h2 class="section-title">Compose transmission</h2>
-                            <p class="section-copy">Compose the transmission, fracture time, then initiate synthesis.</p>
+                            <p class="section-eyebrow">03 / SCRIPT</p>
+                            <h2 class="section-title">Write what you want to hear</h2>
+                            <p class="section-copy">Paste or type your text. Use pause markers only when you need them.</p>
                             """
                         )
                         gr.HTML(
                             """
                             <div class="script-terminal-prompt">
-                                <strong>operator@cbx49</strong><span>:~/script$</span>
-                                compose --interactive <i aria-hidden="true"></i>
+                                <strong>script</strong><span>:</span>
+                                ready for your words <i aria-hidden="true"></i>
                             </div>
                             """
                         )
@@ -3950,7 +4161,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                         )
 
                         gr.Markdown(
-                            "**Temporal markers** / insert at cursor",
+                            "**Optional pauses** / insert at cursor",
                             elem_classes=["tag-heading"],
                         )
                         with gr.Row(elem_classes=["tag-container"]):
@@ -3983,7 +4194,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
 
                         with gr.Row(elem_classes=["action-row"]):
                             run_btn = gr.Button(
-                                "Execute synthesis  //  Ctrl+Enter",
+                                "Generate audio  //  Ctrl+Enter",
                                 variant="primary",
                                 elem_id="generate-btn",
                             )
@@ -3992,9 +4203,9 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card", "output-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">TTY.04 / OUTPUT://MONITOR</p>
-                            <h2 class="section-title">Tail synthesis process</h2>
-                            <p class="section-copy">Audit the generated artifact. Every render is archived locally.</p>
+                            <p class="section-eyebrow">04 / RESULT</p>
+                            <h2 class="section-title">Your audio will appear here</h2>
+                            <p class="section-copy">Generate it, listen to it, then download it.</p>
                             """
                         )
                         gr.HTML(
@@ -4101,16 +4312,16 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                                 label="Turbo loudness normalization (-27 LUFS)",
                             )
 
-        with gr.Tab("02 / BATCH ARRAY"):
+        with gr.Tab("BATCH FILES"):
             with gr.Row():
                 with gr.Column(scale=7, min_width=380):
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
                             <div class="queue-icon" aria-hidden="true">&gt;_</div>
-                            <p class="section-eyebrow">TTY.05 / PROC://BATCH_QUEUE</p>
-                            <h2 class="section-title">Spawn queued artifacts</h2>
-                            <p class="section-copy">Load multiple text artifacts. The array will synthesize them in sequence.</p>
+                            <p class="section-eyebrow">BATCH / FILES</p>
+                            <h2 class="section-title">Generate from text files</h2>
+                            <p class="section-copy">Add several .txt files and process them one at a time.</p>
                             """
                         )
                         txt_files = gr.File(
@@ -4126,7 +4337,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                         )
                         with gr.Row(elem_classes=["action-row"]):
                             queue_btn = gr.Button(
-                                "Execute batch process  //",
+                                "Generate batch audio",
                                 variant="primary",
                                 elem_id="queue-btn",
                             )
@@ -4135,9 +4346,9 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">TTY.06 / PROC://ARTIFACT_TABLE</p>
-                            <h2 class="section-title">Watch artifact processes</h2>
-                            <p class="section-copy">Completed transmissions remain secured on this local system.</p>
+                            <p class="section-eyebrow">BATCH / STATUS</p>
+                            <h2 class="section-title">Your batch progress</h2>
+                            <p class="section-copy">Completed audio stays saved on this computer.</p>
                             """
                         )
                         queue_status = gr.HTML(
