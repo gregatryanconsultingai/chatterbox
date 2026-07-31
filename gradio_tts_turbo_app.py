@@ -3582,6 +3582,429 @@ DECK_CSS = """
 #batch-file-input button:focus-visible {
     background: #f5f7fb !important;
 }
+
+/* SPEAKWELL 2.0 — quiet, editorial, and deliberately easy to use. */
+:root {
+    --sw-ink: #172033;
+    --sw-muted: #667085;
+    --sw-line: #e4e8f0;
+    --sw-soft: #f7f8fb;
+    --sw-accent: #5a67f2;
+    --sw-accent-deep: #414dd8;
+}
+
+html,
+body,
+.gradio-container {
+    background: #f7f8fb !important;
+    color: var(--sw-ink) !important;
+}
+
+.gradio-container {
+    max-width: 1240px !important;
+    padding: 24px 28px 72px !important;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+.terminal-shell-host {
+    margin-bottom: 46px !important;
+}
+
+.terminal-shell-bar {
+    min-height: 50px !important;
+    padding: 0 2px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--sw-line) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.terminal-shell-bar strong {
+    color: var(--sw-ink) !important;
+    font-size: 17px !important;
+    font-weight: 780 !important;
+    letter-spacing: -0.045em !important;
+}
+
+.terminal-shell-session,
+.terminal-shell-online {
+    color: var(--sw-muted) !important;
+    font-size: 12px !important;
+    font-weight: 550 !important;
+    letter-spacing: 0 !important;
+}
+
+.terminal-shell-online {
+    color: #2e9a68 !important;
+    font-size: 11px !important;
+}
+
+.hero-shell {
+    min-height: 0 !important;
+    margin: 0 0 34px !important;
+    padding: 0 !important;
+}
+
+.hero-shell .eyebrow {
+    display: block !important;
+    margin: 0 0 10px !important;
+    color: var(--sw-accent) !important;
+    font-size: 11px !important;
+    font-weight: 780 !important;
+    letter-spacing: .11em !important;
+}
+
+.hero-shell h1 {
+    max-width: 690px !important;
+    margin: 0 !important;
+    color: var(--sw-ink) !important;
+    font-size: clamp(39px, 5vw, 62px) !important;
+    font-weight: 780 !important;
+    line-height: .98 !important;
+    letter-spacing: -.065em !important;
+}
+
+.hero-subtitle {
+    max-width: 570px !important;
+    margin: 16px 0 0 !important;
+    color: var(--sw-muted) !important;
+    font-size: 16px !important;
+    line-height: 1.55 !important;
+}
+
+.hero-visual,
+.hero-meta,
+.terminal-lamps,
+.queue-icon,
+#synthesis-reactor,
+.pipeline-stages,
+.voiceprint-shell,
+#command-strip {
+    display: none !important;
+}
+
+.settings-row {
+    margin: 0 0 28px !important;
+}
+
+.settings-row > .column,
+.voice-reference-row > .column {
+    min-width: 0 !important;
+}
+
+.studio-card,
+.settings-row > .column > .gr-group,
+.tabs-shell .gr-group,
+.voice-reference-card {
+    border: 1px solid var(--sw-line) !important;
+    border-radius: 18px !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 16px rgba(27, 39, 64, .035) !important;
+}
+
+.settings-row > .column > .gr-group {
+    padding: 22px !important;
+}
+
+.studio-card {
+    padding: 26px !important;
+}
+
+.studio-card::before,
+.studio-card::after,
+.settings-row > .column > .gr-group::before,
+.settings-row > .column > .gr-group::after {
+    display: none !important;
+    content: none !important;
+}
+
+.section-eyebrow {
+    margin: 0 0 8px !important;
+    color: var(--sw-accent) !important;
+    font-size: 11px !important;
+    font-weight: 760 !important;
+    letter-spacing: .08em !important;
+}
+
+.section-title {
+    margin: 0 !important;
+    color: var(--sw-ink) !important;
+    font-size: 22px !important;
+    font-weight: 720 !important;
+    letter-spacing: -.045em !important;
+}
+
+.section-copy {
+    margin: 8px 0 22px !important;
+    color: var(--sw-muted) !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+}
+
+.settings-row .gr-row {
+    gap: 12px !important;
+}
+
+.settings-row label,
+.settings-row .label-wrap {
+    color: #4a5568 !important;
+    font-size: 12px !important;
+    font-weight: 650 !important;
+    opacity: 1 !important;
+}
+
+#model-choice label,
+#language-choice label,
+#format-choice label,
+#model-choice .label-wrap *,
+#language-choice .label-wrap *,
+#format-choice .label-wrap * {
+    color: #4a5568 !important;
+    opacity: 1 !important;
+}
+
+#model-choice .wrap,
+#language-choice .wrap,
+#format-choice .wrap,
+#model-choice .wrap-inner,
+#language-choice .wrap-inner,
+#format-choice .wrap-inner {
+    min-height: 46px !important;
+    border: 1px solid #dce2ed !important;
+    border-radius: 10px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.model-status {
+    margin-top: 14px !important;
+    padding: 10px 12px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: #f0f2ff !important;
+    color: #4c5696 !important;
+    font-size: 12px !important;
+}
+
+.model-status,
+.model-status * {
+    color: #4c5696 !important;
+    opacity: 1 !important;
+}
+
+.tabs-shell {
+    margin: 0 !important;
+}
+
+.tabs-shell > .tab-nav {
+    display: inline-flex !important;
+    width: auto !important;
+    margin: 0 0 16px !important;
+    padding: 4px !important;
+    border: 1px solid var(--sw-line) !important;
+    border-radius: 11px !important;
+    background: #ffffff !important;
+}
+
+.tabs-shell > .tab-nav button {
+    min-width: 110px !important;
+    padding: 9px 13px !important;
+    border: 0 !important;
+    border-radius: 7px !important;
+    color: var(--sw-muted) !important;
+    background: transparent !important;
+    font-size: 12px !important;
+    font-weight: 680 !important;
+}
+
+.tabs-shell > .tab-nav button.selected {
+    color: #ffffff !important;
+    background: var(--sw-ink) !important;
+}
+
+.tabs-shell [role="tab"][aria-selected="true"] {
+    color: #ffffff !important;
+    background: var(--sw-ink) !important;
+    box-shadow: none !important;
+}
+
+.tabs-shell [role="tab"][aria-selected="false"] {
+    color: var(--sw-muted) !important;
+    background: transparent !important;
+}
+
+.tabs-shell > .tabitem {
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.tabs-shell > .tabitem > .gr-row {
+    gap: 18px !important;
+    align-items: stretch !important;
+}
+
+#main_textbox textarea {
+    min-height: 370px !important;
+    padding: 16px !important;
+    border: 1px solid #dce2ed !important;
+    border-radius: 12px !important;
+    background: #fbfcfe !important;
+    color: var(--sw-ink) !important;
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+    box-shadow: none !important;
+}
+
+#main_textbox textarea:focus {
+    border-color: #aab2ff !important;
+    box-shadow: 0 0 0 3px rgba(90, 103, 242, .12) !important;
+}
+
+.tag-heading {
+    margin: 16px 0 9px !important;
+    color: var(--sw-muted) !important;
+    font-size: 12px !important;
+}
+
+.tag-container {
+    gap: 8px !important;
+}
+
+.tag-btn {
+    min-width: 0 !important;
+    padding: 7px 10px !important;
+    border: 1px solid #dce2ed !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    color: #536075 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+}
+
+.tag-btn:hover {
+    border-color: #aab2ff !important;
+    background: #f0f2ff !important;
+    color: var(--sw-accent-deep) !important;
+}
+
+.action-row {
+    margin-top: 20px !important;
+}
+
+#generate-btn,
+#queue-btn {
+    min-height: 52px !important;
+    border: 0 !important;
+    border-radius: 11px !important;
+    background: var(--sw-accent) !important;
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 720 !important;
+    box-shadow: 0 8px 18px rgba(90, 103, 242, .2) !important;
+}
+
+#generate-btn:hover,
+#queue-btn:hover {
+    background: var(--sw-accent-deep) !important;
+    transform: translateY(-1px);
+}
+
+.output-card {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100% !important;
+}
+
+.output-card .section-copy {
+    margin-bottom: 18px !important;
+}
+
+#audio-output {
+    margin: 0 !important;
+    padding: 14px !important;
+    border: 1px dashed #d8deeb !important;
+    border-radius: 12px !important;
+    background: #fbfcfe !important;
+}
+
+.output-note {
+    margin-top: auto !important;
+    padding: 13px 0 0 !important;
+    border: 0 !important;
+    color: var(--sw-muted) !important;
+    font-size: 12px !important;
+}
+
+.advanced-card {
+    margin-top: 16px !important;
+    border: 1px solid var(--sw-line) !important;
+    border-radius: 10px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.advanced-card > .label-wrap {
+    color: #4a5568 !important;
+    font-size: 13px !important;
+    font-weight: 650 !important;
+}
+
+.voice-reference-row {
+    max-width: 780px !important;
+    margin-top: 32px !important;
+}
+
+.voice-reference-card {
+    padding: 24px !important;
+}
+
+#reference-audio {
+    margin-top: 4px !important;
+    border: 1px solid #dce2ed !important;
+    border-radius: 12px !important;
+    background: #fbfcfe !important;
+}
+
+.voice-tip {
+    margin-top: 12px !important;
+    padding: 11px 12px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: #f7f8fb !important;
+    color: var(--sw-muted) !important;
+    font-size: 12px !important;
+}
+
+#batch-file-input {
+    min-height: 158px !important;
+    padding: 8px !important;
+    border: 1px dashed #cbd3e2 !important;
+    border-radius: 12px !important;
+}
+
+.array-standby,
+.data-cartridge {
+    border: 1px solid var(--sw-line) !important;
+    border-radius: 10px !important;
+    background: #fbfcfe !important;
+    color: var(--sw-muted) !important;
+}
+
+@media (max-width: 900px) {
+    .gradio-container { padding: 18px 16px 48px !important; }
+    .terminal-shell-host { margin-bottom: 34px !important; }
+    .terminal-shell-session { display: none !important; }
+    .hero-shell { margin-bottom: 28px !important; }
+    .hero-shell h1 { font-size: 40px !important; }
+    .hero-subtitle { font-size: 14px !important; }
+    .studio-card, .settings-row > .column > .gr-group { padding: 20px !important; }
+    .tabs-shell > .tab-nav { display: flex !important; width: 100% !important; }
+    .tabs-shell > .tab-nav button { flex: 1 1 0 !important; }
+    #main_textbox textarea { min-height: 280px !important; }
+    .voice-reference-row { margin-top: 22px !important; }
+}
 """
 
 INSERT_TAG_JS = """
@@ -4632,8 +5055,8 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
         <div class="terminal-shell-bar" aria-label="Speakwell app header">
             <span class="terminal-lamps" aria-hidden="true"><i></i><i></i><i></i></span>
             <strong>SPEAKWELL</strong>
-            <span class="terminal-shell-session">LOCAL VOICE STUDIO</span>
-            <span class="terminal-shell-online">SAVED LOCALLY</span>
+            <span class="terminal-shell-session">A private audio studio</span>
+            <span class="terminal-shell-online">● LOCAL</span>
         </div>
         """,
         elem_classes=["terminal-shell-host"],
@@ -4643,10 +5066,10 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
         f"""
         <section class="hero-shell">
             <div class="hero-copy">
-                <p class="eyebrow">Local text-to-speech</p>
-                <h1 aria-label="Speakwell">Speakwell</h1>
+                <p class="eyebrow">TEXT TO SPEECH, MADE SIMPLE</p>
+                <h1 aria-label="Speakwell">Give your words a voice.</h1>
                 <p class="hero-subtitle">
-                    Write it. Generate it. Listen to it.
+                    Create natural, high-quality audio without sending your work anywhere.
                 </p>
             </div>
             <div class="hero-visual" aria-hidden="true">
@@ -4670,9 +5093,9 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">AUDIO SETTINGS</p>
-                    <h2 class="section-title">Choose how to create your audio</h2>
-                    <p class="section-copy">V3 and MP3 are selected for the highest-quality default.</p>
+                    <p class="section-eyebrow">STUDIO SETTINGS</p>
+                    <h2 class="section-title">Ready when you are</h2>
+                    <p class="section-copy">The quality-first defaults are already selected. Change them only if you need to.</p>
                     """
                 )
                 with gr.Row():
@@ -4713,9 +5136,9 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">YOUR TEXT</p>
-                            <h2 class="section-title">What should Speakwell say?</h2>
-                            <p class="section-copy">Paste or type your text, then generate audio.</p>
+                            <p class="section-eyebrow">01 / SCRIPT</p>
+                            <h2 class="section-title">What should it say?</h2>
+                            <p class="section-copy">Paste or write your script. Add pauses where the delivery needs room to breathe.</p>
                             """
                         )
                         gr.HTML(
@@ -4780,9 +5203,9 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
                     with gr.Group(elem_classes=["studio-card", "output-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">YOUR AUDIO</p>
-                            <h2 class="section-title">Listen and download</h2>
-                            <p class="section-copy">Your finished file will appear here.</p>
+                            <p class="section-eyebrow">02 / AUDIO</p>
+                            <h2 class="section-title">Your render</h2>
+                            <p class="section-copy">Generate audio to preview, download, and keep it on this computer.</p>
                             """
                         )
                         gr.HTML(
@@ -4897,8 +5320,8 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
                             """
                             <div class="queue-icon" aria-hidden="true">&gt;_</div>
                             <p class="section-eyebrow">BATCH / FILES</p>
-                            <h2 class="section-title">Generate from text files</h2>
-                            <p class="section-copy">Add several .txt files and process them one at a time.</p>
+                            <h2 class="section-title">Turn chapters into audio</h2>
+                            <p class="section-copy">Drop in .txt files and Speakwell processes them one at a time.</p>
                             """
                         )
                         txt_files = gr.File(
@@ -4924,8 +5347,8 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
                         gr.HTML(
                             """
                             <p class="section-eyebrow">BATCH / STATUS</p>
-                            <h2 class="section-title">Your batch progress</h2>
-                            <p class="section-copy">Completed audio stays saved on this computer.</p>
+                            <h2 class="section-title">Progress</h2>
+                            <p class="section-copy">Finished files are saved locally as each chapter completes.</p>
                             """
                         )
                         queue_status = gr.HTML(
@@ -4944,9 +5367,9 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
             with gr.Group(elem_classes=["studio-card", "voice-reference-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">VOICE SAMPLE / OPTIONAL</p>
+                    <p class="section-eyebrow">VOICE / OPTIONAL</p>
                     <h2 class="section-title">Use a different voice</h2>
-                    <p class="section-copy">Your current voice sample stays in place until you replace it.</p>
+                    <p class="section-copy">Use the included sample, upload your own, or record a short clean clip.</p>
                     """
                 )
                 gr.HTML(
