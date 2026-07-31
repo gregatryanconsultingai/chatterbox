@@ -457,6 +457,645 @@ footer,
 }
 """
 
+NEON_NOIR_CSS = """
+:root,
+.dark {
+    --body-background-fill: #050505;
+    --body-text-color: #e8e2d9;
+    --background-fill-primary: #090909;
+    --background-fill-secondary: #0d0c0b;
+    --block-background-fill: #0a0a09;
+    --block-border-color: rgba(255, 100, 28, 0.22);
+    --block-label-background-fill: #070707;
+    --block-title-text-color: #f7efe4;
+    --block-label-text-color: #ff7a1a;
+    --input-background-fill: #050505;
+    --input-border-color: rgba(255, 116, 35, 0.25);
+    --input-placeholder-color: #6f6860;
+    --border-color-primary: rgba(255, 108, 28, 0.18);
+    --color-accent: #ff5a18;
+    --color-accent-soft: rgba(255, 90, 24, 0.12);
+}
+
+html,
+body {
+    background: #030303 !important;
+}
+
+.gradio-container {
+    position: relative !important;
+    max-width: 1540px !important;
+    padding: 26px 34px 70px !important;
+    color: #ded8cf !important;
+    font-family: Bahnschrift, "DIN Alternate", "Arial Narrow", Arial, sans-serif !important;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        radial-gradient(circle at 82% 2%, rgba(255, 78, 14, 0.20), transparent 27%),
+        radial-gradient(circle at 4% 48%, rgba(0, 213, 255, 0.07), transparent 25%),
+        linear-gradient(135deg, #030303, #080706 52%, #050505) !important;
+    background-size: 44px 44px, 44px 44px, auto, auto, auto !important;
+}
+
+.gradio-container::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0.10;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 3px,
+        rgba(255, 255, 255, 0.055) 4px
+    );
+    mix-blend-mode: overlay;
+}
+
+.hero-shell {
+    position: relative;
+    min-height: 420px;
+    align-items: center;
+    padding: 46px 54px 72px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 104, 25, 0.36);
+    border-radius: 0;
+    clip-path: polygon(0 0, calc(100% - 48px) 0, 100% 48px, 100% 100%, 34px 100%, 0 calc(100% - 34px));
+    background:
+        linear-gradient(90deg, rgba(2, 2, 2, 0.98) 0%, rgba(7, 6, 5, 0.94) 48%, rgba(23, 8, 2, 0.70) 100%),
+        #050505;
+    box-shadow: 0 38px 110px rgba(0, 0, 0, 0.58), inset 0 0 70px rgba(255, 63, 0, 0.035);
+    animation: noir-arrival 620ms cubic-bezier(.16, .84, .3, 1) both;
+}
+
+.hero-shell::before {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    top: 0;
+    left: 48%;
+    background: linear-gradient(transparent, rgba(255, 108, 28, 0.36), transparent);
+    filter: none;
+    opacity: 1;
+}
+
+.hero-shell::after {
+    content: "CHTRBX  /  LOCAL SYNTHESIS ARRAY  /  2049";
+    position: absolute;
+    right: 28px;
+    bottom: 22px;
+    color: rgba(255, 165, 98, 0.55);
+    font-family: Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.20em;
+}
+
+.hero-copy {
+    width: 60%;
+}
+
+.brand-mark {
+    display: inline-flex;
+    width: auto;
+    height: 32px;
+    padding: 0 11px;
+    margin-bottom: 26px;
+    border: 1px solid #ff6a1a;
+    border-radius: 0;
+    color: #ff8a36;
+    font-family: Consolas, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    background: rgba(255, 79, 12, 0.08);
+    box-shadow: 0 0 26px rgba(255, 78, 14, 0.14);
+}
+
+.eyebrow,
+.section-eyebrow {
+    color: #ff6a1a;
+    font-family: Consolas, monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+}
+
+.hero-shell h1 {
+    max-width: 760px;
+    color: #f4ede4;
+    font-size: clamp(58px, 7.6vw, 112px);
+    font-weight: 840;
+    line-height: 0.79;
+    letter-spacing: -0.065em;
+    text-transform: uppercase;
+    text-shadow: 0 4px 44px rgba(0, 0, 0, 0.75);
+}
+
+.hero-shell h1 span {
+    color: transparent;
+    background: linear-gradient(92deg, #ff4d0b, #ff9a42 72%, #ffd0a3);
+    background-clip: text;
+    -webkit-background-clip: text;
+    filter: drop-shadow(0 0 22px rgba(255, 74, 10, 0.18));
+}
+
+.hero-subtitle {
+    max-width: 560px;
+    margin-top: 24px;
+    color: #9e9489;
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.75;
+    letter-spacing: 0.035em;
+}
+
+.hero-visual {
+    position: absolute;
+    right: 4.5%;
+    top: 50%;
+    width: min(38vw, 490px);
+    aspect-ratio: 1.25;
+    transform: translateY(-51%);
+}
+
+.noir-sun {
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    right: 12%;
+    top: 9%;
+    border-radius: 50%;
+    background:
+        repeating-linear-gradient(to bottom, #ff7a1a 0 11px, #d73807 11px 15px, transparent 15px 20px),
+        linear-gradient(#ffb05b, #fa3a07);
+    box-shadow: 0 0 80px rgba(255, 68, 5, 0.42), 0 0 190px rgba(255, 68, 5, 0.16);
+    animation: sun-breathe 5s ease-in-out infinite;
+}
+
+.horizon-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 27%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ff5714 22%, #ffc087 70%, transparent);
+    box-shadow: 0 0 18px #ff4a0b;
+}
+
+.horizon-line::after {
+    content: "";
+    position: absolute;
+    inset: 1px 2% auto;
+    height: 115px;
+    opacity: 0.22;
+    transform: perspective(120px) rotateX(62deg);
+    transform-origin: top;
+    background:
+        repeating-linear-gradient(90deg, transparent 0 35px, rgba(255, 117, 43, 0.42) 36px 37px),
+        repeating-linear-gradient(to bottom, rgba(255, 117, 43, 0.30) 0 1px, transparent 1px 18px);
+}
+
+.visual-code {
+    position: absolute;
+    top: 9px;
+    right: 0;
+    color: rgba(0, 229, 255, 0.75);
+    font-family: Consolas, monospace;
+    font-size: 9px;
+    line-height: 1.7;
+    letter-spacing: 0.12em;
+    text-align: right;
+}
+
+.hero-meta {
+    position: absolute;
+    left: 54px;
+    right: 54px;
+    bottom: 24px;
+    justify-content: flex-start;
+    gap: 0;
+    min-width: 0;
+    border-top: 1px solid rgba(255, 110, 30, 0.18);
+}
+
+.status-pill {
+    padding: 11px 16px 0 0;
+    margin-right: 16px;
+    border: 0;
+    border-radius: 0;
+    color: #9ea6a5;
+    font-family: Consolas, monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    background: transparent;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: #00e4ff;
+    box-shadow: 0 0 0 3px rgba(0, 228, 255, 0.10), 0 0 14px #00e4ff;
+    animation: signal-blink 1.9s ease-in-out infinite;
+}
+
+.settings-row {
+    gap: 14px !important;
+    margin-bottom: 16px !important;
+}
+
+.studio-card {
+    position: relative;
+    padding: 23px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 107, 28, 0.19) !important;
+    border-left: 2px solid rgba(255, 95, 20, 0.62) !important;
+    border-radius: 0 !important;
+    clip-path: polygon(0 0, calc(100% - 19px) 0, 100% 19px, 100% 100%, 0 100%);
+    background:
+        linear-gradient(125deg, rgba(255, 70, 6, 0.045), transparent 34%),
+        rgba(8, 8, 7, 0.94) !important;
+    box-shadow: 14px 20px 55px rgba(0, 0, 0, 0.34) !important;
+    backdrop-filter: blur(14px);
+    transition: border-color 180ms ease, transform 180ms ease !important;
+}
+
+.studio-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 46px;
+    height: 1px;
+    background: #00daf5;
+    box-shadow: 0 0 12px rgba(0, 218, 245, 0.65);
+}
+
+.studio-card:hover {
+    border-color: rgba(255, 111, 35, 0.40) !important;
+    transform: translateY(-2px);
+}
+
+.studio-card > .block,
+.studio-card > div {
+    background-color: transparent !important;
+}
+
+.section-title {
+    color: #efe9e1 !important;
+    font-size: 24px !important;
+    font-weight: 790 !important;
+    letter-spacing: -0.035em !important;
+    text-transform: uppercase;
+}
+
+.section-copy {
+    color: #746e67 !important;
+    font-family: Consolas, monospace !important;
+    font-size: 11px !important;
+    letter-spacing: 0.025em;
+}
+
+.model-status {
+    padding: 12px 14px !important;
+    border: 0 !important;
+    border-left: 2px solid #00d8f4 !important;
+    border-radius: 0 !important;
+    color: #9bc7cc !important;
+    background: rgba(0, 205, 232, 0.055) !important;
+}
+
+.model-status p {
+    font-family: Consolas, monospace !important;
+    font-size: 10px !important;
+}
+
+.tabs-shell > .tab-nav {
+    width: 100%;
+    gap: 0;
+    padding: 0 !important;
+    margin-bottom: 14px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(255, 103, 25, 0.22) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+}
+
+.tabs-shell > .tab-nav button {
+    width: auto;
+    min-width: 190px;
+    padding: 14px 18px !important;
+    border: 0 !important;
+    border-left: 1px solid rgba(255, 108, 28, 0.17) !important;
+    border-radius: 0 !important;
+    color: #726c65 !important;
+    font-family: Consolas, monospace !important;
+    font-size: 10px !important;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: rgba(10, 10, 9, 0.72) !important;
+}
+
+.tabs-shell > .tab-nav button.selected {
+    color: #130804 !important;
+    background: linear-gradient(90deg, #ff4a0a, #ff8b32) !important;
+    box-shadow: 0 -8px 26px rgba(255, 68, 6, 0.11) !important;
+}
+
+.block label,
+.block .label-wrap,
+label span {
+    font-family: Consolas, monospace !important;
+    font-size: 10px !important;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+input,
+textarea,
+select,
+.wrap,
+.secondary-wrap {
+    border-radius: 0 !important;
+}
+
+#main_textbox textarea {
+    min-height: 350px !important;
+    padding: 22px !important;
+    border-left: 2px solid rgba(255, 95, 15, 0.55) !important;
+    border-radius: 0 !important;
+    color: #eee6dc !important;
+    font-family: Consolas, "Courier New", monospace !important;
+    font-size: 14px !important;
+    line-height: 1.85 !important;
+    background:
+        linear-gradient(90deg, rgba(255, 75, 8, 0.035), transparent 22%),
+        repeating-linear-gradient(to bottom, transparent 0 31px, rgba(255, 255, 255, 0.025) 32px),
+        #030303 !important;
+}
+
+#main_textbox textarea:focus {
+    box-shadow: inset 3px 0 0 #ff5b12, 0 0 34px rgba(255, 74, 8, 0.055) !important;
+}
+
+.tag-heading {
+    color: #8c8177 !important;
+    font-family: Consolas, monospace !important;
+    font-size: 10px !important;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.tag-btn {
+    height: 30px !important;
+    padding: 0 12px !important;
+    border: 1px solid rgba(255, 103, 25, 0.25) !important;
+    border-radius: 0 !important;
+    color: #d77842 !important;
+    font-family: Consolas, monospace !important;
+    font-size: 9px !important;
+    letter-spacing: 0.055em;
+    background: rgba(255, 74, 8, 0.045) !important;
+}
+
+.tag-btn:hover {
+    border-color: #ff6b1a !important;
+    color: #160803 !important;
+    background: #ff6b1a !important;
+    box-shadow: 0 0 22px rgba(255, 80, 10, 0.22) !important;
+}
+
+#generate-btn,
+#queue-btn {
+    position: relative;
+    min-height: 56px !important;
+    border: 1px solid #ff8a39 !important;
+    border-radius: 0 !important;
+    color: #160603 !important;
+    font-family: Consolas, monospace !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase;
+    background: linear-gradient(95deg, #ff4208, #ff8b2e 64%, #ffbd72) !important;
+    box-shadow: 0 0 0 1px rgba(255, 80, 8, 0.18), 0 16px 48px rgba(255, 55, 3, 0.18) !important;
+}
+
+#generate-btn::after,
+#queue-btn::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 7px;
+    right: 7px;
+    border-top: 1px solid #210802;
+    border-right: 1px solid #210802;
+}
+
+#generate-btn:hover,
+#queue-btn:hover {
+    filter: saturate(1.2) brightness(1.12);
+    box-shadow: 0 0 34px rgba(255, 74, 5, 0.34) !important;
+    transform: translateY(-2px);
+}
+
+.output-note {
+    border: 0 !important;
+    border-left: 2px solid #00d8ef !important;
+    border-radius: 0 !important;
+    background: rgba(0, 208, 235, 0.045) !important;
+}
+
+.output-note p,
+.queue-copy p {
+    color: #7e8c8b !important;
+    font-family: Consolas, monospace !important;
+    font-size: 10px !important;
+}
+
+.advanced-card {
+    border-radius: 0 !important;
+    background: #070707 !important;
+}
+
+.voice-tip {
+    border-left-color: #ff5a12;
+    border-radius: 0;
+    color: #79736c;
+    font-family: Consolas, monospace;
+    font-size: 10px;
+    background: rgba(255, 78, 10, 0.04);
+}
+
+.queue-icon {
+    border: 1px solid rgba(255, 102, 25, 0.42);
+    border-radius: 0;
+    color: #ff6a1a;
+    background: rgba(255, 80, 10, 0.06);
+    box-shadow: 0 0 28px rgba(255, 67, 5, 0.08);
+}
+
+@keyframes noir-arrival {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sun-breathe {
+    0%, 100% { filter: saturate(0.92); transform: scale(1); }
+    50% { filter: saturate(1.18); transform: scale(1.025); }
+}
+
+@keyframes signal-blink {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
+}
+
+@media (max-width: 900px) {
+    html,
+    body {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    .gradio-container {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        padding: 12px 12px 46px !important;
+        overflow-x: hidden !important;
+    }
+
+    .hero-shell {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        min-height: 470px;
+        padding: 32px 25px 88px;
+        contain: layout paint;
+        clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    }
+
+    .hero-copy {
+        width: 100%;
+    }
+
+    .hero-shell h1 {
+        font-size: clamp(46px, 17vw, 68px);
+        letter-spacing: -0.075em;
+    }
+
+    .hero-visual {
+        right: -34px;
+        top: 34%;
+        width: 230px;
+        opacity: 0.38;
+    }
+
+    .noir-sun {
+        width: 190px;
+        height: 190px;
+    }
+
+    .hero-meta {
+        left: 25px;
+        right: 25px;
+        flex-wrap: wrap;
+    }
+
+    .hero-shell::after {
+        display: none;
+    }
+
+    .studio-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        padding: 17px !important;
+    }
+
+    .settings-row,
+    .tabs-shell .row:not(.tag-container):not(.action-row) {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        flex-direction: column !important;
+    }
+
+    .settings-row > .column,
+    .tabs-shell .column,
+    .studio-card .row:not(.tag-container):not(.action-row) > .block {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
+    }
+
+    .studio-card .row:not(.tag-container):not(.action-row) {
+        flex-direction: column !important;
+    }
+
+    .tabs-shell > .tab-nav button {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-shell,
+    .noir-sun,
+    .status-dot {
+        animation: none !important;
+    }
+}
+"""
+
+# Gradio scopes launch CSS to the content canvas. This small global rule keeps
+# the outer application shell fluid at phone-sized breakpoints.
+GLOBAL_HEAD_STYLE = """
+<style>
+@media (max-width: 900px) {
+    html,
+    body,
+    gradio-app {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    gradio-app > .gradio-container {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        padding: 12px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+
+    gradio-app > .gradio-container > .main {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    gradio-app > .gradio-container > .main > .wrap,
+    gradio-app main.contain {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
+</style>
+"""
+
 INSERT_TAG_JS = """
 (tag_val, current_text) => {
     const textarea = document.querySelector('#main_textbox textarea');
@@ -907,18 +1546,28 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
         f"""
         <section class="hero-shell">
             <div class="hero-copy">
-                <div class="brand-mark" aria-hidden="true">◉</div>
-                <p class="eyebrow">Local voice lab</p>
-                <h1>Chatterbox <span>Studio</span></h1>
+                <div class="brand-mark" aria-hidden="true">CBX // 49</div>
+                <p class="eyebrow">Synthetic voice division · offline array</p>
+                <h1>Voice<br><span>Machine</span></h1>
                 <p class="hero-subtitle">
-                    Turn scripts into expressive, studio-quality speech with voice
-                    cloning, natural pauses, and effortless batch production.
+                    Make the machine remember a voice. Encode identity, shape time,
+                    and render human-grade speech from the local synthesis core.
                 </p>
             </div>
+            <div class="hero-visual" aria-hidden="true">
+                <div class="noir-sun"></div>
+                <div class="horizon-line"></div>
+                <div class="visual-code">
+                    VOCODER // ACTIVE<br>
+                    LATENT CHANNEL // STABLE<br>
+                    SIGNAL CLASS // HUMAN
+                </div>
+            </div>
             <div class="hero-meta" aria-label="Studio status">
-                <span class="status-pill"><span class="status-dot"></span>{DEVICE.upper()} ready</span>
-                <span class="status-pill">✦ V3 quality</span>
-                <span class="status-pill">⌁ Private &amp; local</span>
+                <span class="status-pill"><span class="status-dot"></span>CORE ONLINE</span>
+                <span class="status-pill">COMPUTE // {DEVICE.upper()}</span>
+                <span class="status-pill">MODEL // V3</span>
+                <span class="status-pill">NETWORK // LOCAL</span>
             </div>
         </section>
         """
@@ -929,9 +1578,9 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">01 · Sound engine</p>
-                    <h2 class="section-title">Shape your performance</h2>
-                    <p class="section-copy">Pick the quality, language, and delivery format for this session.</p>
+                    <p class="section-eyebrow">SYS.01 / SYNTH CORE</p>
+                    <h2 class="section-title">Calibrate the engine</h2>
+                    <p class="section-copy">Select the neural array, language matrix, and artifact format.</p>
                     """
                 )
                 with gr.Row():
@@ -966,9 +1615,9 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
-                    <p class="section-eyebrow">02 · Voice DNA</p>
-                    <h2 class="section-title">Choose a voice</h2>
-                    <p class="section-copy">Upload or record a clean reference clip to guide the speaker identity.</p>
+                    <p class="section-eyebrow">SYS.02 / IDENTITY CAPTURE</p>
+                    <h2 class="section-title">Encode a voice</h2>
+                    <p class="section-copy">Feed the machine a clean reference signal to map speaker identity.</p>
                     """
                 )
                 ref_wav = gr.Audio(
@@ -980,22 +1629,22 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                 gr.HTML(
                     """
                     <div class="voice-tip">
-                        <strong>For the cleanest clone:</strong> use 8–20 seconds of one
-                        speaker, with little background noise or music.
+                    <strong>OPTIMAL SIGNAL:</strong> 8–20 seconds / one speaker /
+                    minimal noise / no music.
                     </div>
                     """
                 )
 
     with gr.Tabs(elem_classes=["tabs-shell"]):
-        with gr.Tab("✦ Create"):
+        with gr.Tab("01 / SYNTHESIZE"):
             with gr.Row():
                 with gr.Column(scale=7, min_width=380):
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">03 · Script studio</p>
-                            <h2 class="section-title">Write something worth hearing</h2>
-                            <p class="section-copy">Compose here, add precise pauses, then render a polished take.</p>
+                            <p class="section-eyebrow">SYS.03 / TRANSMISSION</p>
+                            <h2 class="section-title">Write the signal</h2>
+                            <p class="section-copy">Compose the transmission, fracture time, then initiate synthesis.</p>
                             """
                         )
                         text = gr.Textbox(
@@ -1010,7 +1659,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         )
 
                         gr.Markdown(
-                            "**Timing shortcuts** · insert at your cursor",
+                            "**Temporal markers** / insert at cursor",
                             elem_classes=["tag-heading"],
                         )
                         with gr.Row(elem_classes=["tag-container"]):
@@ -1028,7 +1677,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
 
                         with gr.Group(visible=False) as tag_panel:
                             gr.Markdown(
-                                "**Turbo performance tags** · sounds and styles",
+                                "**Performance modifiers** / Turbo array only",
                                 elem_classes=["tag-heading"],
                             )
                             with gr.Row(elem_classes=["tag-container"]):
@@ -1043,7 +1692,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
 
                         with gr.Row(elem_classes=["action-row"]):
                             run_btn = gr.Button(
-                                "Generate voice  ✦",
+                                "Initiate synthesis  //",
                                 variant="primary",
                                 elem_id="generate-btn",
                             )
@@ -1052,9 +1701,9 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                     with gr.Group(elem_classes=["studio-card", "output-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">04 · Final take</p>
-                            <h2 class="section-title">Listen &amp; refine</h2>
-                            <p class="section-copy">Your latest render appears here and is also saved automatically.</p>
+                            <p class="section-eyebrow">SYS.04 / AUDIO ARTIFACT</p>
+                            <h2 class="section-title">Hear the machine</h2>
+                            <p class="section-copy">Audit the generated artifact. Every render is archived locally.</p>
                             """
                         )
                         audio_output = gr.Audio(label="Generated audio")
@@ -1064,7 +1713,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         )
 
                         with gr.Accordion(
-                            "Fine-tune generation",
+                            "Advanced synthesis parameters",
                             open=False,
                             elem_classes=["advanced-card"],
                         ):
@@ -1126,16 +1775,16 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                                 label="Turbo loudness normalization (-27 LUFS)",
                             )
 
-        with gr.Tab("⇉ Batch queue"):
+        with gr.Tab("02 / BATCH ARRAY"):
             with gr.Row():
                 with gr.Column(scale=7, min_width=380):
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <div class="queue-icon" aria-hidden="true">⇉</div>
-                            <p class="section-eyebrow">Batch production</p>
-                            <h2 class="section-title">Turn a stack of scripts into audio</h2>
-                            <p class="section-copy">Drop in multiple text files and Chatterbox will process them in order.</p>
+                            <div class="queue-icon" aria-hidden="true">//</div>
+                            <p class="section-eyebrow">SYS.05 / BATCH ARRAY</p>
+                            <h2 class="section-title">Queue the transmissions</h2>
+                            <p class="section-copy">Load multiple text artifacts. The array will synthesize them in sequence.</p>
                             """
                         )
                         txt_files = gr.File(
@@ -1152,7 +1801,7 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                         )
                         with gr.Row(elem_classes=["action-row"]):
                             queue_btn = gr.Button(
-                                "Process entire queue  ⇉",
+                                "Execute batch array  //",
                                 variant="primary",
                                 elem_id="queue-btn",
                             )
@@ -1161,9 +1810,9 @@ with gr.Blocks(title="Chatterbox Studio") as demo:
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
-                            <p class="section-eyebrow">Queue activity</p>
-                            <h2 class="section-title">Production status</h2>
-                            <p class="section-copy">Completed files remain safely stored on this computer.</p>
+                            <p class="section-eyebrow">SYS.06 / ARRAY TELEMETRY</p>
+                            <h2 class="section-title">Monitor the artifacts</h2>
+                            <p class="section-copy">Completed transmissions remain secured on this machine.</p>
                             """
                         )
                         queue_status = gr.Markdown(
@@ -1230,4 +1879,8 @@ if __name__ == "__main__":
     demo.queue(
         max_size=50,
         default_concurrency_limit=1,
-    ).launch(share=False, css=CUSTOM_CSS)
+    ).launch(
+        share=False,
+        css=CUSTOM_CSS + NEON_NOIR_CSS,
+        head=GLOBAL_HEAD_STYLE,
+    )
