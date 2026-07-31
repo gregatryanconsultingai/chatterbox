@@ -3550,6 +3550,24 @@ DECK_CSS = """
     border-color: #d9dfeb !important;
     background: #ffffff !important;
 }
+
+/* Keep the batch uploader in the same light visual system as the workspace. */
+#batch-file-input {
+    border-color: #d9dfeb !important;
+    background: #ffffff !important;
+    color: #202939 !important;
+}
+
+#batch-file-input :is(div, button, label, ul, li, span) {
+    background: #ffffff !important;
+    color: #202939 !important;
+    border-color: #e4e8f0 !important;
+}
+
+#batch-file-input button:hover,
+#batch-file-input button:focus-visible {
+    background: #f5f7fb !important;
+}
 """
 
 INSERT_TAG_JS = """
