@@ -624,6 +624,9 @@ body {
 }
 
 .hero-shell h1 span {
+    display: inline-block;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
     color: transparent;
     background: linear-gradient(92deg, #ff4d0b, #ff9a42 72%, #ffd0a3);
     background-clip: text;
