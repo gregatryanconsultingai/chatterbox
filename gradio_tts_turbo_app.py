@@ -624,13 +624,8 @@ body {
 }
 
 .hero-shell h1 span {
-    display: inline-block;
-    padding-bottom: 0.08em;
-    margin-bottom: -0.08em;
-    color: transparent;
-    background: linear-gradient(92deg, #ff4d0b, #ff9a42 72%, #ffd0a3);
-    background-clip: text;
-    -webkit-background-clip: text;
+    color: #f05b1b;
+    -webkit-text-fill-color: #f05b1b;
     filter: drop-shadow(0 0 22px rgba(255, 74, 10, 0.18));
 }
 
@@ -1684,9 +1679,9 @@ DECK_CSS = """
 }
 
 .mode-polar.hero-shell h1 span {
-    background: linear-gradient(92deg, #00dff5, #86f5ff 62%, #b38aff);
-    background-clip: text;
-    -webkit-background-clip: text;
+    color: #00dff5;
+    -webkit-text-fill-color: #00dff5;
+    background: none;
 }
 
 .mode-polar.studio-card {
@@ -1749,9 +1744,9 @@ DECK_CSS = """
 }
 
 .mode-void.hero-shell h1 span {
-    background: linear-gradient(92deg, #ffffff, #c3c3c3 64%, #ff3158);
-    background-clip: text;
-    -webkit-background-clip: text;
+    color: #ff3158;
+    -webkit-text-fill-color: #ff3158;
+    background: none;
 }
 
 .mode-void.studio-card {
