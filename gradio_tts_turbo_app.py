@@ -3300,6 +3300,89 @@ DECK_CSS = """
 #audio-output [data-testid="block-info"] {
     color: #5162c8 !important;
 }
+
+/* Content-first layout: compact identity, optional voice management below creation. */
+.hero-shell {
+    min-height: 112px !important;
+    padding: 20px 28px 28px !important;
+}
+
+.hero-copy {
+    width: 100% !important;
+}
+
+.hero-shell .eyebrow {
+    margin-bottom: 3px !important;
+    font-size: 7px !important;
+}
+
+.hero-shell h1 {
+    max-width: none;
+    font-size: clamp(38px, 4vw, 52px) !important;
+    line-height: 0.92 !important;
+    letter-spacing: -0.055em !important;
+}
+
+.hero-shell h1 span {
+    margin-left: 0.16em;
+}
+
+.hero-subtitle {
+    display: inline;
+    margin: 0 0 0 12px !important;
+    font-size: 9px !important;
+}
+
+.hero-visual {
+    display: none !important;
+}
+
+.hero-meta {
+    left: 28px !important;
+    right: 28px !important;
+    bottom: 7px !important;
+}
+
+.terminal-command-deck {
+    margin-bottom: 8px !important;
+}
+
+.settings-row > .column > .gr-group {
+    min-height: 0 !important;
+}
+
+.voice-reference-row {
+    margin-top: 12px !important;
+}
+
+.voice-reference-row > .column {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.voice-reference-card {
+    max-width: 720px;
+}
+
+.voice-reference-row .gr-group {
+    max-width: 720px;
+}
+
+.voice-reference-card .voiceprint-shell {
+    height: 64px !important;
+}
+
+@media (max-width: 900px) {
+    .hero-shell {
+        min-height: 126px !important;
+        padding: 18px 20px 30px !important;
+    }
+
+    .hero-subtitle {
+        display: block;
+        margin: 6px 0 0 !important;
+    }
+}
 """
 
 INSERT_TAG_JS = """
@@ -4394,7 +4477,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     CBX // 49
                 </div>
                 <p class="eyebrow">Local text-to-speech · voice cloning</p>
-                <h1 aria-label="SyntheSay">Synthe<br><span>Say</span></h1>
+                <h1 aria-label="SyntheSay">Synthe<span>Say</span></h1>
                 <p class="hero-subtitle">
                     Turn words into a voice—right here on your machine.
                 </p>
@@ -4440,7 +4523,7 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
     )
 
     with gr.Row(elem_classes=["settings-row"]):
-        with gr.Column(scale=7, min_width=360):
+        with gr.Column(min_width=360):
             with gr.Group(elem_classes=["studio-card"]):
                 gr.HTML(
                     """
@@ -4478,40 +4561,6 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                     "**V3 selected:** best naturalness, voice similarity, and stability. "
                     "Turbo-only bracketed tags are hidden and removed before synthesis.",
                     elem_classes=["model-status"],
-                )
-
-        with gr.Column(scale=5, min_width=320):
-            with gr.Group(elem_classes=["studio-card"]):
-                gr.HTML(
-                    """
-                    <p class="section-eyebrow">02 / VOICE</p>
-                    <h2 class="section-title">Add a voice sample</h2>
-                    <p class="section-copy">Upload or record a clear 8–20 second sample.</p>
-                    """
-                )
-                gr.HTML(
-                    """
-                    <div class="voiceprint-shell">
-                        <canvas id="voiceprint-canvas" aria-label="Animated voiceprint signal"></canvas>
-                        <div class="voiceprint-label">BIOMETRIC VOICEPRINT // LIVE</div>
-                        <div class="voiceprint-readout" id="voiceprint-status">AWAITING IDENTITY SIGNAL</div>
-                    </div>
-                    """
-                )
-                ref_wav = gr.Audio(
-                    sources=["upload", "microphone"],
-                    type="filepath",
-                    label="Voice reference",
-                    value="https://storage.googleapis.com/chatterbox-demo-samples/prompts/female_random_podcast.wav",
-                    elem_id="reference-audio",
-                )
-                gr.HTML(
-                    """
-                    <div class="voice-tip">
-                    <strong>OPTIMAL SIGNAL:</strong> 8–20 seconds / one speaker /
-                    minimal noise / no music.
-                    </div>
-                    """
                 )
 
     with gr.Tabs(elem_classes=["tabs-shell"]):
@@ -4746,6 +4795,41 @@ with gr.Blocks(title="SYNTHESAY // Local Text-to-Speech") as demo:
                 inputs=txt_files,
                 outputs=[text, text_status],
             )
+
+    with gr.Row(elem_classes=["voice-reference-row"]):
+        with gr.Column(min_width=360):
+            with gr.Group(elem_classes=["studio-card", "voice-reference-card"]):
+                gr.HTML(
+                    """
+                    <p class="section-eyebrow">VOICE SAMPLE / OPTIONAL</p>
+                    <h2 class="section-title">Change the voice when you need to</h2>
+                    <p class="section-copy">Your current voice sample stays in place until you replace it.</p>
+                    """
+                )
+                gr.HTML(
+                    """
+                    <div class="voiceprint-shell">
+                        <canvas id="voiceprint-canvas" aria-label="Animated voiceprint signal"></canvas>
+                        <div class="voiceprint-label">VOICE SAMPLE</div>
+                        <div class="voiceprint-readout" id="voiceprint-status">AWAITING VOICE SAMPLE</div>
+                    </div>
+                    """
+                )
+                ref_wav = gr.Audio(
+                    sources=["upload", "microphone"],
+                    type="filepath",
+                    label="Voice reference",
+                    value="https://storage.googleapis.com/chatterbox-demo-samples/prompts/female_random_podcast.wav",
+                    elem_id="reference-audio",
+                )
+                gr.HTML(
+                    """
+                    <div class="voice-tip">
+                    <strong>BEST RESULTS:</strong> 8–20 seconds / one speaker /
+                    minimal noise / no music.
+                    </div>
+                    """
+                )
 
     gr.HTML(
         f"""
