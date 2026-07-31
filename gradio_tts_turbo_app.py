@@ -5334,7 +5334,7 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
 
         with gr.Tab("BATCH FILES"):
             with gr.Row():
-                with gr.Column(scale=7, min_width=380):
+                with gr.Column(scale=6, min_width=380):
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
@@ -5362,7 +5362,7 @@ with gr.Blocks(title="Speakwell — Local Text-to-Speech") as demo:
                                 elem_id="queue-btn",
                             )
 
-                with gr.Column(scale=5, min_width=330):
+                with gr.Column(scale=6, min_width=330):
                     with gr.Group(elem_classes=["studio-card"]):
                         gr.HTML(
                             """
