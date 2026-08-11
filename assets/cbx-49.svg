@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">CBX 49 emblem</title>
+  <desc id="desc">A geometric orange synthesis core with cyan signal accents.</desc>
+  <defs>
+    <linearGradient id="ember" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffb15f"/>
+      <stop offset="0.42" stop-color="#ff5a12"/>
+      <stop offset="1" stop-color="#b91f05"/>
+    </linearGradient>
+    <clipPath id="coreClip">
+      <circle cx="256" cy="224" r="126"/>
+    </clipPath>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="11" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <path fill="#050505" d="M38 18h380l56 56v420H38z"/>
+  <path fill="none" stroke="#ff6420" stroke-width="8" d="M38 18h380l56 56v420H38z"/>
+  <circle cx="256" cy="224" r="126" fill="url(#ember)" filter="url(#glow)"/>
+  <g clip-path="url(#coreClip)" stroke="#4b0d03" stroke-width="11">
+    <path d="M104 130h304M104 158h304M104 186h304M104 214h304M104 242h304M104 270h304M104 298h304M104 326h304"/>
+  </g>
+  <path fill="none" stroke="#00dff5" stroke-width="6" d="M68 386h112l20-18 30 34 38-58 30 42h146"/>
+  <text x="68" y="458" fill="#f4ede4" font-family="Arial Narrow,Arial,sans-serif" font-size="70" font-weight="800" letter-spacing="-3">CBX</text>
+  <text x="373" y="456" fill="#ff6a1a" font-family="Consolas,monospace" font-size="35" font-weight="700">49</text>
+  <circle cx="435" cy="45" r="7" fill="#00dff5" filter="url(#glow)"/>
+</svg>

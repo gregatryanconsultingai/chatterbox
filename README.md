@@ -12,6 +12,21 @@
 
 **Chatterbox** is a family of state-of-the-art, open-source text-to-speech models by Resemble AI.
 
+## Speakwell (included in this fork)
+
+**Speakwell** is a focused local text-to-speech and voice-cloning interface built
+on Resemble AI's Chatterbox models. It supports high-quality V3 and Turbo
+generation, MP3 export, full text-document processing, a
+multi-file queue, explicit pause markers, persistent outputs, voice-reference
+recording, and embedded MP3 cover art in a calm, content-first workspace.
+
+```powershell
+python gradio_tts_turbo_app.py
+```
+
+Open `http://127.0.0.1:7860` and see the complete
+[Speakwell setup and usage guide](STUDIO.md).
+
 ## Latest Release: Chatterbox Multilingual V3
 
 **Chatterbox Multilingual V3** is the latest general-purpose multilingual TTS model in the Chatterbox family. It keeps the same 0.5B model size while improving speaker similarity, reducing hallucinations, and producing more natural, conversational speech across languages.
